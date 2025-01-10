@@ -30,6 +30,15 @@ public class UsersController {
     private final SearchUsersUseCase searchUsersUseCase;
     private final DeleteUsersUseCase deleteUsersUseCase;
 
+    public UsersController(RegisterUsersUseCase registerUsersUseCase, LoginUsersUserCase loginUsersUserCase, EditUsersUseCase editUsersUseCase, SearchUsersUseCase searchUsersUseCase, DeleteUsersUseCase deleteUsersUseCase, UsersMapper mapper) {
+        this.registerUsersUseCase = registerUsersUseCase;
+        this.loginUsersUserCase = loginUsersUserCase;
+        this.editUsersUseCase = editUsersUseCase;
+        this.searchUsersUseCase = searchUsersUseCase;
+        this.deleteUsersUseCase = deleteUsersUseCase;
+        this.mapper = mapper;
+    }
+
     @Autowired
     private UsersMapper mapper;
 

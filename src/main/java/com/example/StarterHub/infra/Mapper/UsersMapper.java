@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UsersMapper {
 
-    public static UsersDTO toDTO(UserModel userModel) {
+    public UsersDTO toDTO(UserModel userModel) {
         if (userModel == null) return null;
 
         return new UsersDTO(
@@ -21,7 +21,7 @@ public class UsersMapper {
         );
     }
 
-    public static UsersDTO toDTO(Users users) {
+    public UsersDTO toDTO(Users users) {
         if (users == null) return null;
 
         return new UsersDTO(
@@ -34,7 +34,7 @@ public class UsersMapper {
         );
     }
 
-    public static UserModel toEntity(UsersDTO usersDTO) {
+    public UserModel toEntity(UsersDTO usersDTO) {
         if (usersDTO == null) return null;
 
         UserModel userModel = new UserModel();
@@ -47,7 +47,7 @@ public class UsersMapper {
         return userModel;
     }
 
-    public static Users toDomain(UsersDTO dto) {
+    public Users toDomain(UsersDTO dto) {
         if (dto == null) return null;
 
         return new Users(
@@ -60,7 +60,20 @@ public class UsersMapper {
         );
     }
 
-    public static UserModel fromDomain(Users users) {
+    public Users toDomain(UserModel model){
+        if (model == null) return null;
+
+        return new Users(
+                model.getId(),
+                model.getUsername(),
+                model.getPassword(),
+                model.getEmail(),
+                model.getPhoneNumber(),
+                null
+        );
+    }
+
+    public UserModel fromDomain(Users users) {
         if (users == null) return null;
 
         UserModel userModel = new UserModel();

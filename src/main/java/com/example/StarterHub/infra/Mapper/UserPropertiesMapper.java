@@ -1,9 +1,6 @@
 package com.example.StarterHub.infra.Mapper;
 
 import com.example.StarterHub.core.domain.UserProperties;
-import com.example.StarterHub.core.domain.Users;
-import com.example.StarterHub.core.domain.Links;
-import com.example.StarterHub.core.domain.Address;
 import com.example.StarterHub.infra.DTO.UserPropertiesDTO;
 import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
 import org.springframework.stereotype.Component;
