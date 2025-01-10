@@ -1,6 +1,6 @@
 package com.example.StarterHub.core.useCases.Artiffact;
 
-import com.example.StarterHub.core.domain.Artifact;
+import com.example.StarterHub.core.domain.Files;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -8,7 +8,7 @@ import java.util.UUID;
 public class SearchArtiffactUseCaseImp implements SearchArtiffactUseCase{
 
     @Override
-    public Optional<Artifact> execute(UUID artifactId) {
+    public Optional<Files> execute(UUID artifactId) {
         return Optional.empty();
     }
 }

@@ -2,8 +2,8 @@ package com.example.StarterHub.core.domain;
 
 import java.util.UUID;
 
-public record Changes(
+public record Files(
         UUID id,
-        byte[] changes,
+        byte[] content,
         Commit commit
 ) { }

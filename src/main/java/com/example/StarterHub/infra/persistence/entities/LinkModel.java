@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table(name = "")
+@Table(name = "Links")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

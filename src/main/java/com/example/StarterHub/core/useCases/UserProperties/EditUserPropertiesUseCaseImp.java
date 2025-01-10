@@ -6,16 +6,16 @@ import com.example.StarterHub.core.gateway.UserPropertiesGateway;
 import java.util.Optional;
 import java.util.UUID;
 
-public class SearchUserPropertiesUseCaseImp implements SearchUserPropertiesUseCase {
+public class EditUserPropertiesUseCaseImp implements EditUserPropertiesUseCase{
 
     private final UserPropertiesGateway userPropertiesGateway;
 
-    public SearchUserPropertiesUseCaseImp(UserPropertiesGateway userPropertiesGateway) {
+    public EditUserPropertiesUseCaseImp(UserPropertiesGateway userPropertiesGateway) {
         this.userPropertiesGateway = userPropertiesGateway;
     }
 
     @Override
-    public Optional<UserProperties> execute(UUID id) {
-        return userPropertiesGateway.searchUserProperties(id);
+    public Optional<UserProperties> execute(UUID id, UserProperties userProperties) {
+        return userPropertiesGateway.editUserProperties(id ,userProperties);
     }
 }

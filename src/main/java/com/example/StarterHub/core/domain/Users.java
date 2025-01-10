@@ -7,5 +7,6 @@ public record Users(
         String username,
         String password,
         String email,
-        String phone
+        String phone,
+        UserProperties userProperties
 ) { }

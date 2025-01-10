@@ -7,6 +7,5 @@ public record Commit(
         UUID hash,
         String description,
         Repository repository,
-        ArrayList<Changes> changes,
-        ArrayList<Artifact> artifact
+        ArrayList<Files> files
 ) { }
