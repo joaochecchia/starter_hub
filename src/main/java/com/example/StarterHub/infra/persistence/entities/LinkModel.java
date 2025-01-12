@@ -1,17 +1,11 @@
 package com.example.StarterHub.infra.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Entity
 @Table(name = "Links")
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class LinkModel {
 
     @Id
@@ -24,4 +18,34 @@ public class LinkModel {
     @ManyToOne
     @JoinColumn(name = "id_user_properties", referencedColumnName = "user_properties_id", nullable = false)
     private UserPropertiesModel userPropertiesModel;
+
+    public LinkModel(UUID id, String link, UserPropertiesModel userPropertiesModel) {
+        this.id = id;
+        this.link = link;
+        this.userPropertiesModel = userPropertiesModel;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public UserPropertiesModel getUserPropertiesModel() {
+        return userPropertiesModel;
+    }
+
+    public void setUserPropertiesModel(UserPropertiesModel userPropertiesModel) {
+        this.userPropertiesModel = userPropertiesModel;
+    }
 }

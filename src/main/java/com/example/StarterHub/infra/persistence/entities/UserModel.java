@@ -25,7 +25,7 @@ public class UserModel {
     @Column(nullable = false)
     private String password;
 
-    @OneToOne(mappedBy = "userModel")
+    @OneToOne(mappedBy = "userModel", cascade = CascadeType.PERSIST)
     private UserPropertiesModel userPropertiesModel;
 
     public UserModel(UUID id, String username, String email, String phoneNumber, String password, UserPropertiesModel userPropertiesModel) {

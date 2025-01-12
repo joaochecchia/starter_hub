@@ -1,7 +1,5 @@
 package com.example.StarterHub.core.domain;
 
-import org.apache.catalina.User;
-
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -10,7 +8,7 @@ public record UserProperties(
         String description,
         byte[] photo,
         String company,
-        User user,
+        Users user,
         ArrayList<Links> links,
         Address address
 ) { }

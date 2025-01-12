@@ -32,7 +32,8 @@ public class UsersRepositoryGateway implements UsersGateway {
     public Optional<Users> registerUsers(Users users) {
         UserModel entity = mapper.fromDomain(users);
         UserModel newUser = userRepository.save(entity);
-
+        System.out.println("MEU USERS REQUEST: " + users.id());
+        System.out.println("MEU ENTITY REQUEST: " + entity.getId());
         return Optional.of(mapper.toDomain(newUser));
     }
 

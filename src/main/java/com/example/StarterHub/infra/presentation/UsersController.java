@@ -4,10 +4,7 @@ import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.core.useCases.User.*;
 import com.example.StarterHub.infra.DTO.UsersDTO;
 import com.example.StarterHub.infra.Mapper.UsersMapper;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,11 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
-@Data
-@AllArgsConstructor
 @RestController
-@RequestMapping("/Starter-hub")
-@RequiredArgsConstructor
+@RequestMapping("/starter-hub/user")
 public class UsersController {
 
     private final RegisterUsersUseCase registerUsersUseCase;

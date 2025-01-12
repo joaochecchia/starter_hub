@@ -1,18 +1,12 @@
 package com.example.StarterHub.infra.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "user_properties")
-@Data
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class UserPropertiesModel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -27,19 +21,19 @@ public class UserPropertiesModel {
     private String company;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserModel userModel;
 
     @OneToMany(mappedBy = "userPropertiesModel")
-    private ArrayList<LinkModel> linkModel;
+    private List<LinkModel> linkModel;
 
     @OneToOne(mappedBy = "userPropertiesModel")
     private AddressModel addressModel;
 
     @OneToMany(mappedBy = "userPropertiesModel")
-    private ArrayList<RepositoryModel> repositoryModel;
+    private List<RepositoryModel> repositoryModel;
 
-    public UserPropertiesModel(UUID id, String description, byte[] photo, String company, UserModel userModel, ArrayList<LinkModel> linkModel, AddressModel addressModel, ArrayList<RepositoryModel> repositoryModel) {
+    public UserPropertiesModel(UUID id, String description, byte[] photo, String company, UserModel userModel, List<LinkModel> linkModel, AddressModel addressModel, List<RepositoryModel> repositoryModel) {
         this.id = id;
         this.description = description;
         this.photo = photo;
@@ -61,44 +55,12 @@ public class UserPropertiesModel {
         this.id = id;
     }
 
-    public ArrayList<RepositoryModel> getRepositoryModel() {
-        return repositoryModel;
+    public String getDescription() {
+        return description;
     }
 
-    public void setRepositoryModel(ArrayList<RepositoryModel> repositoryModel) {
-        this.repositoryModel = repositoryModel;
-    }
-
-    public AddressModel getAddressModel() {
-        return addressModel;
-    }
-
-    public void setAddressModel(AddressModel addressModel) {
-        this.addressModel = addressModel;
-    }
-
-    public ArrayList<LinkModel> getLinkModel() {
-        return linkModel;
-    }
-
-    public void setLinkModel(ArrayList<LinkModel> linkModel) {
-        this.linkModel = linkModel;
-    }
-
-    public UserModel getUserModel() {
-        return userModel;
-    }
-
-    public void setUserModel(UserModel userModel) {
-        this.userModel = userModel;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public void setCompany(String company) {
-        this.company = company;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public byte[] getPhoto() {
@@ -109,11 +71,43 @@ public class UserPropertiesModel {
         this.photo = photo;
     }
 
-    public String getDescription() {
-        return description;
+    public String getCompany() {
+        return company;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public UserModel getUserModel() {
+        return userModel;
+    }
+
+    public void setUserModel(UserModel userModel) {
+        this.userModel = userModel;
+    }
+
+    public List<LinkModel> getLinkModel() {
+        return linkModel;
+    }
+
+    public void setLinkModel(List<LinkModel> linkModel) {
+        this.linkModel = linkModel;
+    }
+
+    public AddressModel getAddressModel() {
+        return addressModel;
+    }
+
+    public void setAddressModel(AddressModel addressModel) {
+        this.addressModel = addressModel;
+    }
+
+    public List<RepositoryModel> getRepositoryModel() {
+        return repositoryModel;
+    }
+
+    public void setRepositoryModel(List<RepositoryModel> repositoryModel) {
+        this.repositoryModel = repositoryModel;
     }
 }

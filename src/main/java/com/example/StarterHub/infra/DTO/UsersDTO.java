@@ -1,6 +1,6 @@
 package com.example.StarterHub.infra.DTO;
 
-import com.example.StarterHub.core.domain.UserProperties;
+import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
 
 import java.util.UUID;
 
@@ -10,5 +10,5 @@ public record UsersDTO(
         String password,
         String email,
         String phone,
-        UserPropertiesDTO userPropertiesDTO
+        UserPropertiesModel userPropertiesModel
 ) { }
