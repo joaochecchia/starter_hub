@@ -6,6 +6,6 @@ import java.util.UUID;
 public record Commit(
         UUID hash,
         String description,
-        Repository repository,
-        ArrayList<Files> files
+        ArrayList<Files> files,
+        UUID repositoryId
 ) { }

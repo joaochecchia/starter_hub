@@ -8,7 +8,7 @@ public record UserProperties(
         String description,
         byte[] photo,
         String company,
-        Users user,
         ArrayList<Links> links,
-        Address address
+        Address address,
+        Users users
 ) { }

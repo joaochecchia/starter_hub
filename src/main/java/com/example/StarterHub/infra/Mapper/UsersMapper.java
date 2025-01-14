@@ -14,8 +14,7 @@ public class UsersMapper {
                 dto.username(),
                 dto.password(),
                 dto.email(),
-                dto.phone(),
-                null
+                dto.phone()
         );
     }
 
@@ -25,8 +24,7 @@ public class UsersMapper {
                 model.getUsername(),
                 model.getPassword(),
                 model.getEmail(),
-                model.getPhoneNumber(),
-                null
+                model.getPhoneNumber()
         );
     }
 

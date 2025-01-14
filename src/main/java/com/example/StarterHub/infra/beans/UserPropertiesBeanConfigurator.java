@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 public class UserPropertiesBeanConfigurator {
 
     @Bean
-    public PostUserPropertiesUseCaseImp insertUserPropertiesProperties(UserPropertiesGateway userPropertiesGateway){
+    public PostUserPropertiesUseCase insertUserPropertiesProperties(UserPropertiesGateway userPropertiesGateway){
         return new PostUserPropertiesUseCaseImp(userPropertiesGateway);
     }
 

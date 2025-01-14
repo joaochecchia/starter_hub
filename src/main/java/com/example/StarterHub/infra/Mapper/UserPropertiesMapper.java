@@ -23,8 +23,7 @@ public class UserPropertiesMapper {
                 dto.userModel().getUsername(),
                 dto.userModel().getPassword(),
                 dto.userModel().getEmail(),
-                dto.userModel().getPhoneNumber(),
-                null
+                dto.userModel().getPhoneNumber()
         );
 
         return new UserProperties(
@@ -32,9 +31,9 @@ public class UserPropertiesMapper {
                 dto.description(),
                 dto.photo(),
                 dto.company(),
-                user,
                 null,
-                null
+                null,
+                user
         );
     }
 
@@ -46,8 +45,7 @@ public class UserPropertiesMapper {
                 model.getUserModel().getUsername(),
                 model.getUserModel().getPassword(),
                 model.getUserModel().getEmail(),
-                model.getUserModel().getPhoneNumber(),
-                null
+                model.getUserModel().getPhoneNumber()
         );
 
         return new UserProperties(
@@ -55,9 +53,9 @@ public class UserPropertiesMapper {
                 model.getDescription(),
                 model.getPhoto(),
                 model.getCompany(),
-                user,
                 null,
-                null
+                null,
+                user
         );
     }
 
@@ -65,11 +63,11 @@ public class UserPropertiesMapper {
         if(domain == null) return null;
 
         UserModel userModel = new UserModel();
-        userModel.setId(domain.user().id());
-        userModel.setEmail(domain.user().email());
-        userModel.setPassword(domain.user().password());
-        userModel.setUsername(domain.user().username());
-        userModel.setPhoneNumber(domain.user().phone());
+        userModel.setId(domain.users().id());
+        userModel.setEmail(domain.users().email());
+        userModel.setPassword(domain.users().password());
+        userModel.setUsername(domain.users().username());
+        userModel.setPhoneNumber(domain.users().phone());
         userModel.setUserPropertiesModel(null);
 
 
@@ -77,6 +75,7 @@ public class UserPropertiesMapper {
         model.setId(domain.id());
         model.setDescription(domain.description());
         model.setPhoto(domain.photo());
+        model.setCompany(domain.company());
         model.setUserModel(userModel);
         model.setRepositoryModel(null);
         model.setLinkModel(null);
@@ -88,11 +87,11 @@ public class UserPropertiesMapper {
         if(domain == null) return null;
 
         UserModel usersDTO = new UserModel(
-                domain.user().id(),
-                domain.user().username(),
-                domain.user().password(),
-                domain.user().email(),
-                domain.user().phone(),
+                domain.users().id(),
+                domain.users().username(),
+                domain.users().password(),
+                domain.users().email(),
+                domain.users().phone(),
                 null
         );
 
@@ -127,6 +126,7 @@ public class UserPropertiesMapper {
         model.setId(request.id());
         model.setDescription(request.description());
         model.setPhoto(photo);
+        model.setCompany(request.company());
         model.setUserModel(userModel);
         model.setRepositoryModel(null);
         model.setLinkModel(null);

@@ -7,5 +7,5 @@ public record Address(
         String country,
         String postal_code,
         String location,
-        UserProperties userProperties
+        UUID userPropertiesId
 ) { }

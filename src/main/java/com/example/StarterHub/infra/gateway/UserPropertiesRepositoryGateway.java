@@ -60,7 +60,7 @@ public class UserPropertiesRepositoryGateway implements UserPropertiesGateway {
         Optional<UserPropertiesModel> userProperties = userPropertiesRepository.findById(id);
 
         if(userProperties.isPresent()){
-            userPropertiesRepository.delete(userProperties.get());
+            userPropertiesRepository.deleteById(id);
 
             return "Usuário deletado com sucesso";
         }

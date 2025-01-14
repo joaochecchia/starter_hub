@@ -9,5 +9,5 @@ public record Repository(
         String name,
         String repositoryDescription,
         Visibility visibility,
-        UserProperties userProperties
+        UUID userPropertiesID
 ) { }

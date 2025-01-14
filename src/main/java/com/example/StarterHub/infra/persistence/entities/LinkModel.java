@@ -25,6 +25,9 @@ public class LinkModel {
         this.userPropertiesModel = userPropertiesModel;
     }
 
+    public LinkModel() {
+    }
+
     public UUID getId() {
         return id;
     }
@@ -47,5 +50,14 @@ public class LinkModel {
 
     public void setUserPropertiesModel(UserPropertiesModel userPropertiesModel) {
         this.userPropertiesModel = userPropertiesModel;
+    }
+
+    @Override
+    public String toString() {
+        return "LinkModel{" +
+                "id=" + id +
+                ", link='" + link + '\'' +
+                ", userPropertiesModel=" + userPropertiesModel +
+                '}';
     }
 }

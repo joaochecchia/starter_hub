@@ -53,8 +53,8 @@ public class UserPropertiesController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteUserProperties(@PathVariable UUID id){
-        deleteUserPropertiesUseCase.execute(id);
+        String result = deleteUserPropertiesUseCase.execute(id);
 
-        return ResponseEntity.ok("Usuário deletado com sucesso.");
+        return ResponseEntity.ok(result);
     }
 }
