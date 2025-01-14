@@ -18,7 +18,6 @@ public class UserPropertiesBeanConfigurator {
         return new EditUserPropertiesUseCaseImp(userPropertiesGateway);
     }
 
-
     @Bean
     public SearchUserPropertiesUseCase searchUserPropertiess(UserPropertiesGateway userPropertiesGateway){
         return new SearchUserPropertiesUseCaseImp(userPropertiesGateway);

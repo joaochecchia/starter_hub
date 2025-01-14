@@ -87,4 +87,16 @@ public class UserModel {
     public void setUserPropertiesModel(UserPropertiesModel userPropertiesModel) {
         this.userPropertiesModel = userPropertiesModel;
     }
+
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", password='" + password + '\'' +
+                ", userPropertiesModel=" + userPropertiesModel +
+                '}';
+    }
 }

@@ -30,7 +30,7 @@ public class UsersRepositoryGateway implements UsersGateway {
 
     @Override
     public Optional<Users> registerUsers(Users users) {
-        UserModel entity = mapper.fromDomain(users);
+        UserModel entity = mapper.toEntity(users);
         UserModel newUser = userRepository.save(entity);
         System.out.println("MEU USERS REQUEST: " + users.id());
         System.out.println("MEU ENTITY REQUEST: " + entity.getId());
@@ -50,7 +50,7 @@ public class UsersRepositoryGateway implements UsersGateway {
         Optional<UserModel> findUser= userRepository.findById(id);
 
         if(findUser.isPresent()){
-            UserModel model = mapper.fromDomain(users);
+            UserModel model = mapper.toEntity(users);
             model.setId(id);
             UserModel update = userRepository.save(model);
 

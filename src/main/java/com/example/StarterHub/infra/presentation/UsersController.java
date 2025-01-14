@@ -3,8 +3,8 @@ package com.example.StarterHub.infra.presentation;
 import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.core.useCases.User.*;
 import com.example.StarterHub.infra.DTO.UsersDTO;
-import com.example.StarterHub.infra.Mapper.UsersMapper;
 
+import com.example.StarterHub.infra.Mapper.UsersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +23,7 @@ public class UsersController {
     private final EditUsersUseCase editUsersUseCase;
     private final SearchUsersUseCase searchUsersUseCase;
     private final DeleteUsersUseCase deleteUsersUseCase;
+    private final UsersMapper mapper;
 
     public UsersController(RegisterUsersUseCase registerUsersUseCase, LoginUsersUserCase loginUsersUserCase, EditUsersUseCase editUsersUseCase, SearchUsersUseCase searchUsersUseCase, DeleteUsersUseCase deleteUsersUseCase, UsersMapper mapper) {
         this.registerUsersUseCase = registerUsersUseCase;
@@ -32,9 +33,6 @@ public class UsersController {
         this.deleteUsersUseCase = deleteUsersUseCase;
         this.mapper = mapper;
     }
-
-    @Autowired
-    private UsersMapper mapper;
 
     @PostMapping("/register")
     public ResponseEntity<UsersDTO> registerUsers(@RequestBody UsersDTO dto){

@@ -1,10 +1,9 @@
 package com.example.StarterHub.infra.presentation;
 
 import com.example.StarterHub.core.domain.UserProperties;
-import com.example.StarterHub.core.useCases.UserProperties.DeleteUserPropertiesUseCase;
-import com.example.StarterHub.core.useCases.UserProperties.EditUserPropertiesUseCase;
-import com.example.StarterHub.core.useCases.UserProperties.PostUserPropertiesUseCase;
-import com.example.StarterHub.core.useCases.UserProperties.SearchUserPropertiesUseCase;
+import com.example.StarterHub.core.domain.Users;
+import com.example.StarterHub.core.useCases.UserProperties.*;
+import com.example.StarterHub.core.validation.EditRequest;
 import com.example.StarterHub.infra.DTO.UserPropertiesDTO;
 import com.example.StarterHub.infra.Mapper.UserPropertiesMapper;
 import org.springframework.http.ResponseEntity;
@@ -23,18 +22,17 @@ public class UserPropertiesController {
     private final DeleteUserPropertiesUseCase deleteUserPropertiesUseCase;
     private final UserPropertiesMapper mapper;
 
-    public UserPropertiesController(PostUserPropertiesUseCase postUserPropertiesUseCase, SearchUserPropertiesUseCase searchUserPropertiesUseCase, EditUserPropertiesUseCase editUserPropertiesUseCase, DeleteUserPropertiesUseCase deleteUserPropertiesUseCase, UserPropertiesMapper userPropertiesMapper) {
+    public UserPropertiesController(PostUserPropertiesUseCase postUserPropertiesUseCase, SearchUserPropertiesUseCase searchUserPropertiesUseCase, EditUserPropertiesUseCase editUserPropertiesUseCase, DeleteUserPropertiesUseCase deleteUserPropertiesUseCase, UserPropertiesMapper mapper) {
         this.postUserPropertiesUseCase = postUserPropertiesUseCase;
         this.searchUserPropertiesUseCase = searchUserPropertiesUseCase;
         this.editUserPropertiesUseCase = editUserPropertiesUseCase;
         this.deleteUserPropertiesUseCase = deleteUserPropertiesUseCase;
-        this.mapper  = userPropertiesMapper;
+        this.mapper = mapper;
     }
 
     @PostMapping("/create")
     public ResponseEntity<UserPropertiesDTO> createUserProperties(@RequestBody UserPropertiesDTO request){
-        System.out.println("MEU REQUEST: " + request.userModel().getId());
-        Optional<UserProperties> newUserProperties = postUserPropertiesUseCase.execute(mapper.toDomain(request));
+        Optional<UserProperties> newUserProperties = postUserPropertiesUseCase.execute(mapper.toDomain(request, request.userModel().getId()));
 
         return ResponseEntity.ok(mapper.toDTO(newUserProperties.get()));
     }
@@ -47,10 +45,10 @@ public class UserPropertiesController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<UserPropertiesDTO> editUserProperties(@PathVariable UUID id, @RequestBody UserPropertiesDTO request){
-        Optional<UserProperties> newUserProperties = editUserPropertiesUseCase.execute(id, mapper.toDomain(request));
+    public ResponseEntity<UserPropertiesDTO> editUserProperties(@PathVariable UUID id, @RequestBody EditRequest editRequest){
+        Optional<UserProperties> updatedUserProperties = editUserPropertiesUseCase.execute(id, editRequest);
 
-        return ResponseEntity.ok(mapper.toDTO(newUserProperties.get()));
+        return ResponseEntity.ok(mapper.toDTO(updatedUserProperties.get()));
     }
 
     @DeleteMapping("/delete/{id}")

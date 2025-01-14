@@ -2,6 +2,7 @@ package com.example.StarterHub.infra.persistence.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,7 +22,7 @@ public class UserPropertiesModel {
     private String company;
 
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
     private UserModel userModel;
 
     @OneToMany(mappedBy = "userPropertiesModel")
@@ -109,5 +110,19 @@ public class UserPropertiesModel {
 
     public void setRepositoryModel(List<RepositoryModel> repositoryModel) {
         this.repositoryModel = repositoryModel;
+    }
+
+    @Override
+    public String toString() {
+        return "UserPropertiesModel{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", photo=" + Arrays.toString(photo) +
+                ", company='" + company + '\'' +
+                ", userModel=" + userModel +
+                ", linkModel=" + linkModel +
+                ", addressModel=" + addressModel +
+                ", repositoryModel=" + repositoryModel +
+                '}';
     }
 }
