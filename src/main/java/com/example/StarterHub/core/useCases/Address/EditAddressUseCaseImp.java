@@ -6,16 +6,17 @@ import com.example.StarterHub.core.gateway.AddressGateway;
 import java.util.Optional;
 import java.util.UUID;
 
-public class SearchAddressUseCaseImp implements  SearchAddressUseCase{
+public class EditAddressUseCaseImp implements EditAddressUseCase{
 
     private final AddressGateway addressGateway;
 
-    public SearchAddressUseCaseImp(AddressGateway addressGateway) {
+    public EditAddressUseCaseImp(AddressGateway addressGateway) {
         this.addressGateway = addressGateway;
     }
 
+
     @Override
-    public Optional<Address> execute(UUID id) {
-        return addressGateway.searchAddress(id);
+    public Optional<Address> execute(UUID id, Address editAddress) {
+        return addressGateway.editAddress(id, editAddress);
     }
 }

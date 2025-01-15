@@ -4,18 +4,17 @@ import com.example.StarterHub.core.domain.Address;
 import com.example.StarterHub.core.gateway.AddressGateway;
 
 import java.util.Optional;
-import java.util.UUID;
 
-public class SearchAddressUseCaseImp implements  SearchAddressUseCase{
+public class PostAddressUseCaseImp implements PostAddressUseCase{
 
     private final AddressGateway addressGateway;
 
-    public SearchAddressUseCaseImp(AddressGateway addressGateway) {
+    public PostAddressUseCaseImp(AddressGateway addressGateway) {
         this.addressGateway = addressGateway;
     }
 
     @Override
-    public Optional<Address> execute(UUID id) {
-        return addressGateway.searchAddress(id);
+    public Optional<Address> execute(Address newAddress) {
+        return addressGateway.postAddress(newAddress);
     }
 }
