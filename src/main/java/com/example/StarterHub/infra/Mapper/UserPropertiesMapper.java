@@ -1,20 +1,31 @@
 package com.example.StarterHub.infra.Mapper;
 
+import com.example.StarterHub.core.domain.Links;
 import com.example.StarterHub.core.domain.UserProperties;
 import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.core.validation.EditRequest;
 import com.example.StarterHub.infra.DTO.UserPropertiesDTO;
 import com.example.StarterHub.infra.DTO.UsersDTO;
+import com.example.StarterHub.infra.persistence.entities.LinkModel;
 import com.example.StarterHub.infra.persistence.entities.UserModel;
 import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
 import org.apache.catalina.User;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class UserPropertiesMapper {
+
+    private final LinksMapper linksMapper;
+
+    public UserPropertiesMapper(LinksMapper linksMapper) {
+        this.linksMapper = linksMapper;
+    }
+
     public UserProperties toDomain(UserPropertiesDTO dto, UUID userId){
         if(dto == null) return null;
 
@@ -26,12 +37,16 @@ public class UserPropertiesMapper {
                 dto.userModel().getPhoneNumber()
         );
 
+        ArrayList<Links> linksDomain = dto.linksModel().stream()
+                .map(linksMapper::toDomain)
+                .collect(Collectors.toCollection(ArrayList::new));
+
         return new UserProperties(
                 dto.id(),
                 dto.description(),
                 dto.photo(),
                 dto.company(),
-                null,
+                linksDomain,
                 null,
                 user
         );
@@ -48,12 +63,16 @@ public class UserPropertiesMapper {
                 model.getUserModel().getPhoneNumber()
         );
 
+        ArrayList<Links> linksDomain = model.getLinkModel().stream()
+                .map(linksMapper::toDomain)
+                .collect(Collectors.toCollection(ArrayList::new));
+
         return new UserProperties(
                 model.getId(),
                 model.getDescription(),
                 model.getPhoto(),
                 model.getCompany(),
-                null,
+                linksDomain,
                 null,
                 user
         );
@@ -70,6 +89,9 @@ public class UserPropertiesMapper {
         userModel.setPhoneNumber(domain.users().phone());
         userModel.setUserPropertiesModel(null);
 
+        ArrayList<LinkModel> linksModel = domain.links().stream()
+                .map(linksMapper::toEntity)
+                .collect(Collectors.toCollection(ArrayList::new));
 
         UserPropertiesModel model = new UserPropertiesModel();
         model.setId(domain.id());
@@ -78,7 +100,7 @@ public class UserPropertiesMapper {
         model.setCompany(domain.company());
         model.setUserModel(userModel);
         model.setRepositoryModel(null);
-        model.setLinkModel(null);
+        model.setLinkModel(linksModel);
 
         return model;
     }
@@ -95,13 +117,17 @@ public class UserPropertiesMapper {
                 null
         );
 
+        ArrayList<LinkModel> linksModel = domain.links().stream()
+                .map(linksMapper::toEntity)
+                .collect(Collectors.toCollection(ArrayList::new));
+
         return new UserPropertiesDTO(
                 domain.id(),
                 domain.description(),
                 domain.photo(),
                 domain.company(),
                 usersDTO,
-                null,
+                linksModel,
                 null
         );
     }
