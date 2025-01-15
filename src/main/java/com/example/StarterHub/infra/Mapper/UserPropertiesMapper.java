@@ -1,11 +1,14 @@
 package com.example.StarterHub.infra.Mapper;
 
+import com.example.StarterHub.core.domain.Address;
 import com.example.StarterHub.core.domain.Links;
 import com.example.StarterHub.core.domain.UserProperties;
 import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.core.validation.EditRequest;
+import com.example.StarterHub.infra.DTO.AddressDTO;
 import com.example.StarterHub.infra.DTO.UserPropertiesDTO;
 import com.example.StarterHub.infra.DTO.UsersDTO;
+import com.example.StarterHub.infra.persistence.entities.AddressModel;
 import com.example.StarterHub.infra.persistence.entities.LinkModel;
 import com.example.StarterHub.infra.persistence.entities.UserModel;
 import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
@@ -21,9 +24,11 @@ import java.util.stream.Collectors;
 public class UserPropertiesMapper {
 
     private final LinksMapper linksMapper;
+    private final AddressMapper addressMapper;
 
-    public UserPropertiesMapper(LinksMapper linksMapper) {
+    public UserPropertiesMapper(LinksMapper linksMapper, AddressMapper addressMapper) {
         this.linksMapper = linksMapper;
+        this.addressMapper = addressMapper;
     }
 
     public UserProperties toDomain(UserPropertiesDTO dto, UUID userId){
@@ -41,13 +46,15 @@ public class UserPropertiesMapper {
                 .map(linksMapper::toDomain)
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        Address addressDomain = addressMapper.toDomain(dto.addressModel());
+
         return new UserProperties(
                 dto.id(),
                 dto.description(),
                 dto.photo(),
                 dto.company(),
                 linksDomain,
-                null,
+                addressDomain,
                 user
         );
     }
@@ -67,13 +74,15 @@ public class UserPropertiesMapper {
                 .map(linksMapper::toDomain)
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        Address addressDomain = addressMapper.toDomain(model.getAddressModel());
+
         return new UserProperties(
                 model.getId(),
                 model.getDescription(),
                 model.getPhoto(),
                 model.getCompany(),
                 linksDomain,
-                null,
+                addressDomain,
                 user
         );
     }
@@ -93,6 +102,8 @@ public class UserPropertiesMapper {
                 .map(linksMapper::toEntity)
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        AddressModel addressModel = addressMapper.toEntity(domain.address());
+
         UserPropertiesModel model = new UserPropertiesModel();
         model.setId(domain.id());
         model.setDescription(domain.description());
@@ -101,6 +112,7 @@ public class UserPropertiesMapper {
         model.setUserModel(userModel);
         model.setRepositoryModel(null);
         model.setLinkModel(linksModel);
+        model.setAddressModel(addressModel);
 
         return model;
     }
@@ -121,6 +133,8 @@ public class UserPropertiesMapper {
                 .map(linksMapper::toEntity)
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        AddressModel addressModel = addressMapper.toEntity(domain.address());
+
         return new UserPropertiesDTO(
                 domain.id(),
                 domain.description(),
@@ -128,7 +142,7 @@ public class UserPropertiesMapper {
                 domain.company(),
                 usersDTO,
                 linksModel,
-                null
+                addressModel
         );
     }
 

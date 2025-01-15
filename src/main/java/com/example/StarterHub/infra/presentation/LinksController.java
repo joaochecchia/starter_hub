@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/starter-hub/users/Links")
+@RequestMapping("/starter-hub/users/links")
 public class LinksController {
     public final PostLinksUseCase postLinksUseCase;
     public final FindAllLinksByUserPropertiesIdUseCase findAllLinksByUserPropertiesIdUseCase;
@@ -32,12 +32,9 @@ public class LinksController {
         this.mapper = mapper;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/insert")
     public ResponseEntity<LinksDTO> createLink(@RequestBody LinksDTO request){
-        System.out.println("COMO CHEGA O REQUEST" + request.toString());
-        Links a = mapper.toDomain(request);
-        System.out.println("DEPOIS DA CONVERSÂO PARA DOMAIN" + a.toString());
-        Optional<Links> newLink = postLinksUseCase.execute(a);
+        Optional<Links> newLink = postLinksUseCase.execute(mapper.toDomain(request));
 
         return ResponseEntity.ok(mapper.toDTO(newLink.get()));
     }

@@ -5,7 +5,7 @@ import java.util.UUID;
 public record Address(
         UUID id,
         String country,
-        String postal_code,
+        String postalCode,
         String location,
         UUID userPropertiesId
 ) { }
