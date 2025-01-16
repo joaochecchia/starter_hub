@@ -7,7 +7,7 @@ import com.example.StarterHub.infra.persistence.entities.LinkModel;
 import com.example.StarterHub.infra.persistence.repositories.LinkRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,24 +25,24 @@ public class LinksRepositoryGateway implements LinksGateway {
 
     @Override
     public Optional<Links> postLinks(Links links) {
-        System.out.println("Esse e userPRoperitesID" + links.userPropertiesID());
         LinkModel a  = mapper.toEntity(links);
-        System.out.println("DEPIS DE VIRAR ENTITY" + a);
         LinkModel link = linkRepository.save(a);
 
         return Optional.of(mapper.toDomain(link));
     }
 
     @Override
-    public Optional<ArrayList<Links>> findAllLinksByUserPropertiesId(UUID id) {
-        Optional<ArrayList<LinkModel>> allLinks = linkRepository.findAllByUserPropertiesModel_Id(id);
+    public Optional<List<Links>> findAllLinksByUserPropertiesId(UUID id) {
+        System.out.println("Antes do converter: " + id);
 
-        return allLinks.map(linkModels ->
-                linkModels.stream()
-                        .map(mapper::toDomain)
-                        .collect(Collectors.toCollection(ArrayList::new))
-        );
+        return linkRepository.findAllByUserPropertiesModelId(id)
+                .map(linkModels ->
+                        linkModels.stream()
+                                .map(mapper::toDomain)
+                                .collect(Collectors.toList())
+                );
     }
+
 
     @Override
     public Optional<Links> searchLinks(UUID id) {

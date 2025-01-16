@@ -12,7 +12,6 @@ import com.example.StarterHub.infra.persistence.entities.AddressModel;
 import com.example.StarterHub.infra.persistence.entities.LinkModel;
 import com.example.StarterHub.infra.persistence.entities.UserModel;
 import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
-import org.apache.catalina.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

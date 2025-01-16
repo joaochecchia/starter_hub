@@ -8,5 +8,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface FindAllLinksByUserPropertiesIdUseCase {
-    Optional<ArrayList<Links>> execute(UUID id);
+    Optional<List<Links>> execute(UUID id);
 }

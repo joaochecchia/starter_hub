@@ -17,6 +17,7 @@ public class UserPropertiesModel {
     private String description;
 
     @Lob
+    @Basic(fetch = FetchType.LAZY)
     private byte[] photo;
 
     private String company;
