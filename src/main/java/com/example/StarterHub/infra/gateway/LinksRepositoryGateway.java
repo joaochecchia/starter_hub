@@ -33,8 +33,6 @@ public class LinksRepositoryGateway implements LinksGateway {
 
     @Override
     public Optional<List<Links>> findAllLinksByUserPropertiesId(UUID id) {
-        System.out.println("Antes do converter: " + id);
-
         return linkRepository.findAllByUserPropertiesModelId(id)
                 .map(linkModels ->
                         linkModels.stream()

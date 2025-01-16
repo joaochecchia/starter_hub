@@ -41,7 +41,6 @@ public class UserPropertiesRepositoryGateway implements UserPropertiesGateway {
 
     @Override
     public Optional<UserProperties> editUserProperties(UUID id, EditRequest request) {
-        System.out.println("ATRIBUTO DO ERRO: " + request.user().id());
         Optional<UserPropertiesModel> find = userPropertiesRepository.findById(id);
 
         if(find.isPresent()){

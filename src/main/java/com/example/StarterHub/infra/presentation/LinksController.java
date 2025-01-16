@@ -52,7 +52,6 @@ public class LinksController {
     @Transactional
     @GetMapping("/findAll/{id}")
     public ResponseEntity<ArrayList<Links>> findAllByUserPropertiesID(@PathVariable UUID id){
-        System.out.println("Inicio");
         Optional<List<Links>> allLinks = findAllLinksByUserPropertiesIdUseCase.execute(id);
 
         return ResponseEntity.ok(allLinks.get().stream().collect(Collectors.toCollection(ArrayList::new)));

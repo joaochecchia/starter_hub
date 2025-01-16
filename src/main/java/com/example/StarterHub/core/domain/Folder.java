@@ -1,13 +1,13 @@
 package com.example.StarterHub.core.domain;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public record Commit(
-        UUID hash,
-        String description,
-        LocalDateTime creationTimeStamp,
+public record Folder(
+        UUID id,
+        String name,
+        UUID fatherID,
         ArrayList<Files> files,
+        ArrayList<Folder> children,
         UUID repositoryId
 ) { }

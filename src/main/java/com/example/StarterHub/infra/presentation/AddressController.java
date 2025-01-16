@@ -34,8 +34,6 @@ public class AddressController {
 
     @PostMapping("/create")
     public ResponseEntity<Address> insertAddress(@RequestBody AddressDTO request){
-        System.out.println("ESSE E O REQUEST: " + request.toString());
-        System.out.println("ESSE E O REQUEST DEPOIS DO MAPPER: " + mapper.toDomain(request).toString());
         Optional<Address> address = postAddressUseCase.execute(mapper.toDomain(request));
 
         return ResponseEntity.ok(address.get());

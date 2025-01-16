@@ -9,9 +9,6 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "files")
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class FilesModel {
 
     @Id
@@ -19,16 +16,53 @@ public class FilesModel {
     @Column(name = "file_id")
     private UUID id;
 
-    private String path;
-
     @Lob
     private byte[] content;
 
     @ManyToOne
-    @JoinColumn(name = "id_commits", referencedColumnName = "commits_id", nullable = false)
-    private CommitsModel commitsModel;
+    @JoinColumn(name = "id_folder", referencedColumnName = "folder_id", nullable = false)
+    private FolderModel folderModel;
 
     @ManyToOne
-    @JoinColumn(name = "id_repository", referencedColumnName = "repository_id", nullable = false)
-    private RepositoryModel repositoryModel;
+    @JoinColumn(name = "id_commits", referencedColumnName = "hash", nullable = false)
+    private CommitsModel commitsModel;
+
+    public FilesModel(UUID id, byte[] content, FolderModel folderModel, CommitsModel commitsModel) {
+        this.id = id;
+        this.content = content;
+        this.folderModel = folderModel;
+        this.commitsModel = commitsModel;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public byte[] getContent() {
+        return content;
+    }
+
+    public void setContent(byte[] content) {
+        this.content = content;
+    }
+
+    public FolderModel getFolderModel() {
+        return folderModel;
+    }
+
+    public void setFolderModel(FolderModel folderModel) {
+        this.folderModel = folderModel;
+    }
+
+    public CommitsModel getCommitsModel() {
+        return commitsModel;
+    }
+
+    public void setCommitsModel(CommitsModel commitsModel) {
+        this.commitsModel = commitsModel;
+    }
 }

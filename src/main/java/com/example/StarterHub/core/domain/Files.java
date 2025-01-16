@@ -5,5 +5,6 @@ import java.util.UUID;
 public record Files(
         UUID id,
         byte[] content,
+        UUID folderId,
         UUID commitId
 ) { }
