@@ -6,6 +6,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface SearchAllRepositoriesUseCase {
+public interface FindAllRepositoriesUseCase {
     Optional<ArrayList<Repository>> execute(UUID repositoryId);
 }

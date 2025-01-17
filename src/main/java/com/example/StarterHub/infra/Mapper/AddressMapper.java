@@ -36,14 +36,7 @@ public class AddressMapper {
                 domain.postalCode(),
                 domain.location(),
                 new UserPropertiesModel(
-                        domain.userPropertiesId(),
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
+                        domain.userPropertiesId()
                 )
         );
     }
@@ -55,14 +48,7 @@ public class AddressMapper {
                 domain.postalCode(),
                 domain.location(),
                 new UserPropertiesModel(
-                        domain.userPropertiesId(),
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
+                        domain.userPropertiesId()
                 )
         );
     }

@@ -10,5 +10,6 @@ public record UserProperties(
         String company,
         ArrayList<Links> links,
         Address address,
+        ArrayList<Repository> repositories,
         Users users
 ) { }

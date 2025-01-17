@@ -6,16 +6,16 @@ import com.example.StarterHub.core.gateway.RepositoryGateway;
 import java.util.Optional;
 import java.util.UUID;
 
-public class SearchRepositoryUseCaseImp implements SearchRepositoryUseCase{
+public class EditRepositoryUseCaseImp implements EditRepositoryUseCase{
 
     private final RepositoryGateway repositoryGateway;
 
-    public SearchRepositoryUseCaseImp(RepositoryGateway repositoryGateway) {
+    public EditRepositoryUseCaseImp(RepositoryGateway repositoryGateway) {
         this.repositoryGateway = repositoryGateway;
     }
 
     @Override
-    public Optional<Repository> execute(UUID id) {
-        return repositoryGateway.searchRepository(id);
+    public Optional<Repository> execute(UUID id, Repository repository) {
+        return repositoryGateway.editRepository(id, repository);
     }
 }

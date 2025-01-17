@@ -1,17 +1,9 @@
 package com.example.StarterHub.infra.Mapper;
 
-import com.example.StarterHub.core.domain.Address;
-import com.example.StarterHub.core.domain.Links;
-import com.example.StarterHub.core.domain.UserProperties;
-import com.example.StarterHub.core.domain.Users;
+import com.example.StarterHub.core.domain.*;
 import com.example.StarterHub.core.validation.EditRequest;
-import com.example.StarterHub.infra.DTO.AddressDTO;
 import com.example.StarterHub.infra.DTO.UserPropertiesDTO;
-import com.example.StarterHub.infra.DTO.UsersDTO;
-import com.example.StarterHub.infra.persistence.entities.AddressModel;
-import com.example.StarterHub.infra.persistence.entities.LinkModel;
-import com.example.StarterHub.infra.persistence.entities.UserModel;
-import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
+import com.example.StarterHub.infra.persistence.entities.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,10 +16,12 @@ public class UserPropertiesMapper {
 
     private final LinksMapper linksMapper;
     private final AddressMapper addressMapper;
+    private final RepositoryMapper repositoryMapper;
 
-    public UserPropertiesMapper(LinksMapper linksMapper, AddressMapper addressMapper) {
+    public UserPropertiesMapper(LinksMapper linksMapper, AddressMapper addressMapper, RepositoryMapper repositoryMapper) {
         this.linksMapper = linksMapper;
         this.addressMapper = addressMapper;
+        this.repositoryMapper = repositoryMapper;
     }
 
     public UserProperties toDomain(UserPropertiesDTO dto, UUID userId){
@@ -45,6 +39,10 @@ public class UserPropertiesMapper {
                 .map(linksMapper::toDomain)
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        ArrayList<Repository> repositoriesDomain = dto.repositoryModels().stream()
+                .map(repositoryMapper::toDomain)
+                .collect(Collectors.toCollection(ArrayList::new));
+
         Address addressDomain = addressMapper.toDomain(dto.addressModel());
 
         return new UserProperties(
@@ -54,6 +52,7 @@ public class UserPropertiesMapper {
                 dto.company(),
                 linksDomain,
                 addressDomain,
+                repositoriesDomain,
                 user
         );
     }
@@ -73,6 +72,10 @@ public class UserPropertiesMapper {
                 .map(linksMapper::toDomain)
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        ArrayList<Repository> repositories = model.getRepositoryModel().stream()
+                .map(repositoryMapper::toDomain)
+                .collect(Collectors.toCollection(ArrayList::new));
+
         Address addressDomain = addressMapper.toDomain(model.getAddressModel());
 
         return new UserProperties(
@@ -82,6 +85,7 @@ public class UserPropertiesMapper {
                 model.getCompany(),
                 linksDomain,
                 addressDomain,
+                repositories,
                 user
         );
     }
@@ -101,6 +105,10 @@ public class UserPropertiesMapper {
                 .map(linksMapper::toEntity)
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        ArrayList<RepositoryModel> repositories = domain.repositories().stream()
+                .map(repositoryMapper::toEntity)
+                .collect(Collectors.toCollection(ArrayList::new));
+
         AddressModel addressModel = addressMapper.toEntity(domain.address());
 
         UserPropertiesModel model = new UserPropertiesModel();
@@ -109,7 +117,7 @@ public class UserPropertiesMapper {
         model.setPhoto(domain.photo());
         model.setCompany(domain.company());
         model.setUserModel(userModel);
-        model.setRepositoryModel(null);
+        model.setRepositoryModel(repositories);
         model.setLinkModel(linksModel);
         model.setAddressModel(addressModel);
 
@@ -132,6 +140,10 @@ public class UserPropertiesMapper {
                 .map(linksMapper::toEntity)
                 .collect(Collectors.toCollection(ArrayList::new));
 
+        ArrayList<RepositoryModel> repositories = domain.repositories().stream()
+                .map(repositoryMapper::toEntity)
+                .collect(Collectors.toCollection(ArrayList::new));
+
         AddressModel addressModel = addressMapper.toEntity(domain.address());
 
         return new UserPropertiesDTO(
@@ -141,7 +153,8 @@ public class UserPropertiesMapper {
                 domain.company(),
                 usersDTO,
                 linksModel,
-                addressModel
+                addressModel,
+                repositories
         );
     }
 

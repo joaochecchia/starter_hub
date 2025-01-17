@@ -3,9 +3,10 @@ package com.example.StarterHub.infra.beans;
 import com.example.StarterHub.core.gateway.AddressGateway;
 import com.example.StarterHub.core.useCases.Address.*;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
-@Component
+@Configuration
 public class AddressConfigurator {
 
     @Bean

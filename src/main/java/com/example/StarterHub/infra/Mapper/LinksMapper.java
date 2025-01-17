@@ -30,14 +30,7 @@ public class LinksMapper {
                 links.id(),
                 links.link(),
                 new UserPropertiesModel(
-                        links.userPropertiesID(),
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
+                        links.userPropertiesID()
                 )
         );
     }
@@ -48,14 +41,7 @@ public class LinksMapper {
                 domain.id(),
                 domain.link(),
                 new UserPropertiesModel(
-                        domain.userPropertiesID(),
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null
+                        domain.userPropertiesID()
                 )
         );
     }

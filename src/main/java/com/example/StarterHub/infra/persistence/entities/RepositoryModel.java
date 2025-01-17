@@ -41,7 +41,7 @@ public class RepositoryModel {
     private LocalDateTime updateTimeStamp;
 
     @OneToMany(mappedBy = "repositoryModel")
-    private ArrayList<CommitsModel> commitsModel;
+    private List<CommitsModel> commitsModel;
 
     @OneToOne(mappedBy = "repository")
     private FolderModel root;
@@ -50,7 +50,7 @@ public class RepositoryModel {
     @JoinColumn(name = "id_user_properties", referencedColumnName = "user_properties_id", nullable = false)
     private UserPropertiesModel userPropertiesModel;
 
-    public RepositoryModel(UUID id, String name, String description, Visibility visibility, LocalDateTime creationTimeStamp, LocalDateTime updateTimeStamp, ArrayList<CommitsModel> commitsModel, FolderModel root, UserPropertiesModel userPropertiesModel) {
+    public RepositoryModel(UUID id, String name, String description, Visibility visibility, LocalDateTime creationTimeStamp, LocalDateTime updateTimeStamp, List<CommitsModel> commitsModel, FolderModel root, UserPropertiesModel userPropertiesModel) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -60,6 +60,9 @@ public class RepositoryModel {
         this.commitsModel = commitsModel;
         this.root = root;
         this.userPropertiesModel = userPropertiesModel;
+    }
+
+    public RepositoryModel() {
     }
 
     public UUID getId() {
@@ -110,7 +113,7 @@ public class RepositoryModel {
         this.updateTimeStamp = updateTimeStamp;
     }
 
-    public ArrayList<CommitsModel> getCommitsModel() {
+    public List<CommitsModel> getCommitsModel() {
         return commitsModel;
     }
 

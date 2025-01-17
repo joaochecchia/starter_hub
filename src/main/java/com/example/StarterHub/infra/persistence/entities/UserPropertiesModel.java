@@ -46,6 +46,10 @@ public class UserPropertiesModel {
         this.repositoryModel = repositoryModel;
     }
 
+    public UserPropertiesModel(UUID id) {
+        this.id = id;
+    }
+
     public UserPropertiesModel() {
     }
 
