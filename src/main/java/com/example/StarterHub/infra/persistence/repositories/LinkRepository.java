@@ -9,5 +9,4 @@ import java.util.UUID;
 
 public interface LinkRepository extends JpaRepository<LinkModel, UUID> {
     Optional<List<LinkModel>> findAllByUserPropertiesModelId(UUID id);
-
 }

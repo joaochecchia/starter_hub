@@ -62,6 +62,10 @@ public class RepositoryModel {
         this.userPropertiesModel = userPropertiesModel;
     }
 
+    public RepositoryModel(UUID id) {
+        this.id = id;
+    }
+
     public RepositoryModel() {
     }
 
@@ -117,7 +121,7 @@ public class RepositoryModel {
         return commitsModel;
     }
 
-    public void setCommitsModel(ArrayList<CommitsModel> commitsModel) {
+    public void setCommitsModel(List<CommitsModel> commitsModel) {
         this.commitsModel = commitsModel;
     }
 
@@ -135,5 +139,20 @@ public class RepositoryModel {
 
     public void setUserPropertiesModel(UserPropertiesModel userPropertiesModel) {
         this.userPropertiesModel = userPropertiesModel;
+    }
+
+    @Override
+    public String toString() {
+        return "RepositoryModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", visibility=" + visibility +
+                ", creationTimeStamp=" + creationTimeStamp +
+                ", updateTimeStamp=" + updateTimeStamp +
+                ", commitsModel=" + commitsModel +
+                ", root=" + root +
+                ", userPropertiesModel=" + userPropertiesModel +
+                '}';
     }
 }

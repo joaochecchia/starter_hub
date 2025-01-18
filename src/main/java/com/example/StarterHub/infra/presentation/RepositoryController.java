@@ -5,6 +5,7 @@ import com.example.StarterHub.core.useCases.Links.*;
 import com.example.StarterHub.core.useCases.Repository.*;
 import com.example.StarterHub.infra.Mapper.RepositoryMapper;
 import jakarta.transaction.Transactional;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.rmi.server.UID;
@@ -13,15 +14,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/starter-hub/user/repository")
+@RequestMapping("/starter-hub/users/repository")
 public class RepositoryController {
 
-    public final PostRepositoryUseCase postRepositoryUseCase;
-    public final FindAllRepositoriesUseCase findAllRepositoriesUseCase;
-    public final SearchRepositoryUseCase searchRepositoryUseCase;
-    public final EditRepositoryUseCase editRepositoryUseCase;
-    public final DeleteRepositoryUseCase deleteRepositoryUseCase;
-    public final RepositoryMapper mapper;
+    private final PostRepositoryUseCase postRepositoryUseCase;
+    private final FindAllRepositoriesUseCase findAllRepositoriesUseCase;
+    private final SearchRepositoryUseCase searchRepositoryUseCase;
+    private final EditRepositoryUseCase editRepositoryUseCase;
+    private final DeleteRepositoryUseCase deleteRepositoryUseCase;
+    private final RepositoryMapper mapper;
 
     public RepositoryController(PostRepositoryUseCase postRepositoryUseCase, FindAllRepositoriesUseCase findAllRepositoriesUseCase, SearchRepositoryUseCase searchRepositoryUseCase, EditRepositoryUseCase editRepositoryUseCase, DeleteRepositoryUseCase deleteRepositoryUseCase, RepositoryMapper mapper) {
         this.postRepositoryUseCase = postRepositoryUseCase;
@@ -33,34 +34,38 @@ public class RepositoryController {
     }
 
     @PostMapping("/create")
-    public Optional<Repository> createRepository(@RequestBody Repository repository){
+    public ResponseEntity<Repository> createRepository(@RequestBody Repository repository){
         Optional<Repository> newRepository = postRepositoryUseCase.execute(repository);
 
-        return Optional.of(newRepository.get());
+        return ResponseEntity.ok(newRepository.get());
     }
 
     @GetMapping("/search/{id}")
-    public Optional<Repository> searchRepository(@PathVariable UUID id){
+    public ResponseEntity<Repository> searchRepository(@PathVariable UUID id){
+        Optional<Repository> repository = searchRepositoryUseCase.execute(id);
 
-        return Optional.empty();
+        return ResponseEntity.ok(repository.get());
     }
 
     @Transactional
     @GetMapping("/findAll/{id}")
-    public Optional<ArrayList<Repository>> findAllRepositories(@PathVariable UUID id){
+    public ResponseEntity<ArrayList<Repository>> findAllRepositories(@PathVariable UUID id){
+        Optional<ArrayList<Repository>> allRepositories = findAllRepositoriesUseCase.execute(id);
 
-        return Optional.empty();
+        return ResponseEntity.ok(allRepositories.get());
     }
 
     @PutMapping("/edit/{id}")
-    public Optional<Repository> editRepository(@PathVariable UUID id, @RequestBody Repository repository){
+    public ResponseEntity<Repository> editRepository(@PathVariable UUID id, @RequestBody Repository repository){
+        Optional<Repository> editedRepository = editRepositoryUseCase.execute(id, repository);
 
-        return Optional.empty();
+        return ResponseEntity.ok(editedRepository.get());
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteRepository(@PathVariable UUID id){
+    public ResponseEntity<String> deleteRepository(@PathVariable UUID id){
+        String response = deleteRepositoryUseCase.execute(id);
 
-        return "çalsdkaçsd";
+        return ResponseEntity.ok(response);
     }
 }

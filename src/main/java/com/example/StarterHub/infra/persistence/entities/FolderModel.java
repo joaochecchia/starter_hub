@@ -6,6 +6,7 @@ import com.example.StarterHub.core.domain.Repository;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -24,22 +25,36 @@ public class FolderModel {
     private FolderModel father;
 
     @OneToMany(mappedBy = "folderModel", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ArrayList<FilesModel> files;
+    private List<FilesModel> files;
 
     @OneToMany(mappedBy = "father", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ArrayList<FolderModel> children;
+    private List<FolderModel> children;
 
     @OneToOne
     @JoinColumn(name = "repository_id")
     private RepositoryModel repository;
 
-    public FolderModel(UUID id, String name, FolderModel father, ArrayList<FilesModel> files, ArrayList<FolderModel> children, RepositoryModel repository) {
+    public FolderModel(UUID id, String name, FolderModel father, List<FilesModel> files, List<FolderModel> children, RepositoryModel repository) {
         this.id = id;
         this.name = name;
         this.father = father;
         this.files = files;
         this.children = children;
         this.repository = repository;
+    }
+
+    public FolderModel(UUID id, String name, FolderModel father, RepositoryModel repository) {
+        this.id = id;
+        this.name = name;
+        this.father = father;
+        this.repository = repository;
+    }
+
+    public FolderModel(UUID id) {
+        this.id = id;
+    }
+
+    public FolderModel() {
     }
 
     public UUID getId() {
@@ -66,19 +81,19 @@ public class FolderModel {
         this.father = father;
     }
 
-    public ArrayList<FilesModel> getFiles() {
+    public List<FilesModel> getFiles() {
         return files;
     }
 
-    public void setFiles(ArrayList<FilesModel> files) {
+    public void setFiles(List<FilesModel> files) {
         this.files = files;
     }
 
-    public ArrayList<FolderModel> getChildren() {
+    public List<FolderModel> getChildren() {
         return children;
     }
 
-    public void setChildren(ArrayList<FolderModel> children) {
+    public void setChildren(List<FolderModel> children) {
         this.children = children;
     }
 
@@ -88,5 +103,17 @@ public class FolderModel {
 
     public void setRepository(RepositoryModel repository) {
         this.repository = repository;
+    }
+
+    @Override
+    public String toString() {
+        return "FolderModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", father=" + father +
+                ", files=" + files +
+                ", children=" + children +
+                ", repository=" + repository +
+                '}';
     }
 }
