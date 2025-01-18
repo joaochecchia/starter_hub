@@ -5,6 +5,6 @@ import com.example.StarterHub.core.domain.Commit;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface SearchCommitUseCase {
-    Optional<Commit> execute(UUID id);
+public interface EditCommitUseCase {
+    Optional<Commit> execute(UUID id, Commit commit);
 }

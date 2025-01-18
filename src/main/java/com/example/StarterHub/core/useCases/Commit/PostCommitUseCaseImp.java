@@ -3,20 +3,19 @@ package com.example.StarterHub.core.useCases.Commit;
 import com.example.StarterHub.core.domain.Commit;
 import com.example.StarterHub.core.gateway.CommitGateway;
 
-import java.util.ArrayList;
 import java.util.Optional;
-import java.util.UUID;
 
-public class SearchAllCommitsUseCaseImp implements SearchAllCommitsUseCase{
+public class PostCommitUseCaseImp implements PostCommitUseCase{
 
     private final CommitGateway commitGateway;
 
-    public SearchAllCommitsUseCaseImp(CommitGateway commitGateway) {
+    public PostCommitUseCaseImp(CommitGateway commitGateway) {
         this.commitGateway = commitGateway;
     }
 
+
     @Override
-    public Optional<ArrayList<Commit>> execute(UUID id) {
-        return commitGateway.findAllCommits(id);
+    public Optional<Commit> execute(Commit commit) {
+        return commitGateway.postCommit(commit);
     }
 }

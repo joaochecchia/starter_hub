@@ -7,5 +7,5 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface SearchAllCommitsUseCase {
-    Optional<ArrayList<Commit>> execute(UUID repositoryID);
+    Optional<ArrayList<Commit>> execute(UUID id);
 }
