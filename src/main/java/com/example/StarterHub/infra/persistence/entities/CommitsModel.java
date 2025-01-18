@@ -1,10 +1,6 @@
 package com.example.StarterHub.infra.persistence.entities;
 
-import com.example.StarterHub.core.domain.Files;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
@@ -26,7 +22,7 @@ public class CommitsModel {
 
     @CreationTimestamp
     @Column(name = "creation_time")
-    private LocalDate creationTimeStamp;
+    private LocalDateTime creationTimeStamp;
 
     @OneToMany(mappedBy = "commitsModel")
     ArrayList<FilesModel> filesModel;
@@ -35,7 +31,7 @@ public class CommitsModel {
     @JoinColumn(name = "id_repository", referencedColumnName = "repository_id", nullable = false)
     private RepositoryModel repositoryModel;
 
-    public CommitsModel(UUID hash, String description, LocalDate creationTimeStamp, ArrayList<FilesModel> filesModel, RepositoryModel repositoryModel) {
+    public CommitsModel(UUID hash, String description, LocalDateTime creationTimeStamp, ArrayList<FilesModel> filesModel, RepositoryModel repositoryModel) {
         this.hash = hash;
         this.description = description;
         this.creationTimeStamp = creationTimeStamp;
@@ -59,11 +55,11 @@ public class CommitsModel {
         this.description = description;
     }
 
-    public LocalDate getCreationTimeStamp() {
+    public LocalDateTime getCreationTimeStamp() {
         return creationTimeStamp;
     }
 
-    public void setCreationTimeStamp(LocalDate creationTimeStamp) {
+    public void setCreationTimeStamp(LocalDateTime creationTimeStamp) {
         this.creationTimeStamp = creationTimeStamp;
     }
 
@@ -81,5 +77,16 @@ public class CommitsModel {
 
     public void setRepositoryModel(RepositoryModel repositoryModel) {
         this.repositoryModel = repositoryModel;
+    }
+
+    @Override
+    public String toString() {
+        return "CommitsModel{" +
+                "hash=" + hash +
+                ", description='" + description + '\'' +
+                ", creationTimeStamp=" + creationTimeStamp +
+                ", filesModel=" + filesModel +
+                ", repositoryModel=" + repositoryModel +
+                '}';
     }
 }

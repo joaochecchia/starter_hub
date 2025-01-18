@@ -6,6 +6,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface SearchAllCommitsUseCase {
+public interface FindAllCommitsUseCase {
     Optional<ArrayList<Commit>> execute(UUID id);
 }

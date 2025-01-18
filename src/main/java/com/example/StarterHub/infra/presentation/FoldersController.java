@@ -57,5 +57,4 @@ public class FoldersController {
 
         return ResponseEntity.ok(folder.get());
     }
-
 }

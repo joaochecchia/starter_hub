@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.UUID;
 
-public class SearchAllCommitsUseCaseImp implements SearchAllCommitsUseCase{
+public class FindAllCommitsUseCaseImp implements FindAllCommitsUseCase {
 
     private final CommitGateway commitGateway;
 
-    public SearchAllCommitsUseCaseImp(CommitGateway commitGateway) {
+    public FindAllCommitsUseCaseImp(CommitGateway commitGateway) {
         this.commitGateway = commitGateway;
     }
 
