@@ -14,7 +14,7 @@ public class PostFilesUseCaseImp implements PostFilesUseCase{
     }
 
     @Override
-    public Optional<Files> postFiles(Files files) {
+    public Optional<Files> execute(Files files) {
         return filesGatweay.postFile(files);
     }
 }

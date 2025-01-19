@@ -40,6 +40,10 @@ public class CommitsModel {
         this.repositoryModel = repositoryModel;
     }
 
+    public CommitsModel(UUID hash) {
+        this.hash = hash;
+    }
+
     public CommitsModel() {
     }
 

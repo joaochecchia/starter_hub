@@ -1,10 +1,8 @@
 package com.example.StarterHub.infra.persistence.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 @Entity
@@ -32,6 +30,9 @@ public class FilesModel {
         this.content = content;
         this.folderModel = folderModel;
         this.commitsModel = commitsModel;
+    }
+
+    public FilesModel() {
     }
 
     public UUID getId() {
@@ -64,5 +65,15 @@ public class FilesModel {
 
     public void setCommitsModel(CommitsModel commitsModel) {
         this.commitsModel = commitsModel;
+    }
+
+    @Override
+    public String toString() {
+        return "FilesModel{" +
+                "id=" + id +
+                ", content=" + Arrays.toString(content) +
+                ", folderModel=" + folderModel +
+                ", commitsModel=" + commitsModel +
+                '}';
     }
 }
