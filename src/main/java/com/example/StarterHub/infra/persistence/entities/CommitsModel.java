@@ -6,6 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,18 +26,21 @@ public class CommitsModel {
     private LocalDateTime creationTimeStamp;
 
     @OneToMany(mappedBy = "commitsModel")
-    ArrayList<FilesModel> filesModel;
+    List<FilesModel> filesModel;
 
     @ManyToOne
     @JoinColumn(name = "id_repository", referencedColumnName = "repository_id", nullable = false)
     private RepositoryModel repositoryModel;
 
-    public CommitsModel(UUID hash, String description, LocalDateTime creationTimeStamp, ArrayList<FilesModel> filesModel, RepositoryModel repositoryModel) {
+    public CommitsModel(UUID hash, String description, LocalDateTime creationTimeStamp, List<FilesModel> filesModel, RepositoryModel repositoryModel) {
         this.hash = hash;
         this.description = description;
         this.creationTimeStamp = creationTimeStamp;
         this.filesModel = filesModel;
         this.repositoryModel = repositoryModel;
+    }
+
+    public CommitsModel() {
     }
 
     public UUID getHash() {
@@ -63,11 +67,11 @@ public class CommitsModel {
         this.creationTimeStamp = creationTimeStamp;
     }
 
-    public ArrayList<FilesModel> getFilesModel() {
+    public List<FilesModel> getFilesModel() {
         return filesModel;
     }
 
-    public void setFilesModel(ArrayList<FilesModel> filesModel) {
+    public void setFilesModel(List<FilesModel> filesModel) {
         this.filesModel = filesModel;
     }
 

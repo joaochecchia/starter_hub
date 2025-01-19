@@ -3,6 +3,7 @@ package com.example.StarterHub.infra.presentation;
 import com.example.StarterHub.core.domain.Commit;
 import com.example.StarterHub.core.gateway.CommitGateway;
 import com.example.StarterHub.infra.persistence.repositories.CommitsRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,6 @@ public class CommitController {
 
     @PostMapping("/commit")
     public ResponseEntity<Commit> postCommit(@RequestBody Commit commit){
-        System.out.println("RESQUEST: " + commit.toString());
         Optional<Commit> newCommit = commitGateway.postCommit(commit);
 
         return ResponseEntity.ok(newCommit.get());
@@ -35,6 +35,7 @@ public class CommitController {
         return ResponseEntity.ok(findCommit.get());
     }
 
+    @Transactional
     @GetMapping("/findAll/{id}")
     public ResponseEntity<ArrayList<Commit>> findAllCommits(@PathVariable UUID id){
         Optional<ArrayList<Commit>> findAllCommits = commitGateway.findAllCommits(id);
