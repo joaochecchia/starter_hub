@@ -17,7 +17,7 @@ public class FindAllLinksByUserPropertiesIdUseCaseImp implements FindAllLinksByU
     }
 
     @Override
-    public Optional<List<Links>> execute(UUID id) {
+    public Optional<ArrayList<Links>> execute(UUID id) {
         return linksGateway.findAllLinksByUserPropertiesId(id);
     }
 

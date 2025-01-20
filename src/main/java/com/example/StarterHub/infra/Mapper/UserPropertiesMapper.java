@@ -1,9 +1,10 @@
 package com.example.StarterHub.infra.Mapper;
 
 import com.example.StarterHub.core.domain.*;
-import com.example.StarterHub.core.validation.EditRequest;
+import com.example.StarterHub.infra.requests.EditRequest;
 import com.example.StarterHub.infra.DTO.UserPropertiesDTO;
 import com.example.StarterHub.infra.persistence.entities.*;
+import com.example.StarterHub.infra.requests.CreateUserPropertiesRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,36 +25,32 @@ public class UserPropertiesMapper {
         this.repositoryMapper = repositoryMapper;
     }
 
-    public UserProperties toDomain(UserPropertiesDTO dto, UUID userId){
-        if(dto == null) return null;
 
-        Users user = new Users(
-                userId,
-                dto.userModel().getUsername(),
-                dto.userModel().getPassword(),
-                dto.userModel().getEmail(),
-                dto.userModel().getPhoneNumber()
-        );
+    public UserProperties toDomain(CreateUserPropertiesRequest request){
 
-        ArrayList<Links> linksDomain = dto.linksModel().stream()
-                .map(linksMapper::toDomain)
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        ArrayList<Repository> repositoriesDomain = dto.repositoryModels().stream()
-                .map(repositoryMapper::toDomain)
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        Address addressDomain = addressMapper.toDomain(dto.addressModel());
+        byte[] photo = null;
+        if(request.encodedPhoto() != null){
+            try{
+                photo = Base64.getDecoder().decode(request.encodedPhoto());
+            } catch (IllegalArgumentException e){
+            }
+        }
 
         return new UserProperties(
-                dto.id(),
-                dto.description(),
-                dto.photo(),
-                dto.company(),
-                linksDomain,
-                addressDomain,
-                repositoriesDomain,
-                user
+                null,
+                request.description(),
+                photo,
+                request.company(),
+                null,
+                null,
+                null,
+                new Users(
+                        request.usersId(),
+                        null,
+                        null,
+                        null,
+                        null
+                )
         );
     }
 
@@ -124,39 +121,6 @@ public class UserPropertiesMapper {
         return model;
     }
 
-    public UserPropertiesDTO toDTO(UserProperties domain){
-        if(domain == null) return null;
-
-        UserModel usersDTO = new UserModel(
-                domain.users().id(),
-                domain.users().username(),
-                domain.users().password(),
-                domain.users().email(),
-                domain.users().phone(),
-                null
-        );
-
-        ArrayList<LinkModel> linksModel = domain.links().stream()
-                .map(linksMapper::toEntity)
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        ArrayList<RepositoryModel> repositories = domain.repositories().stream()
-                .map(repositoryMapper::toEntity)
-                .collect(Collectors.toCollection(ArrayList::new));
-
-        AddressModel addressModel = addressMapper.toEntity(domain.address());
-
-        return new UserPropertiesDTO(
-                domain.id(),
-                domain.description(),
-                domain.photo(),
-                domain.company(),
-                usersDTO,
-                linksModel,
-                addressModel,
-                repositories
-        );
-    }
 
     public UserPropertiesModel toModel(EditRequest request){
         if(request == null) return null;

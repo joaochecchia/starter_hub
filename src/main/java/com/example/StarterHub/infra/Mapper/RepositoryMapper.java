@@ -7,6 +7,7 @@ import com.example.StarterHub.infra.persistence.entities.CommitsModel;
 import com.example.StarterHub.infra.persistence.entities.FolderModel;
 import com.example.StarterHub.infra.persistence.entities.RepositoryModel;
 import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
+import com.example.StarterHub.infra.requests.CreateRepositoryRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -43,6 +44,21 @@ public class RepositoryMapper {
                         domain.userPropertiesID()
                 )
         );
+    }
+
+    public Repository toDomain(CreateRepositoryRequest request){
+        return new Repository(
+                null,
+                request.name(),
+                request.repositoryDescription(),
+                request.visibility(),
+                null,
+                null,
+                null,
+                null,
+                request.userPropertiesID()
+        );
+
     }
 
     public Repository toDomain(RepositoryModel model){

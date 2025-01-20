@@ -4,7 +4,9 @@ import com.example.StarterHub.core.domain.Repository;
 import com.example.StarterHub.core.useCases.Links.*;
 import com.example.StarterHub.core.useCases.Repository.*;
 import com.example.StarterHub.infra.Mapper.RepositoryMapper;
+import com.example.StarterHub.infra.requests.CreateRepositoryRequest;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,10 +36,12 @@ public class RepositoryController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Repository> createRepository(@RequestBody Repository repository){
-        Optional<Repository> newRepository = postRepositoryUseCase.execute(repository);
+    public ResponseEntity<Repository> createRepository(@RequestBody CreateRepositoryRequest repository){
+        Optional<Repository> newRepository = postRepositoryUseCase.execute(mapper.toDomain(repository));
 
-        return ResponseEntity.ok(newRepository.get());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(newRepository.get());
     }
 
     @GetMapping("/search/{id}")

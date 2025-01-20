@@ -1,20 +1,17 @@
 package com.example.StarterHub.infra.presentation;
 
 import com.example.StarterHub.core.domain.Links;
-import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.core.useCases.Links.*;
-import com.example.StarterHub.core.useCases.User.SearchUsersUseCase;
-import com.example.StarterHub.infra.DTO.LinksDTO;
 import com.example.StarterHub.infra.Mapper.LinksMapper;
+import com.example.StarterHub.infra.requests.CreateLinksRequest;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/starter-hub/users/links")
@@ -36,10 +33,12 @@ public class LinksController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<LinksDTO> createLink(@RequestBody LinksDTO request){
+    public ResponseEntity<Links> createLink(@RequestBody CreateLinksRequest request){
         Optional<Links> newLink = postLinksUseCase.execute(mapper.toDomain(request));
 
-        return ResponseEntity.ok(mapper.toDTO(newLink.get()));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(newLink.get());
     }
 
     @GetMapping("/search/{id}")
@@ -52,9 +51,9 @@ public class LinksController {
     @Transactional
     @GetMapping("/findAll/{id}")
     public ResponseEntity<ArrayList<Links>> findAllByUserPropertiesID(@PathVariable UUID id){
-        Optional<List<Links>> allLinks = findAllLinksByUserPropertiesIdUseCase.execute(id);
+        Optional<ArrayList<Links>> allLinks = findAllLinksByUserPropertiesIdUseCase.execute(id);
 
-        return ResponseEntity.ok(allLinks.get().stream().collect(Collectors.toCollection(ArrayList::new)));
+        return ResponseEntity.ok(allLinks.get());
     }
 
     @PutMapping("/edit/{id}")

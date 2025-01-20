@@ -2,6 +2,8 @@ package com.example.StarterHub.infra.presentation;
 
 import com.example.StarterHub.core.domain.Folder;
 import com.example.StarterHub.core.useCases.Folder.*;
+import com.example.StarterHub.infra.Mapper.FolderMapper;
+import com.example.StarterHub.infra.requests.CreateFolderRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,20 +20,22 @@ public class FoldersController {
     public final FindAllFoldersUseCase findAllFoldersUseCase;
     public final EditFolderUseCase editFolderUseCase;
     public final DeleteFolderUseCase deleteFolderUseCase;
+    public final FolderMapper mapper;
 
-    public FoldersController(PostFolderUseCase postFolderUseCase, SearchFolderUseCase searchFolderUseCase, FindAllFoldersUseCase findAllFoldersUseCase, EditFolderUseCase editFolderUseCase, DeleteFolderUseCase deleteFolderUseCase) {
+    public FoldersController(PostFolderUseCase postFolderUseCase, SearchFolderUseCase searchFolderUseCase, FindAllFoldersUseCase findAllFoldersUseCase, EditFolderUseCase editFolderUseCase, DeleteFolderUseCase deleteFolderUseCase, FolderMapper mapper) {
         this.postFolderUseCase = postFolderUseCase;
         this.searchFolderUseCase = searchFolderUseCase;
         this.findAllFoldersUseCase = findAllFoldersUseCase;
         this.editFolderUseCase = editFolderUseCase;
         this.deleteFolderUseCase = deleteFolderUseCase;
+        this.mapper = mapper;
     }
 
     @Transactional
     @PostMapping("/insert")
-    public ResponseEntity<Folder> postFolder(@RequestBody Folder request){
+    public ResponseEntity<Folder> postFolder(@RequestBody CreateFolderRequest request){
         System.out.println("NO REQUEST: " + request.toString());
-        Optional<Folder> newFolder = postFolderUseCase.execute(request);
+        Optional<Folder> newFolder = postFolderUseCase.execute(mapper.toDomain(request));
 
         return ResponseEntity.ok(newFolder.get());
     }

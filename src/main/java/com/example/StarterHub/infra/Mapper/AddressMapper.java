@@ -4,6 +4,7 @@ import com.example.StarterHub.core.domain.Address;
 import com.example.StarterHub.infra.DTO.AddressDTO;
 import com.example.StarterHub.infra.persistence.entities.AddressModel;
 import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
+import com.example.StarterHub.infra.requests.CreateAddressRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,6 +17,16 @@ public class AddressMapper {
                 dto.postalCode(),
                 dto.location(),
                 dto.userPropertiesModel().getId()
+        );
+    }
+
+    public Address toDomain(CreateAddressRequest request){
+        return new Address(
+                null,
+                request.country(),
+                request.postalCode(),
+                request.location(),
+                request.userPropertiesID()
         );
     }
 

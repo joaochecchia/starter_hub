@@ -3,6 +3,7 @@ package com.example.StarterHub.infra.Mapper;
 import com.example.StarterHub.core.domain.Commit;
 import com.example.StarterHub.infra.persistence.entities.CommitsModel;
 import com.example.StarterHub.infra.persistence.entities.RepositoryModel;
+import com.example.StarterHub.infra.requests.CreateCommitRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,6 +17,16 @@ public class CommitMapper {
                 new RepositoryModel(
                         domain.repositoryId()
                 )
+        );
+    }
+
+    public Commit toDomain(CreateCommitRequest request){
+        return new Commit(
+                null,
+                request.description(),
+                null,
+                null,
+                request.repositoryId()
         );
     }
 

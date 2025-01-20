@@ -1,4 +1,4 @@
-package com.example.StarterHub.core.validation;
+package com.example.StarterHub.infra.requests;
 
 import com.example.StarterHub.core.domain.Address;
 import com.example.StarterHub.core.domain.Links;

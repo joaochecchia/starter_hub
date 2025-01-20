@@ -2,7 +2,7 @@ package com.example.StarterHub.infra.gateway;
 
 import com.example.StarterHub.core.domain.UserProperties;
 import com.example.StarterHub.core.gateway.UserPropertiesGateway;
-import com.example.StarterHub.core.validation.EditRequest;
+import com.example.StarterHub.infra.requests.EditRequest;
 import com.example.StarterHub.infra.Mapper.UserPropertiesMapper;
 import com.example.StarterHub.infra.Mapper.UsersMapper;
 import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;

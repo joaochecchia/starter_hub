@@ -2,7 +2,9 @@ package com.example.StarterHub.infra.presentation;
 
 import com.example.StarterHub.core.domain.Commit;
 import com.example.StarterHub.core.gateway.CommitGateway;
+import com.example.StarterHub.infra.Mapper.CommitMapper;
 import com.example.StarterHub.infra.persistence.repositories.CommitsRepository;
+import com.example.StarterHub.infra.requests.CreateCommitRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +18,16 @@ import java.util.UUID;
 public class CommitController {
 
     private final CommitGateway commitGateway;
+    private final CommitMapper mapper;
 
-    public CommitController(CommitGateway commitGateway) {
+    public CommitController(CommitGateway commitGateway, CommitMapper mapper) {
         this.commitGateway = commitGateway;
+        this.mapper = mapper;
     }
 
     @PostMapping("/commit")
-    public ResponseEntity<Commit> postCommit(@RequestBody Commit commit){
-        Optional<Commit> newCommit = commitGateway.postCommit(commit);
+    public ResponseEntity<Commit> postCommit(@RequestBody CreateCommitRequest request){
+        Optional<Commit> newCommit = commitGateway.postCommit(mapper.toDomain(request));
 
         return ResponseEntity.ok(newCommit.get());
     }

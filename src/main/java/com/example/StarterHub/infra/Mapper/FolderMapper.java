@@ -5,6 +5,7 @@ import com.example.StarterHub.core.domain.Folder;
 import com.example.StarterHub.infra.persistence.entities.FilesModel;
 import com.example.StarterHub.infra.persistence.entities.FolderModel;
 import com.example.StarterHub.infra.persistence.entities.RepositoryModel;
+import com.example.StarterHub.infra.requests.CreateFolderRequest;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
@@ -24,6 +25,17 @@ public class FolderMapper {
                 null,
                 null,
                 entity.getRepository() != null ? entity.getRepository().getId() : null
+        );
+    }
+
+    public Folder toDomain(CreateFolderRequest request){
+        return new Folder(
+                null,
+                request.name(),
+                request.fatherID() != null ? request.fatherID() : null,
+                null,
+                null,
+                request.repositoryId()
         );
     }
 

@@ -5,7 +5,9 @@ import com.example.StarterHub.core.useCases.User.*;
 import com.example.StarterHub.infra.DTO.UsersDTO;
 
 import com.example.StarterHub.infra.Mapper.UsersMapper;
+import com.example.StarterHub.infra.requests.CreateUserRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -35,9 +37,11 @@ public class UsersController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UsersDTO> registerUsers(@RequestBody UsersDTO dto){
-        Optional<Users> newUser = registerUsersUseCase.execute(mapper.toDomain(dto));
+    public ResponseEntity<Users> registerUsers(@RequestBody CreateUserRequest request){
+        Optional<Users> newUser = registerUsersUseCase.execute(mapper.toDomain(request));
 
-        return ResponseEntity.ok(mapper.toDTO(newUser.get()));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(newUser.get());
     }
 }

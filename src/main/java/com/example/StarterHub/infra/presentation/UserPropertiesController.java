@@ -1,11 +1,13 @@
 package com.example.StarterHub.infra.presentation;
 
 import com.example.StarterHub.core.domain.UserProperties;
-import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.core.useCases.UserProperties.*;
-import com.example.StarterHub.core.validation.EditRequest;
+import com.example.StarterHub.infra.requests.EditRequest;
 import com.example.StarterHub.infra.DTO.UserPropertiesDTO;
 import com.example.StarterHub.infra.Mapper.UserPropertiesMapper;
+import com.example.StarterHub.infra.requests.CreateUserPropertiesRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,24 +33,26 @@ public class UserPropertiesController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<UserPropertiesDTO> createUserProperties(@RequestBody UserPropertiesDTO request){
-        Optional<UserProperties> newUserProperties = postUserPropertiesUseCase.execute(mapper.toDomain(request, request.userModel().getId()));
+    public ResponseEntity<UserProperties> createUserProperties(@RequestBody CreateUserPropertiesRequest request){
+        Optional<UserProperties> newUserProperties = postUserPropertiesUseCase.execute(mapper.toDomain(request));
 
-        return ResponseEntity.ok(mapper.toDTO(newUserProperties.get()));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(newUserProperties.get());
     }
 
     @GetMapping("/search/{id}")
-    public ResponseEntity<UserPropertiesDTO> searchUserProperties(@PathVariable UUID id){
+    public ResponseEntity<UserProperties> searchUserProperties(@PathVariable UUID id){
         Optional<UserProperties> newUserProperties = searchUserPropertiesUseCase.execute(id);
 
-        return ResponseEntity.ok(mapper.toDTO(newUserProperties.get()));
+        return ResponseEntity.ok(newUserProperties.get());
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<UserPropertiesDTO> editUserProperties(@PathVariable UUID id, @RequestBody EditRequest editRequest){
+    public ResponseEntity<UserProperties> editUserProperties(@PathVariable UUID id, @RequestBody EditRequest editRequest){
         Optional<UserProperties> updatedUserProperties = editUserPropertiesUseCase.execute(id, editRequest);
 
-        return ResponseEntity.ok(mapper.toDTO(updatedUserProperties.get()));
+        return ResponseEntity.ok(updatedUserProperties.get());
     }
 
     @DeleteMapping("/delete/{id}")

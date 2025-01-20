@@ -4,17 +4,19 @@ import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.infra.DTO.UserPropertiesDTO;
 import com.example.StarterHub.infra.DTO.UsersDTO;
 import com.example.StarterHub.infra.persistence.entities.UserModel;
+import com.example.StarterHub.infra.requests.CreateUserRequest;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UsersMapper {
-    public Users toDomain(UsersDTO dto){
+
+    public Users toDomain(CreateUserRequest request){
         return new Users(
-                dto.id(),
-                dto.username(),
-                dto.password(),
-                dto.email(),
-                dto.phone()
+                null,
+                request.username(),
+                request.email(),
+                request.password(),
+                request.phone()
         );
     }
 
@@ -35,17 +37,6 @@ public class UsersMapper {
                 domain.password(),
                 domain.email(),
                 domain.email(),
-                null
-        );
-    }
-
-    public UsersDTO toDTO(Users domain){
-        return new UsersDTO(
-                domain.id(),
-                domain.username(),
-                domain.password(),
-                domain.email(),
-                domain.phone(),
                 null
         );
     }
