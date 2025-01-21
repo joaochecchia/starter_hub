@@ -7,6 +7,8 @@ import com.example.StarterHub.infra.persistence.entities.LinkModel;
 import com.example.StarterHub.infra.persistence.repositories.LinkRepository;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -32,13 +34,12 @@ public class LinksRepositoryGateway implements LinksGateway {
     }
 
     @Override
-    public Optional<List<Links>> findAllLinksByUserPropertiesId(UUID id) {
-        return linkRepository.findAllByUserPropertiesModelId(id)
-                .map(linkModels ->
-                        linkModels.stream()
-                                .map(mapper::toDomain)
-                                .collect(Collectors.toList())
-                );
+    public Optional<ArrayList<Links>> findAllLinksByUserPropertiesId(UUID id) {
+        Optional<ArrayList<LinkModel>> links = linkRepository.findAllByUserPropertiesModelId(id);
+
+        return Optional.of(links.get().stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toCollection(ArrayList::new)));
     }
 
 

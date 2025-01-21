@@ -41,9 +41,9 @@ public class UserPropertiesMapper {
                 request.description(),
                 photo,
                 request.company(),
+                new ArrayList<>(),
                 null,
-                null,
-                null,
+                new ArrayList<>(),
                 new Users(
                         request.usersId(),
                         null,
@@ -65,15 +65,18 @@ public class UserPropertiesMapper {
                 model.getUserModel().getPhoneNumber()
         );
 
-        ArrayList<Links> linksDomain = model.getLinkModel().stream()
-                .map(linksMapper::toDomain)
-                .collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<Links> linksDomain = model.getLinkModel() == null ? new ArrayList<>() :
+                model.getLinkModel().stream()
+                        .map(linksMapper::toDomain)
+                        .collect(Collectors.toCollection(ArrayList::new));
 
-        ArrayList<Repository> repositories = model.getRepositoryModel().stream()
-                .map(repositoryMapper::toDomain)
-                .collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<Repository> repositories = model.getRepositoryModel() == null ? new ArrayList<>() :
+                model.getRepositoryModel().stream()
+                        .map(repositoryMapper::toDomain)
+                        .collect(Collectors.toCollection(ArrayList::new));
 
-        Address addressDomain = addressMapper.toDomain(model.getAddressModel());
+        Address addressDomain = model.getAddressModel() == null ? null :
+                addressMapper.toDomain(model.getAddressModel());
 
         return new UserProperties(
                 model.getId(),
@@ -106,7 +109,8 @@ public class UserPropertiesMapper {
                 .map(repositoryMapper::toEntity)
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        AddressModel addressModel = addressMapper.toEntity(domain.address());
+        AddressModel addressModel = domain.address() == null ? null :
+                addressMapper.toEntity(domain.address());
 
         UserPropertiesModel model = new UserPropertiesModel();
         model.setId(domain.id());

@@ -3,11 +3,10 @@ package com.example.StarterHub.infra.presentation;
 import com.example.StarterHub.core.domain.UserProperties;
 import com.example.StarterHub.core.useCases.UserProperties.*;
 import com.example.StarterHub.infra.requests.EditRequest;
-import com.example.StarterHub.infra.DTO.UserPropertiesDTO;
 import com.example.StarterHub.infra.Mapper.UserPropertiesMapper;
 import com.example.StarterHub.infra.requests.CreateUserPropertiesRequest;
+import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,8 +31,11 @@ public class UserPropertiesController {
         this.mapper = mapper;
     }
 
+    @Transactional
     @PostMapping("/create")
     public ResponseEntity<UserProperties> createUserProperties(@RequestBody CreateUserPropertiesRequest request){
+        System.out.println("REQUEST: " + request.toString());
+        System.out.println("DOMAIN" + mapper.toDomain(request).toString());
         Optional<UserProperties> newUserProperties = postUserPropertiesUseCase.execute(mapper.toDomain(request));
 
         return ResponseEntity

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class FolderMapper {
@@ -18,12 +19,17 @@ public class FolderMapper {
         if (entity == null) {
             return null;
         }
+
+        ArrayList<Folder> children = entity.getChildren() == null ? null : entity.getChildren().stream()
+                .map(this::toDomain)
+                .collect(Collectors.toCollection(ArrayList::new));
+
         return new Folder(
                 entity.getId(),
                 entity.getName(),
                 entity.getFather() != null ? entity.getFather().getId() : null,
                 null,
-                null,
+                children,
                 entity.getRepository() != null ? entity.getRepository().getId() : null
         );
     }

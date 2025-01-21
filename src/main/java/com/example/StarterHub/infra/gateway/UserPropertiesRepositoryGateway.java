@@ -27,6 +27,7 @@ public class UserPropertiesRepositoryGateway implements UserPropertiesGateway {
 
     @Override
     public Optional<UserProperties> postUserProperties(UserProperties userProperties) {
+        System.out.println("ENTITY: " + mapper.toEntity(userProperties).toString());
         UserPropertiesModel newUserProperties = userPropertiesRepository.save(mapper.toEntity(userProperties));
 
         return Optional.of(mapper.toDomain(newUserProperties, newUserProperties.getUserModel().getId()));

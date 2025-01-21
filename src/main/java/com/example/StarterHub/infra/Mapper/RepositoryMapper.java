@@ -25,9 +25,9 @@ public class RepositoryMapper {
     }
 
     public RepositoryModel toEntity(Repository domain){
-        FolderModel rootModel = folderMapper.toEntity(domain.root());
+        FolderModel rootModel = domain.root() == null ? null : folderMapper.toEntity(domain.root());
 
-        ArrayList<CommitsModel> commitsModel = domain.commits().stream()
+        ArrayList<CommitsModel> commitsModel = domain.commits() == null ? null : domain.commits().stream()
                 .map(commitMapper::toEntity)
                 .collect(Collectors.toCollection(ArrayList::new));
 
@@ -54,7 +54,7 @@ public class RepositoryMapper {
                 request.visibility(),
                 null,
                 null,
-                null,
+                new ArrayList<>(),
                 null,
                 request.userPropertiesID()
         );
@@ -64,7 +64,7 @@ public class RepositoryMapper {
     public Repository toDomain(RepositoryModel model){
         Folder rootDomain = folderMapper.toDomain(model.getRoot());
 
-        ArrayList<Commit> commitsDomain = model.getCommitsModel().stream()
+        ArrayList<Commit> commitsDomain = model.getCommitsModel() == null ? null : model.getCommitsModel().stream()
                 .map(commitMapper::toDomain)
                 .collect(Collectors.toCollection(ArrayList::new));
 

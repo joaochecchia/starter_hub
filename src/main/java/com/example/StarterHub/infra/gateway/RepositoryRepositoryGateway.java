@@ -25,6 +25,7 @@ public class RepositoryRepositoryGateway implements RepositoryGateway {
 
     @Override
     public Optional<Repository> postRepository(Repository repository) {
+        System.out.println("MODEL: " + mapper.toEntity(repository).toString());
         RepositoryModel newRepository = repositoryRepository.save(mapper.toEntity(repository));
 
         return Optional.of(mapper.toDomain(newRepository));
