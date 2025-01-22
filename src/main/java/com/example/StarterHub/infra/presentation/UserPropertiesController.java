@@ -6,6 +6,7 @@ import com.example.StarterHub.infra.requests.EditRequest;
 import com.example.StarterHub.infra.Mapper.UserPropertiesMapper;
 import com.example.StarterHub.infra.requests.create.CreateUserPropertiesRequest;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,12 +33,12 @@ public class UserPropertiesController {
 
     @Transactional
     @PostMapping("/create")
-    public ResponseEntity<Map<String, Object>> createUserProperties(@RequestBody CreateUserPropertiesRequest request){
+    public ResponseEntity<Map<String, Object>> createUserProperties(@Valid @RequestBody CreateUserPropertiesRequest request){
         Optional<UserProperties> newUserProperties = postUserPropertiesUseCase.execute(mapper.toDomain(request));
 
         Map<String, Object> response = new HashMap<>();
-        response.put("Message", "Profile details successfully saved!");
-        response.put("Body", newUserProperties.get());
+        response.put("Message: ", "Profile details successfully saved!");
+        response.put("Body: ", newUserProperties.get());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
@@ -45,17 +46,25 @@ public class UserPropertiesController {
     }
 
     @GetMapping("/search/{id}")
-    public ResponseEntity<UserProperties> searchUserProperties(@PathVariable UUID id){
-        Optional<UserProperties> newUserProperties = searchUserPropertiesUseCase.execute(id);
+    public ResponseEntity<Map<String, Object>> searchUserProperties(@PathVariable UUID id){
+        Optional<UserProperties> UserProperties = searchUserPropertiesUseCase.execute(id);
 
-        return ResponseEntity.ok(newUserProperties.get());
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "User specs found.");
+        response.put("Body: ", UserProperties.get());
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<UserProperties> editUserProperties(@PathVariable UUID id, @RequestBody EditRequest editRequest){
+    public ResponseEntity<Map<String, Object>> editUserProperties(@PathVariable UUID id, @RequestBody EditRequest editRequest){
         Optional<UserProperties> updatedUserProperties = editUserPropertiesUseCase.execute(id, editRequest);
 
-        return ResponseEntity.ok(updatedUserProperties.get());
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "User specs successfully saved.");
+        response.put("Body: ", updatedUserProperties);
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{id}")

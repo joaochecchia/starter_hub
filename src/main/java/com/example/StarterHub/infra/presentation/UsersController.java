@@ -40,9 +40,6 @@ public class UsersController {
 
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> registerUsers(@Valid @RequestBody CreateUserRequest request){
-        System.out.println("Esse é meu request " + request.toString());
-        System.out.println(mapper.toDomain(request).toString());
-        System.out.println(mapper.toEntity(mapper.toDomain(request)).toString());
         Optional<Users> newUser = registerUsersUseCase.execute(mapper.toDomain(request));
 
         Map<String, Object> response = new HashMap<>();

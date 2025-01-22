@@ -3,12 +3,9 @@ package com.example.StarterHub.core.useCases.User;
 import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.core.gateway.UsersGateway;
 import com.example.StarterHub.infra.exeptions.CredentialsAreadyExistsExceptions;
-import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
 
 public class RegisterUsersUseCaseImp implements RegisterUsersUseCase{
 

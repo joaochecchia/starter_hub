@@ -2,6 +2,8 @@ package com.example.StarterHub.infra.gateway;
 
 import com.example.StarterHub.core.domain.UserProperties;
 import com.example.StarterHub.core.gateway.UserPropertiesGateway;
+import com.example.StarterHub.infra.exeptions.NotFoundObjectByIdentifierException;
+import com.example.StarterHub.infra.persistence.repositories.UserRepository;
 import com.example.StarterHub.infra.requests.EditRequest;
 import com.example.StarterHub.infra.Mapper.UserPropertiesMapper;
 import com.example.StarterHub.infra.Mapper.UsersMapper;
@@ -16,18 +18,22 @@ import java.util.UUID;
 public class UserPropertiesRepositoryGateway implements UserPropertiesGateway {
 
     private final UserPropertiesRepository userPropertiesRepository;
+    private final UserRepository userRepository;
     private final UserPropertiesMapper mapper;
     private final UsersMapper usersMapper;
 
-    public UserPropertiesRepositoryGateway(UserPropertiesRepository userPropertiesRepository, UserPropertiesMapper userPropertiesMapper, UsersMapper usersMapper) {
+    public UserPropertiesRepositoryGateway(UserPropertiesRepository userPropertiesRepository, UserRepository userRepository, UserPropertiesMapper userPropertiesMapper, UsersMapper usersMapper) {
         this.userPropertiesRepository = userPropertiesRepository;
+        this.userRepository = userRepository;
         this.mapper = userPropertiesMapper;
         this.usersMapper = usersMapper;
     }
 
     @Override
     public Optional<UserProperties> postUserProperties(UserProperties userProperties) {
-        System.out.println("ENTITY: " + mapper.toEntity(userProperties).toString());
+        if(userRepository.findById(userProperties.users().id()).isEmpty()){
+            throw new NotFoundObjectByIdentifierException("Don't have any user with " + userProperties.users().id() + " ID.");
+        }
         UserPropertiesModel newUserProperties = userPropertiesRepository.save(mapper.toEntity(userProperties));
 
         return Optional.of(mapper.toDomain(newUserProperties, newUserProperties.getUserModel().getId()));
@@ -36,6 +42,7 @@ public class UserPropertiesRepositoryGateway implements UserPropertiesGateway {
     @Override
     public Optional<UserProperties> searchUserProperties(UUID id) {
         Optional<UserPropertiesModel> user = userPropertiesRepository.findById(id);
+        if(user.isEmpty()) throw new NotFoundObjectByIdentifierException("Object with " + id + "Not found");
 
         return Optional.of(mapper.toDomain(user.get(), user.get().getUserModel().getId()));
     }
@@ -52,7 +59,7 @@ public class UserPropertiesRepositoryGateway implements UserPropertiesGateway {
             return Optional.of(mapper.toDomain(edit, edit.getUserModel().getId()));
         }
 
-        return Optional.empty();
+        throw new NotFoundObjectByIdentifierException("Object with " + id + "Not found");
     }
 
     @Override
@@ -65,6 +72,6 @@ public class UserPropertiesRepositoryGateway implements UserPropertiesGateway {
             return "Usuário deletado com sucesso";
         }
 
-        return "Usuário não encontrado";
+        throw new NotFoundObjectByIdentifierException("Object with " + id + "Not found");
     }
 }
