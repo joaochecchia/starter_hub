@@ -1,16 +1,12 @@
 package com.example.StarterHub.infra.Mapper;
 
-import com.example.StarterHub.core.domain.Files;
 import com.example.StarterHub.core.domain.Folder;
-import com.example.StarterHub.infra.persistence.entities.FilesModel;
 import com.example.StarterHub.infra.persistence.entities.FolderModel;
 import com.example.StarterHub.infra.persistence.entities.RepositoryModel;
-import com.example.StarterHub.infra.requests.CreateFolderRequest;
-import jakarta.persistence.*;
+import com.example.StarterHub.infra.requests.create.CreateFolderRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component

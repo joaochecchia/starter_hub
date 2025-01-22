@@ -4,7 +4,7 @@ import com.example.StarterHub.core.domain.Address;
 import com.example.StarterHub.infra.DTO.AddressDTO;
 import com.example.StarterHub.infra.persistence.entities.AddressModel;
 import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
-import com.example.StarterHub.infra.requests.CreateAddressRequest;
+import com.example.StarterHub.infra.requests.create.CreateAddressRequest;
 import org.springframework.stereotype.Component;
 
 @Component

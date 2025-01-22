@@ -1,4 +1,4 @@
-package com.example.StarterHub.infra.requests;
+package com.example.StarterHub.infra.requests.create;
 
 import com.example.StarterHub.core.Enums.Visibility;
 import com.example.StarterHub.core.domain.Folder;

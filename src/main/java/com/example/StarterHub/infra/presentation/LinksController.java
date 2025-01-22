@@ -3,7 +3,7 @@ package com.example.StarterHub.infra.presentation;
 import com.example.StarterHub.core.domain.Links;
 import com.example.StarterHub.core.useCases.Links.*;
 import com.example.StarterHub.infra.Mapper.LinksMapper;
-import com.example.StarterHub.infra.requests.CreateLinksRequest;
+import com.example.StarterHub.infra.requests.create.CreateLinksRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

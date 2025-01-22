@@ -3,7 +3,7 @@ package com.example.StarterHub.infra.presentation;
 import com.example.StarterHub.core.domain.Folder;
 import com.example.StarterHub.core.useCases.Folder.*;
 import com.example.StarterHub.infra.Mapper.FolderMapper;
-import com.example.StarterHub.infra.requests.CreateFolderRequest;
+import com.example.StarterHub.infra.requests.create.CreateFolderRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

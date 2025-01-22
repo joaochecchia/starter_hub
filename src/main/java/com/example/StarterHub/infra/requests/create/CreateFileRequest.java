@@ -1,4 +1,4 @@
-package com.example.StarterHub.infra.requests;
+package com.example.StarterHub.infra.requests.create;
 
 import jakarta.validation.constraints.NotEmpty;
 

@@ -1,6 +1,5 @@
-package com.example.StarterHub.infra.requests;
+package com.example.StarterHub.infra.requests.create;
 
-import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
 import jakarta.validation.constraints.NotEmpty;
 
 import java.util.UUID;

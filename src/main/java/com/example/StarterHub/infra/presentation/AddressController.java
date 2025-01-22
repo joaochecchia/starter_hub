@@ -7,7 +7,7 @@ import com.example.StarterHub.core.useCases.Address.PostAddressUseCase;
 import com.example.StarterHub.core.useCases.Address.SearchAddressUseCase;
 import com.example.StarterHub.infra.DTO.AddressDTO;
 import com.example.StarterHub.infra.Mapper.AddressMapper;
-import com.example.StarterHub.infra.requests.CreateAddressRequest;
+import com.example.StarterHub.infra.requests.create.CreateAddressRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

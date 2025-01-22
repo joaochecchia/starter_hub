@@ -1,10 +1,8 @@
 package com.example.StarterHub.infra.Mapper;
 
 import com.example.StarterHub.core.domain.Users;
-import com.example.StarterHub.infra.DTO.UserPropertiesDTO;
-import com.example.StarterHub.infra.DTO.UsersDTO;
 import com.example.StarterHub.infra.persistence.entities.UserModel;
-import com.example.StarterHub.infra.requests.CreateUserRequest;
+import com.example.StarterHub.infra.requests.create.CreateUserRequest;
 import org.springframework.stereotype.Component;
 
 @Component

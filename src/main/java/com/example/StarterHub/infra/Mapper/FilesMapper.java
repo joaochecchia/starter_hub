@@ -4,7 +4,7 @@ import com.example.StarterHub.core.domain.Files;
 import com.example.StarterHub.infra.persistence.entities.CommitsModel;
 import com.example.StarterHub.infra.persistence.entities.FilesModel;
 import com.example.StarterHub.infra.persistence.entities.FolderModel;
-import com.example.StarterHub.infra.requests.CreateFileRequest;
+import com.example.StarterHub.infra.requests.create.CreateFileRequest;
 import org.springframework.stereotype.Component;
 
 @Component

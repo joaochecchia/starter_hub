@@ -4,14 +4,13 @@ import com.example.StarterHub.core.domain.UserProperties;
 import com.example.StarterHub.core.useCases.UserProperties.*;
 import com.example.StarterHub.infra.requests.EditRequest;
 import com.example.StarterHub.infra.Mapper.UserPropertiesMapper;
-import com.example.StarterHub.infra.requests.CreateUserPropertiesRequest;
+import com.example.StarterHub.infra.requests.create.CreateUserPropertiesRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/starter-hub/users")
@@ -33,14 +32,16 @@ public class UserPropertiesController {
 
     @Transactional
     @PostMapping("/create")
-    public ResponseEntity<UserProperties> createUserProperties(@RequestBody CreateUserPropertiesRequest request){
-        System.out.println("REQUEST: " + request.toString());
-        System.out.println("DOMAIN" + mapper.toDomain(request).toString());
+    public ResponseEntity<Map<String, Object>> createUserProperties(@RequestBody CreateUserPropertiesRequest request){
         Optional<UserProperties> newUserProperties = postUserPropertiesUseCase.execute(mapper.toDomain(request));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message", "Profile details successfully saved!");
+        response.put("Body", newUserProperties.get());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(newUserProperties.get());
+                .body(response);
     }
 
     @GetMapping("/search/{id}")

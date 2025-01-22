@@ -2,9 +2,8 @@ package com.example.StarterHub.infra.Mapper;
 
 import com.example.StarterHub.core.domain.*;
 import com.example.StarterHub.infra.requests.EditRequest;
-import com.example.StarterHub.infra.DTO.UserPropertiesDTO;
 import com.example.StarterHub.infra.persistence.entities.*;
-import com.example.StarterHub.infra.requests.CreateUserPropertiesRequest;
+import com.example.StarterHub.infra.requests.create.CreateUserPropertiesRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

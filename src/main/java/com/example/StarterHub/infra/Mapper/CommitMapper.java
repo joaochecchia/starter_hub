@@ -3,7 +3,7 @@ package com.example.StarterHub.infra.Mapper;
 import com.example.StarterHub.core.domain.Commit;
 import com.example.StarterHub.infra.persistence.entities.CommitsModel;
 import com.example.StarterHub.infra.persistence.entities.RepositoryModel;
-import com.example.StarterHub.infra.requests.CreateCommitRequest;
+import com.example.StarterHub.infra.requests.create.CreateCommitRequest;
 import org.springframework.stereotype.Component;
 
 @Component

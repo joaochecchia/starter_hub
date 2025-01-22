@@ -3,7 +3,7 @@ package com.example.StarterHub.infra.presentation;
 import com.example.StarterHub.core.domain.Repository;
 import com.example.StarterHub.core.useCases.Repository.*;
 import com.example.StarterHub.infra.Mapper.RepositoryMapper;
-import com.example.StarterHub.infra.requests.CreateRepositoryRequest;
+import com.example.StarterHub.infra.requests.create.CreateRepositoryRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

@@ -7,7 +7,7 @@ import com.example.StarterHub.infra.persistence.entities.CommitsModel;
 import com.example.StarterHub.infra.persistence.entities.FolderModel;
 import com.example.StarterHub.infra.persistence.entities.RepositoryModel;
 import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
-import com.example.StarterHub.infra.requests.CreateRepositoryRequest;
+import com.example.StarterHub.infra.requests.create.CreateRepositoryRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

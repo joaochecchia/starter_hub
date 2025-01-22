@@ -4,7 +4,7 @@ import com.example.StarterHub.core.domain.Links;
 import com.example.StarterHub.infra.DTO.LinksDTO;
 import com.example.StarterHub.infra.persistence.entities.LinkModel;
 import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
-import com.example.StarterHub.infra.requests.CreateLinksRequest;
+import com.example.StarterHub.infra.requests.create.CreateLinksRequest;
 import org.springframework.stereotype.Component;
 
 @Component
