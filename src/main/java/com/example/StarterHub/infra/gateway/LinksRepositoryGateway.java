@@ -3,13 +3,15 @@ package com.example.StarterHub.infra.gateway;
 import com.example.StarterHub.core.domain.Links;
 import com.example.StarterHub.core.gateway.LinksGateway;
 import com.example.StarterHub.infra.Mapper.LinksMapper;
+import com.example.StarterHub.infra.exeptions.NotFoundObjectByIdentifierException;
 import com.example.StarterHub.infra.persistence.entities.LinkModel;
+import com.example.StarterHub.infra.persistence.entities.UserModel;
 import com.example.StarterHub.infra.persistence.repositories.LinkRepository;
+import com.example.StarterHub.infra.persistence.repositories.UserPropertiesRepository;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -18,17 +20,21 @@ import java.util.stream.Collectors;
 public class LinksRepositoryGateway implements LinksGateway {
 
     private final LinkRepository linkRepository;
+    private final UserPropertiesRepository userPropertiesRepository;
     private final LinksMapper mapper;
 
-    public LinksRepositoryGateway(LinkRepository linkRepository, LinksMapper mapper) {
+    public LinksRepositoryGateway(LinkRepository linkRepository, UserPropertiesRepository userPropertiesRepository, LinksMapper mapper) {
         this.linkRepository = linkRepository;
+        this.userPropertiesRepository = userPropertiesRepository;
         this.mapper = mapper;
     }
 
     @Override
     public Optional<Links> postLinks(Links links) {
-        LinkModel a  = mapper.toEntity(links);
-        LinkModel link = linkRepository.save(a);
+        if(userPropertiesRepository.findById(links.userPropertiesID()).isEmpty()){
+            throw new NotFoundObjectByIdentifierException("Don't have any user specs " + links.userPropertiesID() + " with this id.");
+        }
+        LinkModel link = linkRepository.save(mapper.toEntity(links));
 
         return Optional.of(mapper.toDomain(link));
     }
@@ -36,6 +42,8 @@ public class LinksRepositoryGateway implements LinksGateway {
     @Override
     public Optional<ArrayList<Links>> findAllLinksByUserPropertiesId(UUID id) {
         Optional<ArrayList<LinkModel>> links = linkRepository.findAllByUserPropertiesModelId(id);
+
+        if(links.get().isEmpty()) throw new NotFoundObjectByIdentifierException("Don't have any link for this  user");
 
         return Optional.of(links.get().stream()
                 .map(mapper::toDomain)
@@ -46,6 +54,7 @@ public class LinksRepositoryGateway implements LinksGateway {
     @Override
     public Optional<Links> searchLinks(UUID id) {
         Optional<LinkModel> link = linkRepository.findById(id);
+        if(link.isEmpty()) throw new NotFoundObjectByIdentifierException("Link with " + id + "doesn't exist.");
 
         return Optional.of(mapper.toDomain(link.get()));
     }
@@ -62,7 +71,7 @@ public class LinksRepositoryGateway implements LinksGateway {
             return Optional.of(mapper.toDomain(updatedLink));
         }
 
-        return Optional.empty();
+        throw new NotFoundObjectByIdentifierException("Link with " + links.link() + " doesn't exist.");
     }
 
     @Override
@@ -75,6 +84,13 @@ public class LinksRepositoryGateway implements LinksGateway {
             return "Usuário deletado com sucesso.";
         }
 
-        return "Usuário não existe no banco de dados";
+        throw new NotFoundObjectByIdentifierException("Link with " + id + " doesn't exist.");
+    }
+
+    @Override
+    public boolean linkExists(String link) {
+        Optional<LinkModel> userExist = linkRepository.findByLink(link);
+
+        return userExist.isPresent();
     }
 }

@@ -2,10 +2,7 @@ package com.example.StarterHub.core.gateway;
 
 import com.example.StarterHub.core.domain.Links;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public interface LinksGateway {
     Optional<Links> postLinks(Links links);
@@ -13,4 +10,5 @@ public interface LinksGateway {
     Optional<Links> searchLinks(UUID id);
     Optional<Links> editLinks(UUID id, Links links);
     String deleteLinks(UUID id);
+    boolean linkExists(String link);
 }

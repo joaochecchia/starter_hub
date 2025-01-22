@@ -10,4 +10,5 @@ import java.util.UUID;
 
 public interface LinkRepository extends JpaRepository<LinkModel, UUID> {
     Optional<ArrayList<LinkModel>> findAllByUserPropertiesModelId(UUID id);
+    Optional<LinkModel> findByLink(String link);
 }

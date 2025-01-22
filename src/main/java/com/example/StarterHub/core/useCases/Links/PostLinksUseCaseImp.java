@@ -2,6 +2,7 @@ package com.example.StarterHub.core.useCases.Links;
 
 import com.example.StarterHub.core.domain.Links;
 import com.example.StarterHub.core.gateway.LinksGateway;
+import com.example.StarterHub.infra.exeptions.CredentialsAreadyExistsExceptions;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -16,6 +17,12 @@ public class PostLinksUseCaseImp implements PostLinksUseCase {
 
     @Override
     public Optional<Links> execute(Links links) {
+
+        boolean result = linksGateway.linkExists(links.link());
+        if (result){
+            throw new CredentialsAreadyExistsExceptions("The link " + links.link() + "already exist.");
+        }
+
         return linksGateway.postLinks(links);
     }
 }
