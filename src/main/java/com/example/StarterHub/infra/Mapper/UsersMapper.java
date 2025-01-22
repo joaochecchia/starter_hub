@@ -12,8 +12,8 @@ public class UsersMapper {
         return new Users(
                 null,
                 request.username(),
-                request.email(),
                 request.password(),
+                request.email(),
                 request.phone()
         );
     }
@@ -32,9 +32,9 @@ public class UsersMapper {
         return new UserModel(
                 domain.id(),
                 domain.username(),
+                domain.email(),
+                domain.phone(),
                 domain.password(),
-                domain.email(),
-                domain.email(),
                 null
         );
     }

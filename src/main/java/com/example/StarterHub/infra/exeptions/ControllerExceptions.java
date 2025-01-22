@@ -21,6 +21,13 @@ public class ControllerExceptions {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(CredentialsAreadyExistsExceptions.class)
+    public ResponseEntity<Map<String, String>> handleCredentialsAlreadyExistsException(CredentialsAreadyExistsExceptions ex){
+        Map<String, String> response = new HashMap<>();
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleArgumentNotValidException(MethodArgumentNotValidException e){
         Map<String, String> errors = new HashMap<>();

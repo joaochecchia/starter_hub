@@ -2,6 +2,7 @@ package com.example.StarterHub.core.gateway;
 
 import com.example.StarterHub.core.domain.Users;
 
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,4 +12,5 @@ public interface UsersGateway {
     Optional<Users> searchUsers(UUID id);
     Optional<Users> editUsers(UUID id, Users users);
     String deleteUsers(UUID id);
+    Map<String, Object> userExist(String username, String email, String poneNumber);
 }
