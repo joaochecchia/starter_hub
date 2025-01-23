@@ -12,4 +12,5 @@ public interface RepositoryGateway {
     Optional<ArrayList<Repository>> findAllRepositories(UUID id);
     Optional<Repository> editRepository(UUID id, Repository repository);
     String deleteRepository(UUID id);
+    boolean repositoryExists(UUID id, String name);
 }

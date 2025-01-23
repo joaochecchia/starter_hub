@@ -3,15 +3,13 @@ package com.example.StarterHub.infra.gateway;
 import com.example.StarterHub.core.domain.Links;
 import com.example.StarterHub.core.gateway.LinksGateway;
 import com.example.StarterHub.infra.Mapper.LinksMapper;
-import com.example.StarterHub.infra.exeptions.NotFoundObjectByIdentifierException;
+import com.example.StarterHub.infra.exceptions.NotFoundObjectByIdentifierException;
 import com.example.StarterHub.infra.persistence.entities.LinkModel;
-import com.example.StarterHub.infra.persistence.entities.UserModel;
 import com.example.StarterHub.infra.persistence.repositories.LinkRepository;
 import com.example.StarterHub.infra.persistence.repositories.UserPropertiesRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -42,14 +40,12 @@ public class LinksRepositoryGateway implements LinksGateway {
     @Override
     public Optional<ArrayList<Links>> findAllLinksByUserPropertiesId(UUID id) {
         Optional<ArrayList<LinkModel>> links = linkRepository.findAllByUserPropertiesModelId(id);
-
         if(links.get().isEmpty()) throw new NotFoundObjectByIdentifierException("Don't have any link for this  user");
 
         return Optional.of(links.get().stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toCollection(ArrayList::new)));
     }
-
 
     @Override
     public Optional<Links> searchLinks(UUID id) {

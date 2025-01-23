@@ -8,6 +8,7 @@ import com.example.StarterHub.core.useCases.Address.SearchAddressUseCase;
 import com.example.StarterHub.infra.DTO.AddressDTO;
 import com.example.StarterHub.infra.Mapper.AddressMapper;
 import com.example.StarterHub.infra.requests.create.CreateAddressRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class AddressController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Address> insertAddress(@RequestBody CreateAddressRequest request){
+    public ResponseEntity<Address> insertAddress(@Valid  @RequestBody CreateAddressRequest request){
         Optional<Address> newAddress = postAddressUseCase.execute(mapper.toDomain(request));
 
         return ResponseEntity
@@ -50,7 +51,7 @@ public class AddressController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Address> editAddress(@PathVariable UUID id, @RequestBody  AddressDTO request){
+    public ResponseEntity<Address> editAddress(@PathVariable UUID id, @Valid @RequestBody  AddressDTO request){
         Optional<Address> edit = editAddressUseCase.execute(id, mapper.toDomain(request));
 
         return ResponseEntity.ok(edit.get());

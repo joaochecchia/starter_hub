@@ -2,7 +2,7 @@ package com.example.StarterHub.infra.gateway;
 
 import com.example.StarterHub.core.domain.UserProperties;
 import com.example.StarterHub.core.gateway.UserPropertiesGateway;
-import com.example.StarterHub.infra.exeptions.NotFoundObjectByIdentifierException;
+import com.example.StarterHub.infra.exceptions.NotFoundObjectByIdentifierException;
 import com.example.StarterHub.infra.persistence.repositories.UserRepository;
 import com.example.StarterHub.infra.requests.EditRequest;
 import com.example.StarterHub.infra.Mapper.UserPropertiesMapper;

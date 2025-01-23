@@ -5,6 +5,7 @@ import com.example.StarterHub.core.useCases.Repository.*;
 import com.example.StarterHub.infra.Mapper.RepositoryMapper;
 import com.example.StarterHub.infra.requests.create.CreateRepositoryRequest;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class RepositoryController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Repository> createRepository(@RequestBody CreateRepositoryRequest request){
+    public ResponseEntity<Repository> createRepository(@Valid @RequestBody CreateRepositoryRequest request){
         Optional<Repository> newRepository = postRepositoryUseCase.execute(mapper.toDomain(request));
 
         return ResponseEntity
@@ -58,8 +59,8 @@ public class RepositoryController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Repository> editRepository(@PathVariable UUID id, @RequestBody Repository repository){
-        Optional<Repository> editedRepository = editRepositoryUseCase.execute(id, repository);
+    public ResponseEntity<Repository> editRepository(@PathVariable UUID id, @Valid @RequestBody CreateRepositoryRequest request){
+        Optional<Repository> editedRepository = editRepositoryUseCase.execute(id, mapper.toDomain(request));
 
         return ResponseEntity.ok(editedRepository.get());
     }

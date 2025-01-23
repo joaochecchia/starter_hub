@@ -5,6 +5,7 @@ import com.example.StarterHub.core.useCases.Links.*;
 import com.example.StarterHub.infra.Mapper.LinksMapper;
 import com.example.StarterHub.infra.requests.create.CreateLinksRequest;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public class LinksController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<Links> createLink(@RequestBody CreateLinksRequest request){
+    public ResponseEntity<Links> createLink(@Valid @RequestBody CreateLinksRequest request){
         Optional<Links> newLink = postLinksUseCase.execute(mapper.toDomain(request));
 
         return ResponseEntity
@@ -57,7 +58,7 @@ public class LinksController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Links> editLinks(@PathVariable UUID id, @RequestBody Links links){
+    public ResponseEntity<Links> editLinks(@PathVariable UUID id, @Valid @RequestBody Links links){
         Optional<Links> editedLink = editLinksUseCase.execute(id, links);
 
         return ResponseEntity.ok(editedLink.get());

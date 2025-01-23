@@ -2,7 +2,7 @@ package com.example.StarterHub.core.useCases.User;
 
 import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.core.gateway.UsersGateway;
-import com.example.StarterHub.infra.exeptions.CredentialsAreadyExistsExceptions;
+import com.example.StarterHub.infra.exceptions.CredentialsAreadyExistsExceptions;
 
 import java.util.Map;
 import java.util.Optional;

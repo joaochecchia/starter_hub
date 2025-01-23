@@ -1,4 +1,4 @@
-package com.example.StarterHub.infra.exeptions;
+package com.example.StarterHub.infra.exceptions;
 
 public class NotFoundObjectByIdentifierException extends RuntimeException {
     public NotFoundObjectByIdentifierException(String message) {

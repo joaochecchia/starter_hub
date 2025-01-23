@@ -57,7 +57,7 @@ public class UserPropertiesController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Map<String, Object>> editUserProperties(@PathVariable UUID id, @RequestBody EditRequest editRequest){
+    public ResponseEntity<Map<String, Object>> editUserProperties(@PathVariable UUID id, @Valid @RequestBody EditRequest editRequest){
         Optional<UserProperties> updatedUserProperties = editUserPropertiesUseCase.execute(id, editRequest);
 
         Map<String, Object> response = new HashMap<>();

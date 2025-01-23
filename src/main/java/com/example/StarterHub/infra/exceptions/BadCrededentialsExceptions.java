@@ -1,4 +1,4 @@
-package com.example.StarterHub.infra.exeptions;
+package com.example.StarterHub.infra.exceptions;
 
 public class BadCrededentialsExceptions extends RuntimeException{
     public BadCrededentialsExceptions(String message){

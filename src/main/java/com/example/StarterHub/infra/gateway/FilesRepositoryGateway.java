@@ -25,7 +25,6 @@ public class FilesRepositoryGateway implements FilesGatweay {
 
     @Override
     public Optional<Files> postFile(Files files) {
-        System.out.println("FILES MODEL: " + filesMapper.toEntity(files).toString());
         FilesModel newFile = filesRepository.save(filesMapper.toEntity(files));
 
         return Optional.of(filesMapper.toDomain(newFile));

@@ -3,7 +3,7 @@ package com.example.StarterHub.infra.gateway;
 import com.example.StarterHub.core.domain.Address;
 import com.example.StarterHub.core.gateway.AddressGateway;
 import com.example.StarterHub.infra.Mapper.AddressMapper;
-import com.example.StarterHub.infra.exeptions.NotFoundObjectByIdentifierException;
+import com.example.StarterHub.infra.exceptions.NotFoundObjectByIdentifierException;
 import com.example.StarterHub.infra.persistence.entities.AddressModel;
 import com.example.StarterHub.infra.persistence.repositories.AddressRepository;
 import com.example.StarterHub.infra.persistence.repositories.UserPropertiesRepository;

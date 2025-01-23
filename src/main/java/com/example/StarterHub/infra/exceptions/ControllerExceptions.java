@@ -1,6 +1,5 @@
-package com.example.StarterHub.infra.exeptions;
+package com.example.StarterHub.infra.exceptions;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
