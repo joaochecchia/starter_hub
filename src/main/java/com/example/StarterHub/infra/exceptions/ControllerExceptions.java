@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.StreamSupport;
 
 @RestControllerAdvice
 public class ControllerExceptions {
@@ -23,6 +24,15 @@ public class ControllerExceptions {
     @ExceptionHandler(CredentialsAreadyExistsExceptions.class)
     public ResponseEntity<Map<String, String>> handleCredentialsAlreadyExistsException(CredentialsAreadyExistsExceptions ex){
         Map<String, String> response = new HashMap<>();
+        response.put("Error: ", ex.getMessage());
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotFoundObjectByIdentifierException.class)
+    public ResponseEntity<Map<String, String>> handleNotFoundObjectByIdentifierException(NotFoundObjectByIdentifierException ex){
+        Map<String, String> response = new HashMap<>();
+        response.put("Error: ", ex.getMessage());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
