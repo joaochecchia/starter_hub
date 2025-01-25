@@ -2,10 +2,20 @@ package com.example.StarterHub.infra.gateway;
 
 import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.core.gateway.UsersGateway;
+import com.example.StarterHub.core.validation.LoginRequest;
+import com.example.StarterHub.core.validation.LoginResponse;
 import com.example.StarterHub.infra.Mapper.UsersMapper;
+import com.example.StarterHub.infra.configurator.TokenService;
 import com.example.StarterHub.infra.persistence.entities.UserModel;
 import com.example.StarterHub.infra.persistence.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -16,20 +26,34 @@ public class UsersRepositoryGateway implements UsersGateway {
 
     private final UserRepository userRepository;
     private final UsersMapper mapper;
+    private final PasswordEncoder encoder;
+    private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
-    public UsersRepositoryGateway(UsersMapper mapper, UserRepository userRepository) {
+    public UsersRepositoryGateway(UsersMapper mapper, UserRepository userRepository, PasswordEncoder encoder, AuthenticationManager authenticationManager, TokenService tokenService) {
         this.mapper = mapper;
         this.userRepository = userRepository;
+        this.encoder = encoder;
+        this.authenticationManager = authenticationManager;
+        this.tokenService = tokenService;
     }
 
     @Override
-    public Optional<String> loginUsers(Users users) {
-        return Optional.empty();
+    public Optional<LoginResponse> loginUsers(LoginRequest request) {
+        UsernamePasswordAuthenticationToken userAndPass = new UsernamePasswordAuthenticationToken(request.username(), request.password());
+        Authentication authentication = authenticationManager.authenticate(userAndPass);
+
+        UserModel userModel = (UserModel) authentication.getPrincipal();
+        String token = tokenService.generateToken(userModel);
+
+        return Optional.of(new LoginResponse(token));
     }
 
     @Override
     public Optional<Users> registerUsers(Users users) {
+        String encodedPassword = encoder.encode(users.password());
         UserModel entity = mapper.toEntity(users);
+        entity.setPassword(encodedPassword);
         UserModel newUser = userRepository.save(entity);
 
         return Optional.of(mapper.toDomain(newUser));

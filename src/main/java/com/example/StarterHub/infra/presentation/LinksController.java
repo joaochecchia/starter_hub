@@ -66,8 +66,6 @@ public class LinksController {
 
     @DeleteMapping("/delete/{id}")
     public String deleteLinks(@PathVariable UUID id){
-        String result = deleteLinksUseCase.execute(id);
-
-        return result;
+        return deleteLinksUseCase.execute(id);
     }
 }
