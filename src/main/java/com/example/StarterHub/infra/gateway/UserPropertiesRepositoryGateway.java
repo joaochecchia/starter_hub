@@ -48,6 +48,14 @@ public class UserPropertiesRepositoryGateway implements UserPropertiesGateway {
     }
 
     @Override
+    public Optional<UserProperties> searchUserPropertiesByUserId(UUID id) {
+        Optional<UserPropertiesModel> user = userPropertiesRepository.findByUserModelId(id);
+        if(user.isEmpty()) throw  new NotFoundObjectByIdentifierException("Object with " + id + "Not found");
+
+        return Optional.of(mapper.toDomain(user.get(), user.get().getUserModel().getId()));
+    }
+
+    @Override
     public Optional<UserProperties> editUserProperties(UUID id, EditRequest request) {
         Optional<UserPropertiesModel> find = userPropertiesRepository.findById(id);
 

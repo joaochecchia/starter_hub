@@ -24,6 +24,11 @@ public class UserPropertiesBeanConfigurator {
     }
 
     @Bean
+    public SearchUserPropertiesByUserIdUseCase searchUserPropertiesByUserIdUseCase(UserPropertiesGateway userPropertiesGateway){
+        return new SearchUserPropertiesByUserIdUseCaseImp(userPropertiesGateway);
+    }
+
+    @Bean
     public DeleteUserPropertiesUseCase deleteUserPropertiess(UserPropertiesGateway userPropertiesGateway){
         return new DeleteUserPropertiesUseCaseImp(userPropertiesGateway);
     }

@@ -10,6 +10,7 @@ import java.util.UUID;
 public interface UserPropertiesGateway {
     Optional<UserProperties> postUserProperties(UserProperties userProperties);
     Optional<UserProperties> searchUserProperties(UUID id);
+    Optional<UserProperties> searchUserPropertiesByUserId(UUID id);
     Optional<UserProperties> editUserProperties(UUID id, EditRequest editRequest);
     String deleteUserProperties(UUID id);
 }

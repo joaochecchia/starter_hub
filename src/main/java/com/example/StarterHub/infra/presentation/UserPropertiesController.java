@@ -19,13 +19,15 @@ public class UserPropertiesController {
 
     private final PostUserPropertiesUseCase postUserPropertiesUseCase;
     private final SearchUserPropertiesUseCase searchUserPropertiesUseCase;
+    private final SearchUserPropertiesByUserIdUseCase searchUserPropertiesByUserIdUseCase;
     private final EditUserPropertiesUseCase editUserPropertiesUseCase;
     private final DeleteUserPropertiesUseCase deleteUserPropertiesUseCase;
     private final UserPropertiesMapper mapper;
 
-    public UserPropertiesController(PostUserPropertiesUseCase postUserPropertiesUseCase, SearchUserPropertiesUseCase searchUserPropertiesUseCase, EditUserPropertiesUseCase editUserPropertiesUseCase, DeleteUserPropertiesUseCase deleteUserPropertiesUseCase, UserPropertiesMapper mapper) {
+    public UserPropertiesController(PostUserPropertiesUseCase postUserPropertiesUseCase, SearchUserPropertiesUseCase searchUserPropertiesUseCase, SearchUserPropertiesByUserIdUseCase searchUserPropertiesByUserIdUseCase, EditUserPropertiesUseCase editUserPropertiesUseCase, DeleteUserPropertiesUseCase deleteUserPropertiesUseCase, UserPropertiesMapper mapper) {
         this.postUserPropertiesUseCase = postUserPropertiesUseCase;
         this.searchUserPropertiesUseCase = searchUserPropertiesUseCase;
+        this.searchUserPropertiesByUserIdUseCase = searchUserPropertiesByUserIdUseCase;
         this.editUserPropertiesUseCase = editUserPropertiesUseCase;
         this.deleteUserPropertiesUseCase = deleteUserPropertiesUseCase;
         this.mapper = mapper;
@@ -52,6 +54,17 @@ public class UserPropertiesController {
         Map<String, Object> response = new HashMap<>();
         response.put("Message: ", "User specs found.");
         response.put("Body: ", UserProperties.get());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/searchByUser/{id}")
+    public ResponseEntity<Map<String, Object>> searchUserPropertiesBuUserId(@PathVariable UUID id){
+        Optional<UserProperties> userProperties = searchUserPropertiesByUserIdUseCase.execute(id);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "User specs found.");
+        response.put("Body: ", userProperties.get());
 
         return ResponseEntity.ok(response);
     }

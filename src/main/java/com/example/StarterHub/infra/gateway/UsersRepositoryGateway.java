@@ -12,9 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +40,7 @@ public class UsersRepositoryGateway implements UsersGateway {
         UsernamePasswordAuthenticationToken userAndPass = new UsernamePasswordAuthenticationToken(request.username(), request.password());
         Authentication authentication = authenticationManager.authenticate(userAndPass);
 
-        UserModel userModel = (UserModel) authentication.getPrincipal();
+        UserModel userModel = (UserModel) authentication.getPrincipal ();
         String token = tokenService.generateToken(userModel);
 
         return Optional.of(new LoginResponse(token));
