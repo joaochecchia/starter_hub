@@ -22,7 +22,7 @@ public class RegisterUsersUseCaseImp implements RegisterUsersUseCase{
             StringBuilder stringBuilder = new StringBuilder();
             if(check.get("Username") != null) stringBuilder.append(check.get("Username")).append("\n");
             if(check.get("Email") != null) stringBuilder.append(check.get("Email")).append("\n");
-            if (check.get("PhoneNumber") != null) stringBuilder.append(check.get("PhoneNumber")).append("\n");
+            if (check.get("PhoneNumber") != null) stringBuilder.append(check.get("PhoneNumber"));
 
             throw new CredentialsAreadyExistsExceptions(stringBuilder.toString());
         }

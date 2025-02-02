@@ -5,12 +5,13 @@ const UseFetch = () => {
     const [config, setConfig] = useState(null)
     const [method, setMethod] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [errors, setErrors] = useState(null)
     const [id, setId] = useState(null)
     const [url, setUrl] = useState('')
 
-    console.log("Passei no fetch")
-
     const httpConfig = (method, data = null, id = null, token = null) => {
+        setErrors(null)
+
         if (method === "POST" || method === "PUT") {
             setConfig({
                 method,
@@ -58,7 +59,6 @@ const UseFetch = () => {
                 }
 
                 const json = await res.json()
-                console.log(json)
                 setData(json)
             } catch (error) {
                 console.error("Error fetching data:", error)
@@ -85,12 +85,14 @@ const UseFetch = () => {
                     res = await fetch(`${url}/${id}`, config)
                 }
 
-                if (!res.ok) {
-                    throw new Error(`ERROR ON FETCH URL OR CONFIG: ${res.status}.`)
-                }
-
                 const json = await res.json()
-                setData(json)
+
+                if(json["Error: "]){
+                    setErrors(json["Error: "])
+                } else{
+                    setData(json)
+                }
+                
             } catch (error) {
                 console.error("Error on requisition:", error.message)
             } finally {
@@ -102,7 +104,7 @@ const UseFetch = () => {
         httpRequest()
     }, [method, config, url, id])
 
-    return { httpConfig, data, loading, setId, setUrl, url }
+    return { httpConfig, data, errors, loading, setId, setUrl, url }
 }
 
 export default UseFetch

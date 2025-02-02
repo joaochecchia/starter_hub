@@ -8,6 +8,7 @@ import com.example.StarterHub.infra.Mapper.UsersMapper;
 import com.example.StarterHub.core.validation.LoginRequest;
 import com.example.StarterHub.infra.configurator.TokenService;
 import com.example.StarterHub.infra.requests.create.CreateUserRequest;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,7 @@ public class UsersController {
         this.mapper = mapper;
     }
 
+    @Transactional
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> registerUsers(@Valid @RequestBody CreateUserRequest request){
         Optional<Users> newUser = registerUsersUseCase.execute(mapper.toDomain(request));
@@ -53,6 +55,7 @@ public class UsersController {
                 .body(response);
     }
 
+    @Transactional
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> loginUsers(@Valid @RequestBody LoginRequest request){
         Optional<LoginResponse> login = loginUsersUserCase.execute(request);

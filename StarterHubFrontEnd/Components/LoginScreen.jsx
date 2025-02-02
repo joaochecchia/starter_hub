@@ -30,7 +30,7 @@ const LoginScreen = () => {
       username: Username,
       password: Password,
     }
-
+    
     httpConfig("POST", loginRequest)
   }
 

@@ -1,21 +1,28 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import UseFetch from '../hooks/UseFetch'
 import './RegisterUserScreen.css'
 
 const RegisterUserScreen = () => {
     
     const [username, setUsername] = useState('')
     const [usernameValid, setUsernameValid] = useState(true)
+    const [usernameExists, setUsernameExists] = useState(false)
 
     const [email, setEmail] = useState(null)
     const [emailValid, setEmailValid] = useState(true)
+    const [emailExists, setEmailExists] = useState(false)
 
     const [phoneNumber, setPhoneNumber] = useState('')
     const [phoneNumberValid, setPhoneNumberValid] = useState(true)
+    const [phoneNumberExists, setPhoneNumberExists] = useState(false)
 
     const [password, setPassword] = useState('')
     const [passwordValid, setPasswordValid] = useState(true)
 
     const [verifyPassword, setVerifyPassword] = useState('')
+    const [verifyPasswordValid, setVerifyPasswordValid] = useState(true)
+
+    const { httpConfig, data, errors, loading, setId, setUrl, url } = UseFetch()
 
     const handleUsernameChange = (e) => {
         setUsername(e.target.value)
@@ -57,9 +64,9 @@ const RegisterUserScreen = () => {
     const handleSubmit = () => {
         const usernameRegex = /^[a-zA-Z][a-zA-Z0-9]{0,24}$/
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-        const passwordRegex = /^[a-zA-Z][a-zA-Z0-9.-_]{3,24}$/
-
-        if(usernameRegex.test(username) && emailRegex.test(email) && phoneNumber.length === 15 && passwordRegex.test(password && passwordValid.length > 0)){
+        const passwordRegex = /^[A-Z0-9@][a-zA-Z0-9.-_]{3,24}$/
+        
+        if(usernameRegex.test(username) && emailRegex.test(email) && phoneNumber.length === 15 && passwordRegex.test(password) && verifyPassword.length > 0){
             if(password === verifyPassword){
                 const newUser = {
                     username: username,
@@ -67,40 +74,75 @@ const RegisterUserScreen = () => {
                     email: email,
                     phone: phoneNumber 
                 }
-
-                console.log(newUser)
+                
+                setUrl('http://localhost:8080/starter-hub/user/register')
+                httpConfig("POST", newUser)
             } else{
-                console.log("SENHA INVÁLIDA")
-                console.log(password.length)
-                console.log(verifyPassword.length)
+                setVerifyPasswordValid(false)
             }
         } else{
-            console.log("formato invalido")
+            !usernameRegex.test(username) ? setUsernameValid(false) : setUsernameValid(true)
+            !emailRegex.test(email) ? setEmailValid(false) : setEmailValid(true)
+            phoneNumber.length < 15 ? setPhoneNumberValid(false) : setPhoneNumberValid(true)
+            !passwordRegex.test(password) ? setPasswordValid(false) : setPassword(true)
         }
     }
+
+    useEffect(() => {
+        if(data){
+            console.log(data)
+        } else if(errors){
+            console.log(errors)
+
+            setUsernameExists(false)
+            setEmailExists(false)
+            setPhoneNumberExists(false)
+
+            const errorsArray = errors.split('\n')
+            const temp = errorsArray.filter((item) => item != '')
+            console.log(temp)
+            temp.forEach((item) => {
+                if (item.includes("Username")) {
+                    setUsernameExists(true); 
+                }
+
+                if (item.includes("Email")) {
+                    setEmailExists(true);
+                }
+
+                if (item.includes("Phone number")) {
+                    setPhoneNumberExists(true); 
+                }
+            })
+
+            console.log(usernameExists)
+            console.log(emailExists)
+            console.log(phoneNumberExists)
+        }
+    }, [data, errors])
     
     return (
         <>
             <div className="container">
                 <form className="registerContainer">
                     <div>
-                        <label>Username</label>
+                        {usernameValid ? usernameExists ? <label style={{ color: '#FF6F61' }} >Username already exists</label> : <label>Username</label> : <label style={{ color: '#FF6F61' }}>Username starts with letters</label>}
                         <input type="text" placeholder='Required' onChange={handleUsernameChange}/>
                     </div>
                     <div>
-                        <label htmlFor="">Email</label>
+                        {emailValid ? emailExists ? <label style={{ color: '#FF6F61' }}>Email already exists</label> : <label>Email</label> : <label style={{ color: '#FF6F61' }}>Please, insert a valid email</label>}
                         <input type="email" placeholder='Required' onChange={handleEmailChange}/>
                     </div>
                     <div>
-                        <label htmlFor="">Phone number</label>
+                        {phoneNumberValid ? phoneNumberExists? <label style={{ color: '#FF6F61' }}>Phone number already exists</label> : <label>Phone Number</label> : <label style={{ color: '#FF6F61' }}>Please, insert a valid phone number</label>}
                         <input type="text" placeholder='Required' value={phoneNumber} onChange={handlePhoneNumberChange}/>
                     </div>
                     <div>
-                        <label htmlFor="">Password</label>
+                        {passwordValid ? <label>Password</label> : <label style={{ color: '#FF6F61' }}>Password starts with A-Z</label>}
                         <input type="text" placeholder='Required' onChange={handlePasswordChange}/>
                     </div>
                     <div>
-                        <label htmlFor="">Repeat Password</label>
+                        {verifyPasswordValid ? <label htmlFor="">Repeat Password</label> : <label style={{ color: '#FF6F61' }}>Passwords don't match</label>}
                         <input type="text" placeholder='Required' onChange={handleVerifyPasswordChange}/>
                     </div>
                     <div className="buttonDiv">

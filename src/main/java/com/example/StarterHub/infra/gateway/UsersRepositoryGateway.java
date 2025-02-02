@@ -8,6 +8,7 @@ import com.example.StarterHub.infra.Mapper.UsersMapper;
 import com.example.StarterHub.infra.configurator.TokenService;
 import com.example.StarterHub.infra.persistence.entities.UserModel;
 import com.example.StarterHub.infra.persistence.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -93,6 +94,7 @@ public class UsersRepositoryGateway implements UsersGateway {
     }
 
     @Override
+    @Transactional
     public Map<String, Object> userExist(String username, String email, String phoneNumber) {
         Map<String, Object> check = new HashMap<>();
         System.out.println(username + email + phoneNumber);
