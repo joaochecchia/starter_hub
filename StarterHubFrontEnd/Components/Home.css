@@ -14,7 +14,6 @@ input {
 }
 
 .container {
-    background-color: #343541;
     flex-grow: 1; 
     width: 100%; 
     display: flex; 

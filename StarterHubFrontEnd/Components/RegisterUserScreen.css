@@ -1,0 +1,63 @@
+.container{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.registerContainer {
+    background-color: #343541;
+    display: flex;
+    flex-direction: column;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    justify-content: flex-start;
+    border-radius: 10px;
+    gap: 2rem;
+    height: 93vh;
+    width: 32rem;
+    overflow-y: auto;
+    scrollbar-width: thin; 
+    scrollbar-color: #888 #343541; 
+}
+
+.registerContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+.registerContainer::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.registerContainer::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+.registerContainer div{
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.registerContainer label{
+    padding-left: 0.7rem;
+}
+
+.registerContainer input{
+    width: 22rem;
+    height: 3rem;
+    text-indent: 1rem;
+}
+
+.buttonDiv input{
+    height: 2.5rem;
+    width: 7rem;
+    font-size: 1rem;
+    cursor: pointer;
+    text-indent: 0rem;
+}
+
+.buttonDiv input:hover{
+    background-color: #3b3d4a;
+}

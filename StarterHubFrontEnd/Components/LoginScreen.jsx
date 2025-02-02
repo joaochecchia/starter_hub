@@ -57,7 +57,7 @@ const LoginScreen = () => {
         <div className="labelDiv">
           <label htmlFor="">Password</label>
           <input type="password" onChange={handlePasswordChange} />
-          <Link className='registerLink'>Don't have an account?</Link>
+          <Link className='registerLink' to={'/register'}>Don't have an account?</Link>
         </div>
         <input
           className="formButton"
