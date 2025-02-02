@@ -22,6 +22,7 @@ public class TokenService {
                 .withSubject(user.getEmail())
                 .withClaim("id", user.getId().toString())
                 .withClaim("email", user.getEmail())
+                .withClaim("phone", user.getPhoneNumber())
                 .withExpiresAt(Instant.now().plusSeconds(86400))
                 .withIssuedAt(Instant.now())
                 .withIssuer("API-Banco")

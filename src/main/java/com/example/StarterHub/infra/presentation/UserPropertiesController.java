@@ -58,6 +58,7 @@ public class UserPropertiesController {
         return ResponseEntity.ok(response);
     }
 
+    @Transactional
     @GetMapping("/searchByUser/{id}")
     public ResponseEntity<Map<String, Object>> searchUserPropertiesBuUserId(@PathVariable UUID id){
         Optional<UserProperties> userProperties = searchUserPropertiesByUserIdUseCase.execute(id);

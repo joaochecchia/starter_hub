@@ -34,8 +34,6 @@ public class FoldersController {
     @Transactional
     @PostMapping("/insert")
     public ResponseEntity<Folder> postFolder(@RequestBody CreateFolderRequest request){
-        System.out.println("REQUEST" + mapper.toDomain(request).toString());
-        System.out.println("DOMAIN: " + mapper.toDomain(request).toString());
         Optional<Folder> newFolder = postFolderUseCase.execute(mapper.toDomain(request));
 
         return ResponseEntity.ok(newFolder.get());

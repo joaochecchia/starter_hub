@@ -1,0 +1,71 @@
+.homeContainer {
+    display: flex;
+    flex-direction: column; 
+    height: 100vh; 
+    align-items: center; 
+    padding-top: 2.5rem;
+    gap: 1.7rem;
+}
+
+input {
+    height: 3.5rem;
+    width: 25rem;
+    border-radius: 20px;
+}
+
+.container {
+    background-color: #343541;
+    flex-grow: 1; 
+    width: 100%; 
+    display: flex; 
+    border-radius: 5px;
+}
+
+.sideBarContainer{
+    height: 100%;
+    width: 20rem;
+    background-color: #202123;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.repositoriesContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    flex-grow: 1;
+    gap: 1rem;
+    padding: 2rem;
+}
+
+.sideBarContainer button{
+    margin: 0;
+    padding-bottom: 0.5rem;
+    background-color: transparent;
+    border-bottom: 1px solid #ccc;
+    color: #ccc;
+    font-size: 20px;
+    width: 18rem; 
+    text-align: center;
+}
+
+.repositoriesContainer button{
+    margin: 0;
+    padding-bottom: 0.5rem;
+    background-color: transparent;
+    border-bottom: 1px solid #ccc;
+    color: #ccc;
+    font-size: 25px;
+    width: 65rem; 
+    text-align: center;
+
+}
+
+button:hover{
+    filter: brightness(0.7);  
+    cursor: pointer; 
+    border-color: #E7E7E8;
+}
