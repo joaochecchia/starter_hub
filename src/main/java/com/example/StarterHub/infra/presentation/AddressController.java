@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,32 +37,49 @@ public class AddressController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Address> insertAddress(@Valid  @RequestBody CreateAddressRequest request){
+    public ResponseEntity<Map<String, Object>> insertAddress(@Valid  @RequestBody CreateAddressRequest request){
         Optional<Address> newAddress = postAddressUseCase.execute(mapper.toDomain(request));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Address successfully saved!");
+        response.put("Body: ", newAddress.get());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(newAddress.get());
+                .body(response);
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<Address> findAddress(@PathVariable UUID id){
+    public ResponseEntity<Map<String, Object>> findAddress(@PathVariable UUID id){
         Optional<Address> address = searchAddressUseCase.execute(id);
 
-        return ResponseEntity.ok(address.get());
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Address successfully found!");
+        response.put("Body: ", address.get());
+
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Address> editAddress(@PathVariable UUID id, @Valid @RequestBody  AddressDTO request){
+    public ResponseEntity<Map<String, Object>> editAddress(@PathVariable UUID id, @Valid @RequestBody  AddressDTO request){
         Optional<Address> edit = editAddressUseCase.execute(id, mapper.toDomain(request));
 
-        return ResponseEntity.ok(edit.get());
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Address successfully edited!");
+        response.put("Body :", edit.get());
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/insert/{id}")
-    public ResponseEntity<String> deleteAddress(@PathVariable UUID id){
+    public ResponseEntity<Map<String, Object>> deleteAddress(@PathVariable UUID id){
         String deleteStatment = deleteAddressUseCase.execute(id);
 
-        return ResponseEntity.ok(deleteStatment);
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Address successfully deleted!");
+        response.put("Body :", deleteStatment);
+
+        return ResponseEntity.ok(response);
     }
 }
