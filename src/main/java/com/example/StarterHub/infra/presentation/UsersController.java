@@ -47,7 +47,7 @@ public class UsersController {
         Optional<Users> newUser = registerUsersUseCase.execute(mapper.toDomain(request));
 
         Map<String, Object> response = new HashMap<>();
-        response.put("Message", "User successfully signed!");
+        response.put("Message: ", "User successfully signed!");
         response.put("Body", newUser.get());
 
         return ResponseEntity

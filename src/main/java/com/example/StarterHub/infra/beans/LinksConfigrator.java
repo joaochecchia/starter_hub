@@ -14,6 +14,11 @@ public class LinksConfigrator {
     }
 
     @Bean
+    public PostAllLinksUseCase insertAllLinks(LinksGateway linksGateway){
+        return new PostAllLinksUseCaseImp(linksGateway);
+    }
+
+    @Bean
     public SearchLinksUseCase searchLinks(LinksGateway linksGateway){
         return new SearchLinksUseCaseImp(linksGateway);
     }

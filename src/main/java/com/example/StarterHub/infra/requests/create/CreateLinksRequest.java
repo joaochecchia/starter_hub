@@ -9,5 +9,4 @@ import java.util.UUID;
 public record CreateLinksRequest(
         @NotEmpty(message = "Link is mandatory.") String link,
         @NotNull(message = "UserProperties ID is mandatory.") UUID userPropertiesID
-) {
-}
+) { }

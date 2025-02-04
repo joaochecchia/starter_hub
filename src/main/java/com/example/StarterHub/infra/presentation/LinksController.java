@@ -10,22 +10,23 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/starter-hub/users/links")
 public class LinksController {
     public final PostLinksUseCase postLinksUseCase;
+    public final PostAllLinksUseCase postAllLinksUseCase;
     public final FindAllLinksByUserPropertiesIdUseCase findAllLinksByUserPropertiesIdUseCase;
     public final SearchLinksUseCase searchLinksUseCase;
     public final EditLinksUseCase editLinksUseCase;
     public final DeleteLinksUseCase deleteLinksUseCase;
     public final LinksMapper mapper;
 
-    public LinksController(PostLinksUseCase postLinksUseCase, FindAllLinksByUserPropertiesIdUseCase findAllLinksByUserPropertiesIdUseCase, SearchLinksUseCase searchLinksUseCase, EditLinksUseCase editLinksUseCase, DeleteLinksUseCase deleteLinksUseCase, LinksMapper mapper) {
+    public LinksController(PostLinksUseCase postLinksUseCase, PostAllLinksUseCase postAllLinksUseCase, FindAllLinksByUserPropertiesIdUseCase findAllLinksByUserPropertiesIdUseCase, SearchLinksUseCase searchLinksUseCase, EditLinksUseCase editLinksUseCase, DeleteLinksUseCase deleteLinksUseCase, LinksMapper mapper) {
         this.postLinksUseCase = postLinksUseCase;
+        this.postAllLinksUseCase = postAllLinksUseCase;
         this.findAllLinksByUserPropertiesIdUseCase = findAllLinksByUserPropertiesIdUseCase;
         this.searchLinksUseCase = searchLinksUseCase;
         this.editLinksUseCase = editLinksUseCase;
@@ -34,34 +35,65 @@ public class LinksController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<Links> createLink(@Valid @RequestBody CreateLinksRequest request){
+    public ResponseEntity<Map<String, Object>> createLink(@Valid @RequestBody CreateLinksRequest request){
         Optional<Links> newLink = postLinksUseCase.execute(mapper.toDomain(request));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Links successfully saved.");
+        response.put("Body: ", newLink.get());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(newLink.get());
+                .body(response);
+    }
+
+    @PostMapping("/insertAll")
+    public ResponseEntity<Map<String, Object>> createAllLinks(@Valid @RequestBody ArrayList<CreateLinksRequest> allLinks){
+        Optional<ArrayList<Links>> newLinks = postAllLinksUseCase.execute(allLinks.stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toCollection(ArrayList::new)));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Links successfully saved.");
+        response.put("Body: ", newLinks.get());
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 
     @GetMapping("/search/{id}")
-    public ResponseEntity<Links> findLink(@PathVariable UUID id){
+    public ResponseEntity<Map<String, Object>> findLink(@PathVariable UUID id){
         Optional<Links> link = searchLinksUseCase.execute(id);
 
-        return ResponseEntity.ok(link.get());
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Link successfully found.");
+        response.put("Body: ", link.get());
+
+        return ResponseEntity.ok(response);
     }
 
     @Transactional
     @GetMapping("/findAll/{id}")
-    public ResponseEntity<ArrayList<Links>> findAllByUserPropertiesID(@PathVariable UUID id){
+    public ResponseEntity<Map<String, Object>> findAllByUserPropertiesID(@PathVariable UUID id){
         Optional<ArrayList<Links>> allLinks = findAllLinksByUserPropertiesIdUseCase.execute(id);
 
-        return ResponseEntity.ok(allLinks.get());
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Links successfully found.");
+        response.put("Body: ", allLinks.get());
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Links> editLinks(@PathVariable UUID id, @Valid @RequestBody Links links){
+    public ResponseEntity<Map<String, Object>> editLinks(@PathVariable UUID id, @Valid @RequestBody Links links){
         Optional<Links> editedLink = editLinksUseCase.execute(id, links);
 
-        return ResponseEntity.ok(editedLink.get());
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Links successfully found.");
+        response.put("Body: ", editedLink.get());
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -10,6 +10,7 @@ import com.example.StarterHub.infra.persistence.repositories.UserPropertiesRepos
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -35,6 +36,21 @@ public class LinksRepositoryGateway implements LinksGateway {
         LinkModel link = linkRepository.save(mapper.toEntity(links));
 
         return Optional.of(mapper.toDomain(link));
+    }
+
+    @Override
+    public Optional<ArrayList<Links>> postAllLinks(ArrayList<Links> allLinks) {
+        if(userPropertiesRepository.findById(allLinks.get(0).userPropertiesID()).isEmpty()) {
+            throw new NotFoundObjectByIdentifierException("Don't have any user specs " + allLinks.get(0).userPropertiesID() + " with this id.");
+        }
+
+        List<LinkModel> newLinks = linkRepository.saveAll(allLinks.stream()
+                .map(mapper::toEntity)
+                .collect(Collectors.toCollection(ArrayList::new)));
+
+        return Optional.of(newLinks.stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toCollection(ArrayList::new)));
     }
 
     @Override

@@ -36,6 +36,7 @@ public class UserPropertiesController {
     @Transactional
     @PostMapping("/create")
     public ResponseEntity<Map<String, Object>> createUserProperties(@Valid @RequestBody CreateUserPropertiesRequest request){
+        System.out.println("Request: " + request.toString());
         Optional<UserProperties> newUserProperties = postUserPropertiesUseCase.execute(mapper.toDomain(request));
 
         Map<String, Object> response = new HashMap<>();

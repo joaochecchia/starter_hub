@@ -53,7 +53,7 @@ public class ControllerExceptions {
     public ResponseEntity<Map<String, String>> handleUsernameNotFoundException(UsernameNotFoundException ex){
         Map<String, String> errors = new HashMap<>();
 
-        errors.put("Message: ", ex.getMessage());
+        errors.put("Error: ", ex.getMessage());
 
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
