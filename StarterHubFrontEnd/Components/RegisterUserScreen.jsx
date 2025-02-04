@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Navigate } from 'react-router'
 import UseFetch from '../hooks/UseFetch'
 import './RegisterUserScreen.css'
 
@@ -91,8 +92,8 @@ const RegisterUserScreen = () => {
     useEffect(() => {
         if(data){
             console.log(data)
+
         } else if(errors){
-            console.log(errors)
 
             setUsernameExists(false)
             setEmailExists(false)
@@ -100,7 +101,7 @@ const RegisterUserScreen = () => {
 
             const errorsArray = errors.split('\n')
             const temp = errorsArray.filter((item) => item != '')
-            console.log(temp)
+
             temp.forEach((item) => {
                 if (item.includes("Username")) {
                     setUsernameExists(true); 
@@ -114,10 +115,6 @@ const RegisterUserScreen = () => {
                     setPhoneNumberExists(true); 
                 }
             })
-
-            console.log(usernameExists)
-            console.log(emailExists)
-            console.log(phoneNumberExists)
         }
     }, [data, errors])
     
