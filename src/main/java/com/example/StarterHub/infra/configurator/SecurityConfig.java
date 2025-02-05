@@ -38,6 +38,7 @@ public class SecurityConfig {
                         .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                         .requestMatchers(HttpMethod.POST, "/starter-hub/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/starter-hub/user/register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/starter-hub/user/userExists").permitAll()
                         .requestMatchers(HttpMethod.POST, "/starter-hub/user/login").permitAll()
                         .anyRequest().authenticated()
                 )

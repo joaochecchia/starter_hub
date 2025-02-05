@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Navigate } from 'react-router'
-import UseFetch from '../hooks/UseFetch'
-import './RegisterUserScreen.css'
+import UseFetch  from '../hooks/UseFetch.jsx'
+import styles from './RegisterUserScreen.module.css'
 
 const RegisterUserScreen = () => {
     
@@ -22,6 +22,9 @@ const RegisterUserScreen = () => {
 
     const [verifyPassword, setVerifyPassword] = useState('')
     const [verifyPasswordValid, setVerifyPasswordValid] = useState(true)
+
+    const [user, setUser] = useState(null)
+    const [redirect, setRedirect] = useState(false)
 
     const { httpConfig, data, errors, loading, setId, setUrl, url } = UseFetch()
 
@@ -63,11 +66,12 @@ const RegisterUserScreen = () => {
     }
 
     const handleSubmit = () => {
+        console.log("Passei no handle")
         const usernameRegex = /^[a-zA-Z][a-zA-Z0-9]{0,24}$/
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
         const passwordRegex = /^[A-Z0-9@][a-zA-Z0-9.-_]{3,24}$/
         
-        if(usernameRegex.test(username) && emailRegex.test(email) && phoneNumber.length === 15 && passwordRegex.test(password) && verifyPassword.length > 0){
+        if(usernameRegex.test(username) && emailRegex.test(email) && phoneNumber.length === 15 && verifyPassword.length > 0){
             if(password === verifyPassword){
                 const newUser = {
                     username: username,
@@ -75,10 +79,14 @@ const RegisterUserScreen = () => {
                     email: email,
                     phone: phoneNumber 
                 }
+                setUser(newUser)
+
+                console.log("Valido")
                 
-                setUrl('http://localhost:8080/starter-hub/user/register')
+                setUrl('http://localhost:8080/starter-hub/user/userExists')
                 httpConfig("POST", newUser)
             } else{
+                console.log("Senha invalida")
                 setVerifyPasswordValid(false)
             }
         } else{
@@ -92,6 +100,8 @@ const RegisterUserScreen = () => {
     useEffect(() => {
         if(data){
             console.log(data)
+            console.log("Nenhum erro aconteceu.")
+            setRedirect(true)
 
         } else if(errors){
 
@@ -117,11 +127,15 @@ const RegisterUserScreen = () => {
             })
         }
     }, [data, errors])
+
+    if (redirect) {
+        return <Navigate to="/register/properties" replace state={{ user }}/>
+    }
     
     return (
         <>
-            <div className="container">
-                <form className="registerContainer">
+            <div className={styles.container}>
+                <form className={styles.registerContainer}>
                     <div>
                         {usernameValid ? usernameExists ? <label style={{ color: '#FF6F61' }} >Username already exists</label> : <label>Username</label> : <label style={{ color: '#FF6F61' }}>Username starts with letters</label>}
                         <input type="text" placeholder='Required' onChange={handleUsernameChange}/>
@@ -142,7 +156,7 @@ const RegisterUserScreen = () => {
                         {verifyPasswordValid ? <label htmlFor="">Repeat Password</label> : <label style={{ color: '#FF6F61' }}>Passwords don't match</label>}
                         <input type="text" placeholder='Required' onChange={handleVerifyPasswordChange}/>
                     </div>
-                    <div className="buttonDiv">
+                    <div className={styles.buttonDiv}>
                         <input type="button" value="sign up" onClick={handleSubmit} />
                     </div>
                 </form>

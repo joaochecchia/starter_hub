@@ -29,6 +29,11 @@ public class UsersBeanConfigurator {
     }
 
     @Bean
+    public UserExistsUseCase userExists(UsersGateway usersGateway){
+        return new UserExistsUseCaseImp(usersGateway);
+    }
+
+    @Bean
     public DeleteUsersUseCase deleteUsers(UsersGateway usersGateway){
         return new DeleteUsersUseCaseImp(usersGateway);
     }

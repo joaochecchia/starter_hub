@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react'
-import './RegisterUserProperties.css'
-import UseFetch from '../hooks/UseFetch'
+import { Navigate, redirect, useLocation } from 'react-router'
+import styles from './RegisterUserProperties.module.css'
+import UseFetch from '../hooks/UseFetch.jsx'
 
 const RegisterUserProperties = () => {
+    
+    const locationHook = useLocation()
+    const user = locationHook.state?.user
 
     const [description, setDescription] = useState('')
 
@@ -16,14 +20,25 @@ const RegisterUserProperties = () => {
 
     const [links, setLinks] = useState([]) 
     const [maxLinksWarning, setMaxLinksWarning] = useState(false)
+    const [linkFormatError, setLinkFormatError] = useState([])
 
     const [userPropertiesID, setUsePropertiesID] = useState(null)
 
+    const [addressSaved, setAddressSaved] = useState(false)
+
+    const [hasError, setHasError] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+
+    const [redirect, setRedirect] = useState(false);
 
     const { httpConfig, data, errors, loading, setId, setUrl, url } = UseFetch()
 
     const handleAddLinks = () => {
         if (links.length < 3) { 
+            // aplicar regex
+            const testLink = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
+
+            
             setLinks((prevLinks) => [...prevLinks, ""])  
         } else {
             setMaxLinksWarning(true) 
@@ -78,51 +93,41 @@ const RegisterUserProperties = () => {
     }
 
     const handleSubmit = () => {
-        const userProperties = {
+        const registerRequest = {
+            userRequest: user,
             description: description,
             company: company,
-            usersId: id
+            country: country,
+            postalCode: postalCode,
+            location: location,
+            createLinksRequest: links
         }
         
-        console.log(userProperties)
+        console.log(registerRequest)
 
-        setUrl("http://localhost:8080/starter-hub/users/create")
-        httpConfig("POST", userProperties, null, token)
+        setUrl("http://localhost:8080/starter-hub/user/register")
+        httpConfig("POST", registerRequest, null, null)
     }
 
     useEffect(() => {
-        if (data && data["Body: "] && data["Body: "].id) {
-            console.log("data no user: " + data["Body: "].id)
-            setUsePropertiesID(data["Body: "].id)
-            
+        if (data && data["Body: "]) {
+            console.log(data["Body: "])
+            setRedirect(true)
+        } else if(errors){
+            console.log(errors)
         }
     }, [data, errors])
 
-    useEffect(() => {
-        if(userPropertiesID){
-            console.log(userPropertiesID)
-
-            const address = {
-                country: country,
-                postalCode: postalCode,
-                location: location,
-                userPropertiesID: userPropertiesID
-            }
-    
-            console.log(address)
-            setUrl("http://localhost:8080/starter-hub/users/address/create")
-            httpConfig("POST", address, null, token)
-            console.log(data)
-            console.log(errors)
-        }
-    },[userPropertiesID])
+    if(redirect){
+        return <Navigate to="/" replace/>
+    }
 
     return (
         <>
-            <div className="container">
-                <form className="registerContainer">
+            <div className={styles.container}>
+                <form className={styles.registerContainer}>
                     <div>
-                        <div className='labelContainer'>
+                        <div className={styles.labelContainer}>
                             <label>Description</label>
                             <label style={description.length === 255 ? { color: '#FF6F61' } : {}} >Size: {description.length}</label>
                         </div>
@@ -132,7 +137,7 @@ const RegisterUserProperties = () => {
                         <label>Company</label>
                         <input type="text" placeholder='Optional' onChange={handleCompany} />
                     </div>
-                    <div className='divisory'></div>
+                    <div className={styles.divisory}></div>
                     <label>Address: Optional</label>
                     <div>
                         <label>Country</label>
@@ -147,9 +152,9 @@ const RegisterUserProperties = () => {
                         <input type="text" onChange={handleLocation} />
                     </div>
 
-                    <div className='divisory'></div>
+                    <div className={styles.divisory}></div>
 
-                    <div className='linksContainer'>
+                    <div className={styles.linksContainer}>
                         {maxLinksWarning ? <p style={{color: '#FF6F61'}}>You can only add 3 links!</p> : <label>Links: </label>}
                         <div>
                             {links.map((link, index) => (
@@ -162,7 +167,7 @@ const RegisterUserProperties = () => {
                                     />
                                 </div>
                             ))}
-                            <div className='buttonsDiv'>
+                            <div className={styles.buttonsDiv}>
                                 <button type="button" onClick={handleAddLinks}>+</button>
                                 {links.length > 0 && (
                                     <button type="button" onClick={() => handleRemoveLinks(links.length - 1)}>-</button>
@@ -171,7 +176,7 @@ const RegisterUserProperties = () => {
                         </div>
                     </div>
 
-                    <div className="buttonDiv">
+                    <div className={styles.buttonDiv}>
                         <input type="button" value="register" onClick={handleSubmit}/>
                     </div>
                 </form>

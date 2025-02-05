@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import useFetch from '../hooks/UseFetch.jsx'
 import { Link, Navigate } from 'react-router-dom'
 import { LoginContext } from '../context/LoginContext.jsx'
-import './LoginScreen.css'
+import styles from './LoginScreen.module.css'
 
 const LoginScreen = () => {
   const [Username, setUsername] = useState("")
@@ -43,24 +43,23 @@ const LoginScreen = () => {
   }, [data])
 
   if (redirect) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/" replace />
   }
 
-  console.log("a: " + userToken)
   return (
-    <div className="LoginContainer">
+    <div className={styles.LoginContainer}>
       <form>
-        <div className="labelDiv">
+        <div className={styles.labelDiv}>
           <label htmlFor="">Username</label>
           <input type="text" onChange={handleUsernameChange} />
         </div>
-        <div className="labelDiv">
+        <div className={styles.labelDiv}>
           <label htmlFor="">Password</label>
           <input type="password" onChange={handlePasswordChange} />
-          <Link className='registerLink' to={'/register'}>Don't have an account?</Link>
+          <Link className={styles.registerLink} to={'/register'}>Don't have an account?</Link>
         </div>
         <input
-          className="formButton"
+          className={styles.formButton}
           type="button"
           value={"Sign in"}
           onClick={handleSubmit}

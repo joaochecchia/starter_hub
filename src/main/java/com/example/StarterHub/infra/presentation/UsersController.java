@@ -15,9 +15,11 @@ import com.example.StarterHub.infra.Mapper.LinksMapper;
 import com.example.StarterHub.infra.Mapper.UserPropertiesMapper;
 import com.example.StarterHub.infra.Mapper.UsersMapper;
 import com.example.StarterHub.core.validation.LoginRequest;
+import com.example.StarterHub.infra.exceptions.CredentialsAreadyExistsExceptions;
 import com.example.StarterHub.infra.requests.RegisterUserRequest;
 import com.example.StarterHub.infra.requests.create.CreateAddressRequest;
 import com.example.StarterHub.infra.requests.create.CreateUserPropertiesRequest;
+import com.example.StarterHub.infra.requests.create.CreateUserRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -37,26 +39,29 @@ public class UsersController {
     private final PostAddressUseCase postAddressUseCase;
     private final PostUserPropertiesUseCase postUserPropertiesUseCase;
     private final PostAllLinksUseCase postAllLinksUseCase;
+    private final UserExistsUseCase userExistsUseCase;
     private final UsersMapper mapper;
     private final UserPropertiesMapper userPropertiesMapper;
     private final AddressMapper addressMapper;
     private final LinksMapper linksMapper;
 
-    public UsersController(RegisterUsersUseCase registerUsersUseCase, LoginUsersUserCase loginUsersUserCase, PostAddressUseCase postAddressUseCase, PostUserPropertiesUseCase postUserPropertiesUseCase, PostAllLinksUseCase postAllLinksUseCase, UsersMapper mapper, UserPropertiesMapper userPropertiesMapper, AddressMapper addressMapper, LinksMapper linksMapper) {
+    public UsersController(RegisterUsersUseCase registerUsersUseCase, LoginUsersUserCase loginUsersUserCase, PostAddressUseCase postAddressUseCase, PostUserPropertiesUseCase postUserPropertiesUseCase, PostAllLinksUseCase postAllLinksUseCase, UserExistsUseCase userExistsUseCase, UsersMapper mapper, UserPropertiesMapper userPropertiesMapper, AddressMapper addressMapper, LinksMapper linksMapper) {
         this.registerUsersUseCase = registerUsersUseCase;
         this.loginUsersUserCase = loginUsersUserCase;
         this.postAddressUseCase = postAddressUseCase;
         this.postUserPropertiesUseCase = postUserPropertiesUseCase;
         this.postAllLinksUseCase = postAllLinksUseCase;
+        this.userExistsUseCase = userExistsUseCase;
         this.mapper = mapper;
         this.userPropertiesMapper = userPropertiesMapper;
         this.addressMapper = addressMapper;
         this.linksMapper = linksMapper;
     }
 
+
     @Transactional
     @PostMapping("/register")
-    public ResponseEntity<Map<String, Object>> registerUsers(@Valid @RequestBody RegisterUserRequest request){
+    public ResponseEntity<Map<String, Object>> registerUsers(@Valid @RequestBody RegisterUserRequest request) {
         ArrayList<String> linksRequest = request.createLinksRequest();
         Optional<Users> newUser = registerUsersUseCase.execute(mapper.toDomain(request.userRequest()));
 
@@ -67,18 +72,16 @@ public class UsersController {
         Optional<UserProperties> newUserProperties = postUserPropertiesUseCase.execute(userPropertiesMapper.toDomain(userPropertiesRequest));
         responseArray.add(newUserProperties.get());
 
-        if(request.location() != null && request.country() != null && request.postalCode() != null){
-            System.out.println("Estive no if do address");
+        if (request.location() != null && request.country() != null && request.postalCode() != null) {
             CreateAddressRequest addressRequest = new CreateAddressRequest(request.country(), request.postalCode(), request.location(), newUserProperties.get().id());
             Optional<Address> newAddress = postAddressUseCase.execute(addressMapper.toDomain(addressRequest));
             responseArray.add(newAddress.get());
         }
 
-        if(request.createLinksRequest() != null){
-            System.out.println("Estive no if do Link");
+        if (request.createLinksRequest() != null) {
             Optional<ArrayList<Links>> newLinks = postAllLinksUseCase.execute(linksRequest.stream()
                     .map(item -> linksMapper.toDomain(item, newUserProperties.get()
-                    .id()))
+                            .id()))
                     .collect(Collectors.toCollection(ArrayList::new)));
 
             responseArray.add(newLinks.get());
@@ -93,9 +96,27 @@ public class UsersController {
                 .body(response);
     }
 
+    @PostMapping("/userExists")
+    public ResponseEntity<Map<String, Object>> userExists(@RequestBody CreateUserRequest request) {
+        Map<String, Object> userExists = userExistsUseCase.execute(request.username(), request.email(), request.phone());
+
+        Map<String, Object> response = new HashMap<>();
+        if (!userExists.isEmpty()) {
+            StringBuilder stringBuilder = new StringBuilder();
+            if (userExists.get("Username") != null) stringBuilder.append(userExists.get("Username")).append("\n");
+            if (userExists.get("Email") != null) stringBuilder.append(userExists.get("Email")).append("\n");
+            if (userExists.get("PhoneNumber") != null) stringBuilder.append(userExists.get("PhoneNumber"));
+
+            throw new CredentialsAreadyExistsExceptions(stringBuilder.toString());
+        }
+
+        response.put("Message: ", "User don't exists on database.");
+        return ResponseEntity.ok(response);
+    }
+
     @Transactional
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> loginUsers(@Valid @RequestBody LoginRequest request){
+    public ResponseEntity<Map<String, Object>> loginUsers(@Valid @RequestBody LoginRequest request) {
         Optional<LoginResponse> login = loginUsersUserCase.execute(request);
 
         Map<String, Object> response = new HashMap<>();

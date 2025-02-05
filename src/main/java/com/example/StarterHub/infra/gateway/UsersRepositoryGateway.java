@@ -120,10 +120,8 @@ public class UsersRepositoryGateway implements UsersGateway {
     }
 
     @Override
-    @Transactional
     public Map<String, Object> userExist(String username, String email, String phoneNumber) {
         Map<String, Object> check = new HashMap<>();
-        System.out.println(username + email + phoneNumber);
         if (userRepository.findByEmail(email).isPresent()) check.put("Email", "Email" + email + " already exists.");
         if (userRepository.findByUsername(username).isPresent()) check.put("Username", "Username " + username + " already exists.");
         if (userRepository.findByPhoneNumber(phoneNumber).isPresent()) check.put("PhoneNumber", "Phone number " + phoneNumber + " already exists.");

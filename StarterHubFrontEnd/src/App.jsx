@@ -1,11 +1,11 @@
 import { useState, useContext } from 'react'
 import './App.css'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { LoginContext } from '../context/LoginContext.jsx'
-import LoginScreen from '../Components/LoginScreen'
-import Home from '../Components/Home.jsx'
-import RegisterUserScreen from '../Components/RegisterUserScreen.jsx'
-import RegisterUserProperties from '../Components/RegisterUserProperties.jsx'
+import { LoginContext } from './context/LoginContext.jsx'
+import LoginScreen from './Components/LoginScreen.jsx'
+import Home from './Components/Home.jsx'
+import RegisterUserScreen from './Components/RegisterUserScreen.jsx'
+import RegisterUserProperties from './Components/RegisterUserProperties.jsx'
 
 function App() {
   const { userToken, decodedToken, changeUserToken, clearUserToken } = useContext(LoginContext)

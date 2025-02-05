@@ -6,20 +6,18 @@
     padding-top: 2.5rem;
     gap: 1.7rem;
 }
-
 input {
     height: 3.5rem;
     width: 25rem;
     border-radius: 20px;
 }
-
 .container {
+    background-color: #343541;
     flex-grow: 1; 
     width: 100%; 
     display: flex; 
     border-radius: 5px;
 }
-
 .sideBarContainer{
     height: 100%;
     width: 20rem;
@@ -30,7 +28,6 @@ input {
     gap: 1rem;
     padding: 2rem;
 }
-
 .repositoriesContainer{
     display: flex;
     flex-direction: column;
@@ -39,7 +36,6 @@ input {
     gap: 1rem;
     padding: 2rem;
 }
-
 .sideBarContainer button{
     margin: 0;
     padding-bottom: 0.5rem;
@@ -50,7 +46,6 @@ input {
     width: 18rem; 
     text-align: center;
 }
-
 .repositoriesContainer button{
     margin: 0;
     padding-bottom: 0.5rem;
@@ -60,9 +55,7 @@ input {
     font-size: 25px;
     width: 65rem; 
     text-align: center;
-
 }
-
 button:hover{
     filter: brightness(0.7);  
     cursor: pointer; 
