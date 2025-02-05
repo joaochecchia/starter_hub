@@ -7,6 +7,8 @@ import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
 import com.example.StarterHub.infra.requests.create.CreateAddressRequest;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 public class AddressMapper {
 
@@ -30,6 +32,16 @@ public class AddressMapper {
         );
     }
 
+    public Address toDomain(CreateAddressRequest request, UUID userPropertiesID){
+        return new Address(
+                null,
+                request.country(),
+                request.postalCode(),
+                request.location(),
+                userPropertiesID
+        );
+    }
+
     public Address toDomain(AddressModel model){
         return new Address(
                 model.getId(),
@@ -48,6 +60,18 @@ public class AddressMapper {
                 domain.location(),
                 new UserPropertiesModel(
                         domain.userPropertiesId()
+                )
+        );
+    }
+
+    public AddressModel toEntity(Address domain, UUID userPropertiesID){
+        return new AddressModel(
+                domain.id(),
+                domain.country(),
+                domain.postalCode(),
+                domain.location(),
+                new UserPropertiesModel(
+                        userPropertiesID
                 )
         );
     }

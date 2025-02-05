@@ -28,8 +28,9 @@ public class AddressRepositoryGateway implements AddressGateway {
     @Override
     public Optional<Address> postAddress(Address address) {
         if (userPropertiesRepository.findById(address.userPropertiesId()).isEmpty()){
-            throw new NotFoundObjectByIdentifierException("Don't have any user with this id " + address.userPropertiesId() + ".");
+            throw new NotFoundObjectByIdentifierException("Teste: Address: Don't have any user with this id " + address.userPropertiesId() + ".");
         }
+
         AddressModel newAddress = addressRepository.save(mapper.toEntity(address));
 
         return Optional.of(mapper.toDomain(newAddress));

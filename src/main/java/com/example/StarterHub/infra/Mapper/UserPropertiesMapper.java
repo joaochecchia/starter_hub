@@ -53,6 +53,34 @@ public class UserPropertiesMapper {
         );
     }
 
+    public UserProperties toDomain(CreateUserPropertiesRequest request, UUID userId){
+
+        byte[] photo = null;
+        if(request.encodedPhoto() != null){
+            try{
+                photo = Base64.getDecoder().decode(request.encodedPhoto());
+            } catch (IllegalArgumentException e){
+            }
+        }
+
+        return new UserProperties(
+                null,
+                request.description(),
+                photo,
+                request.company(),
+                new ArrayList<>(),
+                null,
+                new ArrayList<>(),
+                new Users(
+                        userId,
+                        null,
+                        null,
+                        null,
+                        null
+                )
+        );
+    }
+
     public UserProperties toDomain(UserPropertiesModel model, UUID userId){
         if(model == null) return null;
 
@@ -94,6 +122,41 @@ public class UserPropertiesMapper {
 
         UserModel userModel = new UserModel();
         userModel.setId(domain.users().id());
+        userModel.setEmail(domain.users().email());
+        userModel.setPassword(domain.users().password());
+        userModel.setUsername(domain.users().username());
+        userModel.setPhoneNumber(domain.users().phone());
+        userModel.setUserPropertiesModel(null);
+
+        ArrayList<LinkModel> linksModel = domain.links().stream()
+                .map(linksMapper::toEntity)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        ArrayList<RepositoryModel> repositories = domain.repositories().stream()
+                .map(repositoryMapper::toEntity)
+                .collect(Collectors.toCollection(ArrayList::new));
+
+        AddressModel addressModel = domain.address() == null ? null :
+                addressMapper.toEntity(domain.address());
+
+        UserPropertiesModel model = new UserPropertiesModel();
+        model.setId(domain.id());
+        model.setDescription(domain.description());
+        model.setPhoto(domain.photo());
+        model.setCompany(domain.company());
+        model.setUserModel(userModel);
+        model.setRepositoryModel(repositories);
+        model.setLinkModel(linksModel);
+        model.setAddressModel(addressModel);
+
+        return model;
+    }
+
+    public UserPropertiesModel toEntity(UserProperties domain, UUID userID){
+        if(domain == null) return null;
+
+        UserModel userModel = new UserModel();
+        userModel.setId(userID);
         userModel.setEmail(domain.users().email());
         userModel.setPassword(domain.users().password());
         userModel.setUsername(domain.users().username());

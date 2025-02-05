@@ -1,9 +1,14 @@
 package com.example.StarterHub.core.useCases.User;
 
+import com.example.StarterHub.core.domain.Address;
+import com.example.StarterHub.core.domain.Links;
+import com.example.StarterHub.core.domain.UserProperties;
 import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.core.gateway.UsersGateway;
 import com.example.StarterHub.infra.exceptions.CredentialsAreadyExistsExceptions;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 

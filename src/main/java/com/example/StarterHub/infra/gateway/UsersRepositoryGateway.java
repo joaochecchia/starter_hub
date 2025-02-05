@@ -1,12 +1,24 @@
 package com.example.StarterHub.infra.gateway;
 
+import com.example.StarterHub.core.domain.Address;
+import com.example.StarterHub.core.domain.Links;
+import com.example.StarterHub.core.domain.UserProperties;
 import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.core.gateway.UsersGateway;
 import com.example.StarterHub.core.validation.LoginRequest;
 import com.example.StarterHub.core.validation.LoginResponse;
+import com.example.StarterHub.infra.Mapper.AddressMapper;
+import com.example.StarterHub.infra.Mapper.LinksMapper;
+import com.example.StarterHub.infra.Mapper.UserPropertiesMapper;
 import com.example.StarterHub.infra.Mapper.UsersMapper;
 import com.example.StarterHub.infra.configurator.TokenService;
+import com.example.StarterHub.infra.persistence.entities.AddressModel;
+import com.example.StarterHub.infra.persistence.entities.LinkModel;
 import com.example.StarterHub.infra.persistence.entities.UserModel;
+import com.example.StarterHub.infra.persistence.entities.UserPropertiesModel;
+import com.example.StarterHub.infra.persistence.repositories.AddressRepository;
+import com.example.StarterHub.infra.persistence.repositories.LinkRepository;
+import com.example.StarterHub.infra.persistence.repositories.UserPropertiesRepository;
 import com.example.StarterHub.infra.persistence.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -17,20 +29,33 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
 public class UsersRepositoryGateway implements UsersGateway {
 
     private final UserRepository userRepository;
+    private final UserPropertiesRepository userPropertiesRepository;
+    private final AddressRepository addressRepository;
+    private final LinkRepository linkRepository;
     private final UsersMapper mapper;
+    private final UserPropertiesMapper userPropertiesMapper;
+    private final AddressMapper addressMapper;
+    private final LinksMapper linksMapper;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
 
-    public UsersRepositoryGateway(UsersMapper mapper, UserRepository userRepository, PasswordEncoder encoder, AuthenticationManager authenticationManager, TokenService tokenService) {
+    public UsersRepositoryGateway(UsersMapper mapper, UserRepository userRepository, UserPropertiesRepository userPropertiesRepository, AddressRepository addressRepository, LinkRepository linkRepository, UserPropertiesMapper userPropertiesMapper, AddressMapper addressMapper, LinksMapper linksMapper, PasswordEncoder encoder, AuthenticationManager authenticationManager, TokenService tokenService) {
         this.mapper = mapper;
         this.userRepository = userRepository;
+        this.userPropertiesRepository = userPropertiesRepository;
+        this.addressRepository = addressRepository;
+        this.linkRepository = linkRepository;
+        this.userPropertiesMapper = userPropertiesMapper;
+        this.addressMapper = addressMapper;
+        this.linksMapper = linksMapper;
         this.encoder = encoder;
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
@@ -48,9 +73,10 @@ public class UsersRepositoryGateway implements UsersGateway {
     }
 
     @Override
-    public Optional<Users> registerUsers(Users users) {
-        String encodedPassword = encoder.encode(users.password());
-        UserModel entity = mapper.toEntity(users);
+    public Optional<Users> registerUsers(Users request) {
+
+        String encodedPassword = encoder.encode(request.password());
+        UserModel entity = mapper.toEntity(request);
         entity.setPassword(encodedPassword);
         UserModel newUser = userRepository.save(entity);
 
