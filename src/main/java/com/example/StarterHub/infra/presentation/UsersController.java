@@ -6,7 +6,6 @@ import com.example.StarterHub.core.domain.UserProperties;
 import com.example.StarterHub.core.domain.Users;
 import com.example.StarterHub.core.useCases.Address.PostAddressUseCase;
 import com.example.StarterHub.core.useCases.Links.PostAllLinksUseCase;
-import com.example.StarterHub.core.useCases.Links.PostLinksUseCase;
 import com.example.StarterHub.core.useCases.User.*;
 
 import com.example.StarterHub.core.useCases.UserProperties.PostUserPropertiesUseCase;
@@ -16,11 +15,9 @@ import com.example.StarterHub.infra.Mapper.LinksMapper;
 import com.example.StarterHub.infra.Mapper.UserPropertiesMapper;
 import com.example.StarterHub.infra.Mapper.UsersMapper;
 import com.example.StarterHub.core.validation.LoginRequest;
-import com.example.StarterHub.infra.configurator.TokenService;
 import com.example.StarterHub.infra.requests.RegisterUserRequest;
 import com.example.StarterHub.infra.requests.create.CreateAddressRequest;
-import com.example.StarterHub.infra.requests.create.CreateLinksRequest;
-import com.example.StarterHub.infra.requests.create.CreateUserRequest;
+import com.example.StarterHub.infra.requests.create.CreateUserPropertiesRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -39,28 +36,18 @@ public class UsersController {
     private final LoginUsersUserCase loginUsersUserCase;
     private final PostAddressUseCase postAddressUseCase;
     private final PostUserPropertiesUseCase postUserPropertiesUseCase;
-    private final PostLinksUseCase postLinksUseCase;
     private final PostAllLinksUseCase postAllLinksUseCase;
-    private final EditUsersUseCase editUsersUseCase;
-    private final SearchUsersUseCase searchUsersUseCase;
-    private final DeleteUsersUseCase deleteUsersUseCase;
-    private final TokenService tokenService;
     private final UsersMapper mapper;
     private final UserPropertiesMapper userPropertiesMapper;
     private final AddressMapper addressMapper;
     private final LinksMapper linksMapper;
 
-    public UsersController(RegisterUsersUseCase registerUsersUseCase, LoginUsersUserCase loginUsersUserCase, PostAddressUseCase postAddressUseCase, PostUserPropertiesUseCase postUserPropertiesUseCase, PostLinksUseCase postLinksUseCase, PostAllLinksUseCase postAllLinksUseCase, EditUsersUseCase editUsersUseCase, SearchUsersUseCase searchUsersUseCase, DeleteUsersUseCase deleteUsersUseCase, TokenService tokenService, UsersMapper mapper, UserPropertiesMapper userPropertiesMapper, AddressMapper addressMapper, LinksMapper linksMapper) {
+    public UsersController(RegisterUsersUseCase registerUsersUseCase, LoginUsersUserCase loginUsersUserCase, PostAddressUseCase postAddressUseCase, PostUserPropertiesUseCase postUserPropertiesUseCase, PostAllLinksUseCase postAllLinksUseCase, UsersMapper mapper, UserPropertiesMapper userPropertiesMapper, AddressMapper addressMapper, LinksMapper linksMapper) {
         this.registerUsersUseCase = registerUsersUseCase;
         this.loginUsersUserCase = loginUsersUserCase;
         this.postAddressUseCase = postAddressUseCase;
         this.postUserPropertiesUseCase = postUserPropertiesUseCase;
-        this.postLinksUseCase = postLinksUseCase;
         this.postAllLinksUseCase = postAllLinksUseCase;
-        this.editUsersUseCase = editUsersUseCase;
-        this.searchUsersUseCase = searchUsersUseCase;
-        this.deleteUsersUseCase = deleteUsersUseCase;
-        this.tokenService = tokenService;
         this.mapper = mapper;
         this.userPropertiesMapper = userPropertiesMapper;
         this.addressMapper = addressMapper;
@@ -70,23 +57,25 @@ public class UsersController {
     @Transactional
     @PostMapping("/register")
     public ResponseEntity<Map<String, Object>> registerUsers(@Valid @RequestBody RegisterUserRequest request){
-        CreateAddressRequest addressRequest = request.createAddressRequest();
         ArrayList<String> linksRequest = request.createLinksRequest();
-
         Optional<Users> newUser = registerUsersUseCase.execute(mapper.toDomain(request.userRequest()));
 
         List<Object> responseArray = new ArrayList<>();
         responseArray.add(newUser.get());
 
-        Optional<UserProperties> newUserProperties = postUserPropertiesUseCase.execute(userPropertiesMapper.toDomain(request.userPropertiesRequest(), newUser.get().id()));
+        CreateUserPropertiesRequest userPropertiesRequest = new CreateUserPropertiesRequest(request.description(), null, request.company(), newUser.get().id());
+        Optional<UserProperties> newUserProperties = postUserPropertiesUseCase.execute(userPropertiesMapper.toDomain(userPropertiesRequest));
         responseArray.add(newUserProperties.get());
 
-        if(request.createAddressRequest() != null){
-            Optional<Address> newAddress = postAddressUseCase.execute(addressMapper.toDomain(addressRequest, newUserProperties.get().id()));
+        if(request.location() != null && request.country() != null && request.postalCode() != null){
+            System.out.println("Estive no if do address");
+            CreateAddressRequest addressRequest = new CreateAddressRequest(request.country(), request.postalCode(), request.location(), newUserProperties.get().id());
+            Optional<Address> newAddress = postAddressUseCase.execute(addressMapper.toDomain(addressRequest));
             responseArray.add(newAddress.get());
         }
 
         if(request.createLinksRequest() != null){
+            System.out.println("Estive no if do Link");
             Optional<ArrayList<Links>> newLinks = postAllLinksUseCase.execute(linksRequest.stream()
                     .map(item -> linksMapper.toDomain(item, newUserProperties.get()
                     .id()))
