@@ -14,6 +14,11 @@ public class FolderConfigurator {
     }
 
     @Bean
+    public SaveAllFoldersUseCase saveAllFolders(FoldersGateway foldersGateway){
+        return new SaveAllFoldersUseCaseImp(foldersGateway);
+    }
+
+    @Bean
     public FindAllFoldersUseCase findAllFolders(FoldersGateway foldersGateway){
         return new FindAllFoldersUseCaseImp(foldersGateway);
     }

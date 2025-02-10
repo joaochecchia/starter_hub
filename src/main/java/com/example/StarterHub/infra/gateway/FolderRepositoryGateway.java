@@ -1,10 +1,14 @@
 package com.example.StarterHub.infra.gateway;
 
+import com.example.StarterHub.core.domain.Files;
 import com.example.StarterHub.core.domain.Folder;
 import com.example.StarterHub.core.gateway.FoldersGateway;
+import com.example.StarterHub.infra.Mapper.FilesMapper;
 import com.example.StarterHub.infra.Mapper.FolderMapper;
 import com.example.StarterHub.infra.exceptions.NotFoundObjectByIdentifierException;
+import com.example.StarterHub.infra.persistence.entities.FilesModel;
 import com.example.StarterHub.infra.persistence.entities.FolderModel;
+import com.example.StarterHub.infra.persistence.repositories.FilesRepository;
 import com.example.StarterHub.infra.persistence.repositories.FolderRepository;
 import com.example.StarterHub.infra.persistence.repositories.RepositoryRepository;
 import org.springframework.stereotype.Component;
@@ -18,12 +22,16 @@ import java.util.stream.Collectors;
 public class FolderRepositoryGateway implements FoldersGateway {
 
     private final FolderRepository folderRepository;
+    private final FilesRepository filesRepository;
     private final RepositoryRepository repositoryRepository;
-    private  final FolderMapper mapper;
+    private final FilesMapper filesMapper;
+    private final FolderMapper mapper;
 
-    public FolderRepositoryGateway(FolderRepository folderRepository, RepositoryRepository repositoryRepository, FolderMapper mapper) {
+    public FolderRepositoryGateway(FolderRepository folderRepository, FilesRepository filesRepository, RepositoryRepository repositoryRepository, FilesMapper filesMapper, FolderMapper mapper) {
         this.folderRepository = folderRepository;
+        this.filesRepository = filesRepository;
         this.repositoryRepository = repositoryRepository;
+        this.filesMapper = filesMapper;
         this.mapper = mapper;
     }
 
@@ -38,6 +46,33 @@ public class FolderRepositoryGateway implements FoldersGateway {
         FolderModel newFolder = folderRepository.save(mapper.toEntity(folder));
 
         return Optional.of(mapper.toDomain(newFolder));
+    }
+
+    @Override
+    public Optional<Folder> saveAllFolders(Folder folder) {
+        FolderModel newFolder = folderRepository.save(mapper.toEntity(folder));
+        for(Files i : folder.files()){
+            FilesModel filesModel = filesRepository.save(filesMapper.toEntity(i, newFolder.getId()));
+
+            if(newFolder.getFiles() == null){
+                newFolder.setFiles(new ArrayList<>());
+            }
+
+            newFolder.getFiles().add(filesModel);
+        }
+
+        for(Folder i : folder.children()){
+            Optional<Folder> folderModel = this.saveAllFolders(new Folder(
+                    null,
+                    i.name(),
+                    newFolder.getId(),
+                    i.files(),
+                    i.children(),
+                    null
+            ));
+        }
+
+        return Optional.of(mapper.toDomainRecursive(newFolder));
     }
 
     @Override

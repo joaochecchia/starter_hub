@@ -13,7 +13,6 @@ public class CommitMapper {
                 domain.hash(),
                 domain.description(),
                 domain.creationTimeStamp(),
-                null,
                 new RepositoryModel(
                         domain.repositoryId()
                 )

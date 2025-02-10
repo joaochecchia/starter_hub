@@ -1,17 +1,11 @@
 package com.example.StarterHub.infra.persistence.entities;
 
 import com.example.StarterHub.core.Enums.Visibility;
-import com.example.StarterHub.core.domain.Commit;
-import com.example.StarterHub.core.domain.Folder;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,6 +26,9 @@ public class RepositoryModel {
     @Column(nullable = false)
     private Visibility visibility;
 
+    @Column(name = "repository_path")
+    private String localRepositoryPath;
+
     @CreationTimestamp
     @Column(name = "creation_time", updatable = false)
     private LocalDateTime creationTimeStamp;
@@ -49,6 +46,19 @@ public class RepositoryModel {
     @ManyToOne
     @JoinColumn(name = "id_user_properties", referencedColumnName = "user_properties_id", nullable = false)
     private UserPropertiesModel userPropertiesModel;
+
+    public RepositoryModel(UUID id, String name, String description, Visibility visibility, String localReposiotryPath, LocalDateTime creationTimeStamp, LocalDateTime updateTimeStamp, List<CommitsModel> commitsModel, FolderModel root, UserPropertiesModel userPropertiesModel) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.visibility = visibility;
+        this.localRepositoryPath = localReposiotryPath;
+        this.creationTimeStamp = creationTimeStamp;
+        this.updateTimeStamp = updateTimeStamp;
+        this.commitsModel = commitsModel;
+        this.root = root;
+        this.userPropertiesModel = userPropertiesModel;
+    }
 
     public RepositoryModel(UUID id, String name, String description, Visibility visibility, LocalDateTime creationTimeStamp, LocalDateTime updateTimeStamp, List<CommitsModel> commitsModel, FolderModel root, UserPropertiesModel userPropertiesModel) {
         this.id = id;
@@ -139,6 +149,14 @@ public class RepositoryModel {
 
     public void setUserPropertiesModel(UserPropertiesModel userPropertiesModel) {
         this.userPropertiesModel = userPropertiesModel;
+    }
+
+    public String getLocalRepositoryPath() {
+        return localRepositoryPath;
+    }
+
+    public void setLocalRepositoryPath(String localRepositoryPath) {
+        this.localRepositoryPath = localRepositoryPath;
     }
 
     @Override

@@ -21,11 +21,6 @@ public class FilesConfigurator {
     }
 
     @Bean
-    public FindAllFilesUseCase findAllFiles(FilesGatweay filesGatweay){
-        return new FindAllFilesUseCaseImp(filesGatweay);
-    }
-
-    @Bean
     public EditFilesUseCase editFile(FilesGatweay filesGatweay){
         return new EditFilesUseCaseImp(filesGatweay);
     }

@@ -29,7 +29,7 @@ public class RepositoryRepositoryGateway implements RepositoryGateway {
 
     @Override
     public Optional<Repository> postRepository(Repository repository) {
-        if(userPropertiesRepository.findById(repository.userPropertiesID()).isPresent()) throw new NotFoundObjectByIdentifierException("Don't have any user with " + repository.userPropertiesID() + " ID.");
+        if(userPropertiesRepository.findById(repository.userPropertiesID()).isEmpty()) throw new NotFoundObjectByIdentifierException("Don't have any user with " + repository.userPropertiesID() + " ID.");
         RepositoryModel newRepository = repositoryRepository.save(mapper.toEntity(repository));
 
         return Optional.of(mapper.toDomain(newRepository));

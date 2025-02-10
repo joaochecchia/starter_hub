@@ -34,6 +34,7 @@ public class RepositoryController {
         this.mapper = mapper;
     }
 
+    @Transactional
     @PostMapping("/create")
     public ResponseEntity<Repository> createRepository(@Valid @RequestBody CreateRepositoryRequest request){
         Optional<Repository> newRepository = postRepositoryUseCase.execute(mapper.toDomain(request));

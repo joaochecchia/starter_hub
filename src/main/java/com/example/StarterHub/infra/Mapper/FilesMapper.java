@@ -7,6 +7,9 @@ import com.example.StarterHub.infra.persistence.entities.FolderModel;
 import com.example.StarterHub.infra.requests.create.CreateFileRequest;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.util.UUID;
+
 @Component
 public class FilesMapper {
     public FilesModel toEntity(Files domain){
@@ -15,19 +18,25 @@ public class FilesMapper {
                 domain.content(),
                 new FolderModel(
                         domain.folderId()
-                ),
-                new CommitsModel(
-                        domain.commitId()
                 )
         );
     }
 
-    public Files toEntity(CreateFileRequest request){
+    public FilesModel toEntity(Files domain, UUID folderID){
+        return new FilesModel(
+                domain.id(),
+                domain.content(),
+                new FolderModel(
+                        folderID
+                )
+        );
+    }
+
+    public Files toDomain(CreateFileRequest request) throws IOException {
         return new Files(
                 null,
-                request.content(),
-                request.folderId(),
-                request.commitId()
+                request.content() != null ? request.content().getBytes() : null,
+                request.folderId()
         );
     }
 
@@ -35,8 +44,7 @@ public class FilesMapper {
         return new Files(
                 model.getId(),
                 model.getContent(),
-                model.getFolderModel().getId(),
-                model.getCommitsModel().getHash()
+                model.getFolderModel().getId()
         );
     }
 }

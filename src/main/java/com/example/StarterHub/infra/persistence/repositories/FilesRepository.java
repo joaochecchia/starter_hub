@@ -8,5 +8,4 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface FilesRepository extends JpaRepository<FilesModel, UUID> {
-    Optional<ArrayList<FilesModel>> findAllByCommitsModelHash(UUID id);
 }

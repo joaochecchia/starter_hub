@@ -20,7 +20,7 @@ public class FolderModel {
 
     private String name;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_father", nullable = true)
     private FolderModel father;
 

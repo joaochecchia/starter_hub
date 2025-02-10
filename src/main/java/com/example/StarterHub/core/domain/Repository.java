@@ -12,6 +12,7 @@ public record Repository(
         String name,
         String repositoryDescription,
         Visibility visibility,
+        String localRepositoryPath,
         LocalDateTime creationTimeStamp,
         LocalDateTime updateTimeStamp,
         ArrayList<Commit> commits,

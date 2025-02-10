@@ -21,15 +21,11 @@ public class FilesModel {
     @JoinColumn(name = "id_folder", referencedColumnName = "folder_id", nullable = false)
     private FolderModel folderModel;
 
-    @ManyToOne
-    @JoinColumn(name = "id_commits", referencedColumnName = "hash", nullable = false)
-    private CommitsModel commitsModel;
 
-    public FilesModel(UUID id, byte[] content, FolderModel folderModel, CommitsModel commitsModel) {
+    public FilesModel(UUID id, byte[] content, FolderModel folderModel) {
         this.id = id;
         this.content = content;
         this.folderModel = folderModel;
-        this.commitsModel = commitsModel;
     }
 
     public FilesModel() {
@@ -59,21 +55,11 @@ public class FilesModel {
         this.folderModel = folderModel;
     }
 
-    public CommitsModel getCommitsModel() {
-        return commitsModel;
-    }
-
-    public void setCommitsModel(CommitsModel commitsModel) {
-        this.commitsModel = commitsModel;
-    }
-
     @Override
     public String toString() {
         return "FilesModel{" +
                 "id=" + id +
                 ", content=" + Arrays.toString(content) +
-                ", folderModel=" + folderModel +
-                ", commitsModel=" + commitsModel +
-                '}';
+                ", folderModel=" + folderModel + '}';
     }
 }

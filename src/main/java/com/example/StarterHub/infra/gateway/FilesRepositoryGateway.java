@@ -38,16 +38,6 @@ public class FilesRepositoryGateway implements FilesGatweay {
     }
 
     @Override
-    public Optional<ArrayList<Files>> findAllFiles(UUID id) {
-        Optional<ArrayList<FilesModel>> findAllFiles = filesRepository.findAllByCommitsModelHash(id);
-
-        return Optional.of(findAllFiles.get().stream()
-                .map(filesMapper::toDomain)
-                .collect(Collectors.toCollection(ArrayList::new))
-        );
-    }
-
-    @Override
     public Optional<Files> editFile(UUID id, Files files) {
         Optional<FilesModel> verify = filesRepository.findById(id);
 

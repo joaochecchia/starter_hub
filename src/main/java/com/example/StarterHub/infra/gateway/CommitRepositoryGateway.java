@@ -25,7 +25,6 @@ public class CommitRepositoryGateway implements CommitGateway {
 
     @Override
     public Optional<Commit> postCommit(Commit folder) {
-        System.out.println("ENTITY: " + mapper.toEntity(folder).toString());
         CommitsModel newModel = commitsRepository.save(mapper.toEntity(folder));
 
         return Optional.of(mapper.toDomain(newModel));

@@ -25,18 +25,14 @@ public class CommitsModel {
     @Column(name = "creation_time")
     private LocalDateTime creationTimeStamp;
 
-    @OneToMany(mappedBy = "commitsModel")
-    List<FilesModel> filesModel;
-
     @ManyToOne
     @JoinColumn(name = "id_repository", referencedColumnName = "repository_id", nullable = false)
     private RepositoryModel repositoryModel;
 
-    public CommitsModel(UUID hash, String description, LocalDateTime creationTimeStamp, List<FilesModel> filesModel, RepositoryModel repositoryModel) {
+    public CommitsModel(UUID hash, String description, LocalDateTime creationTimeStamp, RepositoryModel repositoryModel) {
         this.hash = hash;
         this.description = description;
         this.creationTimeStamp = creationTimeStamp;
-        this.filesModel = filesModel;
         this.repositoryModel = repositoryModel;
     }
 
@@ -71,14 +67,6 @@ public class CommitsModel {
         this.creationTimeStamp = creationTimeStamp;
     }
 
-    public List<FilesModel> getFilesModel() {
-        return filesModel;
-    }
-
-    public void setFilesModel(List<FilesModel> filesModel) {
-        this.filesModel = filesModel;
-    }
-
     public RepositoryModel getRepositoryModel() {
         return repositoryModel;
     }
@@ -93,7 +81,6 @@ public class CommitsModel {
                 "hash=" + hash +
                 ", description='" + description + '\'' +
                 ", creationTimeStamp=" + creationTimeStamp +
-                ", filesModel=" + filesModel +
                 ", repositoryModel=" + repositoryModel +
                 '}';
     }

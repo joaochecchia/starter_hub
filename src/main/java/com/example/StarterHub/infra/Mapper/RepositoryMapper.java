@@ -36,6 +36,7 @@ public class RepositoryMapper {
                 domain.name(),
                 domain.repositoryDescription(),
                 domain.visibility(),
+                domain.localRepositoryPath(),
                 domain.creationTimeStamp(),
                 domain.updateTimeStamp(),
                 commitsModel,
@@ -52,13 +53,13 @@ public class RepositoryMapper {
                 request.name(),
                 request.repositoryDescription(),
                 request.visibility(),
+                request.localRepositoryPath(),
                 null,
                 null,
                 new ArrayList<>(),
                 null,
                 request.userPropertiesID()
         );
-
     }
 
     public Repository toDomain(RepositoryModel model){
@@ -73,6 +74,7 @@ public class RepositoryMapper {
                 model.getName(),
                 model.getDescription(),
                 model.getVisibility(),
+                model.getLocalRepositoryPath(),
                 model.getCreationTimeStamp(),
                 model.getUpdateTimeStamp(),
                 commitsDomain,

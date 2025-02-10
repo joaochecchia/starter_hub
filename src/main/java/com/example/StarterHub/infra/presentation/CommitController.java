@@ -24,7 +24,7 @@ public class CommitController {
         this.mapper = mapper;
     }
 
-    @PostMapping("/commit")
+    @PostMapping("/postCommit")
     public ResponseEntity<Commit> postCommit(@RequestBody CreateCommitRequest request){
         Optional<Commit> newCommit = commitGateway.postCommit(mapper.toDomain(request));
 
