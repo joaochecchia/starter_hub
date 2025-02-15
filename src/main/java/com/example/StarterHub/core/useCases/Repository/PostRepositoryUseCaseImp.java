@@ -17,7 +17,7 @@ public class PostRepositoryUseCaseImp implements PostRepositoryUseCase {
     @Override
     public Optional<Repository> execute(Repository repository) {
         if (repositoryGateway.repositoryExists(repository.userPropertiesID(), repository.name())){
-            throw new CredentialsAreadyExistsExceptions("You already have another repository with " + repository.name() + "name.");
+            throw new CredentialsAreadyExistsExceptions("You already have another repository with " + repository.name() + " name.");
         }
 
         return repositoryGateway.postRepository(repository);

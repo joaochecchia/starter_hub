@@ -1,6 +1,7 @@
 package com.example.StarterHub.core.gateway;
 
 import com.example.StarterHub.core.domain.Folder;
+import com.example.StarterHub.core.validation.SearchFolderRequest;
 
 import java.util.ArrayList;
 import java.util.Optional;

@@ -3,6 +3,7 @@ package com.example.StarterHub.infra.gateway;
 import com.example.StarterHub.core.domain.Files;
 import com.example.StarterHub.core.domain.Folder;
 import com.example.StarterHub.core.gateway.FoldersGateway;
+import com.example.StarterHub.core.validation.SearchFolderRequest;
 import com.example.StarterHub.infra.Mapper.FilesMapper;
 import com.example.StarterHub.infra.Mapper.FolderMapper;
 import com.example.StarterHub.infra.exceptions.NotFoundObjectByIdentifierException;

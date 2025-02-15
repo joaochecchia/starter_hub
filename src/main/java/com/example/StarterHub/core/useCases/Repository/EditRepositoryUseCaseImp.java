@@ -18,7 +18,7 @@ public class EditRepositoryUseCaseImp implements EditRepositoryUseCase{
     @Override
     public Optional<Repository> execute(UUID id, Repository repository) {
         if (repositoryGateway.repositoryExists(repository.userPropertiesID(), repository.name())){
-            throw new CredentialsAreadyExistsExceptions("You already have another repository with " + repository.name() + "name.");
+            throw new CredentialsAreadyExistsExceptions("You already have another repository with " + repository.name() + " name.");
         }
 
         return repositoryGateway.editRepository(id, repository);
