@@ -13,6 +13,7 @@
     padding-top: 2rem;
     padding-bottom: 2rem;
     justify-content: flex-start;
+    align-items: center;
     border-radius: 10px;
     gap: 2rem;
     height: 93vh;

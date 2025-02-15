@@ -90,10 +90,12 @@ const UseFetch = () => {
                 if(json["Error: "]){
                     setErrors(json["Error: "])
                 } else{
+                    console.log(json["Body: "])
                     setData(json)
                 }
                 
             } catch (error) {
+                console.log("catch")
                 console.error("Error on requisition:", error.message)
             } finally {
                 setLoading(false)

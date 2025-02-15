@@ -2,15 +2,34 @@
     display: flex;
     flex-direction: column; 
     height: 100vh; 
-    align-items: center; 
     padding-top: 2.5rem;
     gap: 1.7rem;
 }
+
+.navBar{
+    display: flex;
+    align-items:space-between;
+    padding: 1rem;
+    padding-left: 3rem;
+    gap: 26.5rem;
+    width: 100%;
+}
+
+.navBar button{
+    background-color: #343541;
+    border:  2px #444654 solid;
+    border-radius: 40px;
+    height: 4rem;
+    width: 4rem;
+    
+}
+
 input {
     height: 3.5rem;
     width: 25rem;
     border-radius: 20px;
 }
+
 .container {
     background-color: #343541;
     flex-grow: 1; 
@@ -25,7 +44,8 @@ input {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    justify-content: center;
+    gap: 1.6rem;
     padding: 2rem;
 }
 .repositoriesContainer{
@@ -42,9 +62,38 @@ input {
     background-color: transparent;
     border-bottom: 1px solid #ccc;
     color: #ccc;
-    font-size: 20px;
-    width: 18rem; 
+    font-size: 23px;
+    width: 17rem; 
     text-align: center;
+}
+.activeButton {
+    background-color: #444654;
+    color: white;
+    font-weight: bold;
+    border-bottom: 2px solid #E7E7E8;
+    position: relative;
+    transition: border-bottom 0.3s ease-in-out;
+}
+
+.activeButton::after {
+    content: "";
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #E7E7E8;
+    box-shadow: 0 0 8px #E7E7E8;
+    animation: glowing 1.5s infinite alternate;
+}
+
+@keyframes glowing {
+    0% {
+        box-shadow: 0 0 5px #E7E7E8;
+    }
+    100% {
+        box-shadow: 0 0 15px #E7E7E8;
+    }
 }
 .repositoriesContainer button{
     margin: 0;

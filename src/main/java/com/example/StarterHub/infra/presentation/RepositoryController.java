@@ -10,9 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/starter-hub/users/repository")
@@ -36,39 +34,59 @@ public class RepositoryController {
 
     @Transactional
     @PostMapping("/create")
-    public ResponseEntity<Repository> createRepository(@Valid @RequestBody CreateRepositoryRequest request){
+    public ResponseEntity<Map<String, Object>> createRepository(@Valid @RequestBody CreateRepositoryRequest request){
         Optional<Repository> newRepository = postRepositoryUseCase.execute(mapper.toDomain(request));
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Repository successfully created");
+        response.put("Body: ", newRepository.get());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(newRepository.get());
+                .body(response);
     }
 
     @GetMapping("/search/{id}")
-    public ResponseEntity<Repository> searchRepository(@PathVariable UUID id){
+    public ResponseEntity<Map<String, Object>> searchRepository(@PathVariable UUID id){
         Optional<Repository> repository = searchRepositoryUseCase.execute(id);
 
-        return ResponseEntity.ok(repository.get());
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Repository successfully found.");
+        response.put("Body: ", repository.get());
+
+        return ResponseEntity.ok(response);
     }
 
     @Transactional
     @GetMapping("/findAll/{id}")
-    public ResponseEntity<ArrayList<Repository>> findAllRepositories(@PathVariable UUID id){
+    public ResponseEntity<Map<String,Object>> findAllRepositories(@PathVariable UUID id){
         Optional<ArrayList<Repository>> allRepositories = findAllRepositoriesUseCase.execute(id);
 
-        return ResponseEntity.ok(allRepositories.get());
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Repositories successfully found.");
+        response.put("Body: ", allRepositories.get());
+
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Repository> editRepository(@PathVariable UUID id, @Valid @RequestBody CreateRepositoryRequest request){
+    public ResponseEntity<Map<String, Object>> editRepository(@PathVariable UUID id, @Valid @RequestBody CreateRepositoryRequest request){
         Optional<Repository> editedRepository = editRepositoryUseCase.execute(id, mapper.toDomain(request));
 
-        return ResponseEntity.ok(editedRepository.get());
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Repositories successfully edited.");
+        response.put("Body: ", editedRepository.get());
+
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteRepository(@PathVariable UUID id){
-        String response = deleteRepositoryUseCase.execute(id);
+    public ResponseEntity<Map<String, Object>> deleteRepository(@PathVariable UUID id){
+        String result = deleteRepositoryUseCase.execute(id);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Message: ", "Repositories successfully edited.");
+        response.put("Body: ", result);
 
         return ResponseEntity.ok(response);
     }

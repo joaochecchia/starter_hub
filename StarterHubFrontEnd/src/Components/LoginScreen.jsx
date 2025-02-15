@@ -48,7 +48,7 @@ const LoginScreen = () => {
 
   return (
     <div className={styles.LoginContainer}>
-      <form>
+      <form className={styles.formContainer}>
         <div className={styles.labelDiv}>
           <label htmlFor="">Username</label>
           <input type="text" onChange={handleUsernameChange} />
