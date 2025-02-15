@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+import { RepositoriesContext } from '../context/RepositoriesContext'
 import UseFetch from '../hooks/UseFetch.jsx'
 import style from './CreateRepository.module.css'
 
-const CreateRepository = ({token, userPropertiesId}) => {
+const CreateRepository = ({token, userPropertiesId, setCreateRepositoryComponent}) => {
     const privacyEnum = {
         public: "PUBLIC",
         private: "PRIVATE"
     }
+
+    const { addNewRepository } = useContext(RepositoriesContext)
 
     const { httpConfig, data, errors, loading, setUrl, url } = UseFetch()
 
@@ -56,7 +59,8 @@ const CreateRepository = ({token, userPropertiesId}) => {
          if(errors){
             console.log(errors)
         } else if(data && data["Message: "] && data["Body: "]){
-            console.log("criado")
+            addNewRepository(data["Body: "])
+            setCreateRepositoryComponent(false)
         }
     }, [data, errors])
 

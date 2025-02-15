@@ -82,10 +82,11 @@ public class RepositoryController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Map<String, Object>> deleteRepository(@PathVariable UUID id){
+        System.out.println(id);
         String result = deleteRepositoryUseCase.execute(id);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("Message: ", "Repositories successfully edited.");
+        response.put("Message: ", "Repositories successfully deleted.");
         response.put("Body: ", result);
 
         return ResponseEntity.ok(response);

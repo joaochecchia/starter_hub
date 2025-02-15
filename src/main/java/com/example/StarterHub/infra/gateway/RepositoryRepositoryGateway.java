@@ -72,8 +72,8 @@ public class RepositoryRepositoryGateway implements RepositoryGateway {
     @Override
     public String deleteRepository(UUID id) {
         Optional<RepositoryModel> repositoryModel = repositoryRepository.findById(id);
-
         if(repositoryModel.isPresent()){
+            System.out.println("ID" + repositoryModel.get().getId());
             repositoryRepository.deleteById(id);
             return "Repositório deletado com sucesso!";
         }

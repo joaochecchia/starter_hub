@@ -86,10 +86,11 @@ const Home = () => {
                         <CreateRepository 
                         token={userToken}
                         userPropertiesId={userProperties.id}
+                        setCreateRepositoryComponent={setCreateRepositoryComponent}
                         />
                     ) : loading ? (
                         <h3>Loading...</h3>
-                    ) :  (
+                    ) : (
                         repositories.map((item) => (
                             <button key={item.id}>{item.name}</button>
                         ))

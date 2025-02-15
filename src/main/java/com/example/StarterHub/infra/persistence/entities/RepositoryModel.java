@@ -37,10 +37,10 @@ public class RepositoryModel {
     @Column(name = "last_update")
     private LocalDateTime updateTimeStamp;
 
-    @OneToMany(mappedBy = "repositoryModel")
+    @OneToMany(mappedBy = "repositoryModel", cascade = CascadeType.ALL)
     private List<CommitsModel> commitsModel;
 
-    @OneToOne(mappedBy = "repository")
+    @OneToOne(mappedBy = "repository", cascade = CascadeType.ALL)
     private FolderModel root;
 
     @ManyToOne
