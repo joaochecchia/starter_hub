@@ -24,14 +24,14 @@ const DeleteRepository = ({ repository, onClose, token }) => {
         } else {
             console.log("Errado")
             setVerifyMessageError(true)
-            removeRepositories(repository)
         }
     }
 
     useEffect(() => {
         if (data && data["Message: "] && data["Body: "]) {
             console.log("Repositório deletado com sucesso.")
-            onClose() // Fecha a modal e retorna para a Home
+            removeRepositories(repository.id)
+            onClose()
         }
     }, [data])
 

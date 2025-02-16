@@ -25,6 +25,10 @@
     width: 18rem;
 }
 
+.labelDiv label{
+    padding-left: 0.7rem;
+}
+
 .formButton{
     width: 40%;
 }

@@ -1,0 +1,87 @@
+.createRepositoryContainer {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    height: 100%;
+    width: 45rem;
+    padding: 3rem;
+    border: none !important;
+}
+
+.createRepositoryContainer div {
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+}
+
+.privacyContainer {
+    display: flex;
+    flex-direction: row !important;
+    gap: 1.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.privacyContainer div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.createRepositoryContainer label {
+    padding-left: 0.7rem;
+}
+
+.createRepositoryContainer input[type="text"],
+.createRepositoryContainer textarea {
+    height: 3rem;
+    width: 100%;
+    padding-left: 0.7rem;
+    font-size: 19px;
+    border-radius: 25px;
+}
+
+.createRepositoryContainer textarea {
+    background-color: #343541;
+    color: #E7E7E8;
+    border: #444654 solid 2px;
+    border-radius: 5px;
+    resize: none;
+    font-size: 15px;
+    padding: 0.5rem;
+    height: 7rem;
+}
+
+.privacyContainer input[type="radio"] {
+    display: none;
+}
+
+.privacyContainer label {
+    position: relative;
+    padding-left: 2rem; 
+    cursor: pointer;
+}
+
+.privacyContainer label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.2rem;
+    height: 1.2rem;
+    border: 2px solid #444654;
+    border-radius: 50%;
+    background-color: #343541;
+}
+
+.privacyContainer input[type="radio"]:checked + label::before {
+    background-color: #444654;
+    border-color: #343541;
+}
+.createRepositorybutton{
+    width: 5rem !important;
+}

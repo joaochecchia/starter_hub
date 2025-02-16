@@ -13,8 +13,13 @@ export const RepositoriesContextProvider = ({ children }) => {
         setRepositories((prev) => [...prev, repository])
     }
 
-    const removeRepositorie = (repository) => {
-        setRepositories((prev) => prev.filter((item) => item !== repository))
+    const overwriteRepository = (repository) => {
+        setAllRepositories((prev) => prev.filter((item) => item.id !== repository.id))
+        addNewRepository(repository)
+    }
+
+    const removeRepositories = (repositoryId) => {
+        setRepositories((prev) => prev.filter((item) => item.id !== repositoryId))
     }
 
     const clearRepository = () => {
@@ -25,7 +30,8 @@ export const RepositoriesContextProvider = ({ children }) => {
         repositories,
         setAllRepositories,
         addNewRepository,
-        removeRepositorie,
+        overwriteRepository,
+        removeRepositories,
         clearRepository
     }
 

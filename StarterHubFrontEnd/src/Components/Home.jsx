@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext } from "react"
 import UseFetch from "../hooks/UseFetch"
 import CreateRepository from "./CreateRepository.jsx"
+import EditRepository from "./EditRepository.jsx"
 import DeleteRepository from "./DeleteRepository.jsx"
 import { LoginContext } from "../context/LoginContext"
 import { UserPropertiesContext } from "../context/UserPropertiesContext"
@@ -8,16 +9,19 @@ import { RepositoriesContext } from "../context/RepositoriesContext"
 import styles from "./Home.module.css"
 
 const Home = () => {
-    //depois corrigir a atualização dos repositorios depois de deletado
     const { userToken, decodedToken } = useContext(LoginContext)
     const { userProperties, changeUserProperties } = useContext(UserPropertiesContext)
     const { repositories, setAllRepositories } = useContext(RepositoriesContext)
 
     const [notFound, setNotFound] = useState(false)
+
     const [activeButton, setActiveButton] = useState("Repositories")
+
     const [createRepositoryComponent, setCreateRepositoryComponent] = useState(false)
-    const [showModal, setShowModal] = useState(false)
-    const [selectedRepository, setSelectedRepository] = useState(null)
+    const [showDeleteRepositoryModal, setShowDeleteRepositoryModal] = useState(false)
+    const [editRepositoryComponent, setEditRepositoryComponent] = useState(false)
+    
+    const [selectedRepository, setSelectedRepository] = useState(null) 
 
     const { httpConfig, data, loading, setUrl, url } = UseFetch()
 
@@ -57,13 +61,32 @@ const Home = () => {
     const handleRepositoryButton = (repository) => {
         if (activeButton === "Delete Repository") {
             setSelectedRepository(repository)
-            setShowModal(true)
+            setShowDeleteRepositoryModal(true)
+        } if (activeButton == "Edit Repository"){
+            setSelectedRepository(repository)
+            setEditRepositoryComponent(true)
+        }
+    }
+
+    const handleSidebarButtonSubmit = (btn) => {
+        setCreateRepositoryComponent(false)
+        setEditRepositoryComponent(false)
+
+        if(btn === "Repositories"){
+            setActiveButton("Repositories")
+        } else if (btn === "Edit Repository"){
+            setActiveButton("Edit Repository")
+        } else if(btn === "Delete Repository"){
+            setActiveButton("Delete Repository")
+        } else if(btn === "New Repository"){
+            setActiveButton("New Repository")
+            setCreateRepositoryComponent(true)
         }
     }
 
     const handleCloseModal = () => {
-        setShowModal(false)
-        setActiveButton("Repositories") // Retorna para a Home
+        setShowDeleteRepositoryModal(false)
+        setActiveButton("Repositories")
     }
 
     return (
@@ -78,7 +101,7 @@ const Home = () => {
                         <button
                             key={btn}
                             className={activeButton === btn ? styles.activeButton : ""}
-                            onClick={() => setActiveButton(btn)}
+                            onClick={() => handleSidebarButtonSubmit(btn)}
                         >
                             {btn}
                         </button>
@@ -90,6 +113,12 @@ const Home = () => {
                             token={userToken}
                             userPropertiesId={userProperties.id}
                             setCreateRepositoryComponent={setCreateRepositoryComponent}
+                        />
+                    ) : editRepositoryComponent ? (
+                        <EditRepository
+                            repository={selectedRepository}
+                            token={userToken}
+                            setEditRepositoryComponent={setEditRepositoryComponent}
                         />
                     ) : activeButton === "Repositories" || activeButton === "Edit Repository" || activeButton === "Delete Repository" ? (
                         loading ? (
@@ -103,7 +132,7 @@ const Home = () => {
                 </div>
             </div>
 
-            {showModal && (
+            {showDeleteRepositoryModal && (
                 <DeleteRepository repository={selectedRepository} onClose={handleCloseModal} token={userToken} />
             )}
         </div>
